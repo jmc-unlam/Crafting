@@ -1,1 +1,32 @@
+# GITIGNORE para Maven
+
+# Directorio de salida de Maven
+/target/
 /bin/
+
+# Archivos de configuración de Eclipse
+.classpath
+.project
+.settings/
+
+# Archivos de configuración de IntelliJ IDEA (descomenta si usas IntelliJ)
+# .idea/
+# *.iml
+# *.ipr
+# *.iws
+
+# Archivos de registro
+*.log
+
+# Archivos de caché
+.cache/
+
+# Archivos de compilación de Java (aunque Maven los maneja en target/)
+*.class
+
+# Archivos temporales de editor/sistema operativo
+*~
+.#*
+.#*#
+.DS_Store # macOS
+Thumbs.db # Windows
