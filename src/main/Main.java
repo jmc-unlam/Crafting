@@ -25,10 +25,10 @@ public class Main {
         ingredientesHachaDePiedra.put(piedra, 3);
         ingredientesHachaDePiedra.put(madera, 2);
 
-        Receta recetaHachaDePiedra = new Receta(ingredientesHachaDePiedra, 1, 5); // produce 1 hacha, tiempo 5
-
-        // Paso 3: Crear objeto intermedio
-        ObjetoIntermedio hachaDePiedra = new ObjetoIntermedio("Hacha de Piedra", recetaHachaDePiedra);
+                // Paso 3: Crear objeto intermedio
+        ObjetoIntermedio hachaDePiedra = new ObjetoIntermedio("Hacha de Piedra");
+        
+        Receta recetaHachaDePiedra = new Receta(hachaDePiedra,ingredientesHachaDePiedra, 1, 5); // produce 1 hacha, tiempo 5
 
         // Paso 4: Inicializar inventario y agregar algunos recursos
         Inventario inventario = new Inventario();
@@ -55,7 +55,7 @@ public class Main {
 
         if (cantidadFabricable > 0) {
             System.out.println("\n=== Realizando crafteo de 1 Hacha de Piedra ===");
-            sistema.realizarCrafteo(hachaDePiedra, 1);
+            //sistema.realizarCrafteo(hachaDePiedra, 1);
 
             System.out.println("\n=== Inventario actualizado ===");
             for (Map.Entry<Objeto, Integer> entry : inventario.getObjetos().entrySet()) {

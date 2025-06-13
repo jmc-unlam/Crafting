@@ -9,14 +9,14 @@ public class Receta {
     private int cantidadProducida;
     private int tiempoBase;
 
-    // Constructor
-    public Receta(Map<Objeto, Integer> ingredientes, int cantidadProducida, int tiempoBase) {
-        this.ingredientes = ingredientes;
-        this.cantidadProducida = cantidadProducida;
-        this.tiempoBase = tiempoBase;
-    }
-
-    // Métodos getters
+    public Receta(ObjetoIntermedio objetoProducido, Map<Objeto, Integer> ingredientes, int cantidadProducida,
+			int tiempoBase) {
+		this.objetoProducido = objetoProducido;
+		this.ingredientes = ingredientes;
+		this.cantidadProducida = cantidadProducida;
+		this.tiempoBase = tiempoBase;
+	}
+    
     public Map<Objeto, Integer> getIngredientes() {
         return ingredientes;
     }
@@ -68,4 +68,21 @@ public class Receta {
 	public Objeto getObjetoProducido() {
 		return objetoProducido;
 	}
+	
+	@Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Objeto producido: ").append(objetoProducido).append("\n");
+        sb.append("Cantidad producida: ").append(cantidadProducida).append("\n");
+        sb.append("Tiempo de crafteo: ").append(tiempoBase).append("\n");
+        sb.append("Ingredientes:\n");
+
+        for (Map.Entry<Objeto, Integer> entry : ingredientes.entrySet()) {
+            Objeto obj = entry.getKey();
+            int cantidad = entry.getValue();
+            sb.append("    - ").append(obj).append(" x ").append(cantidad).append("\n");
+        }
+
+        return sb.toString();
+    }
 }
