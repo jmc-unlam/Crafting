@@ -14,20 +14,21 @@ public abstract class Objeto {
     }
     
     public abstract boolean esBasico();
-    
-    @Override
-	public boolean equals(Object o) {
-		if (this == o)
-			return true;
-		if (o == null || getClass() != o.getClass())
-			return false;
-		Objeto objeto = (Objeto) o;
-		return nombre.equals(objeto.nombre);
-	}
 
 	@Override
 	public int hashCode() {
 		return Objects.hash(nombre);
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (!(obj instanceof Objeto)) {
+			return false;
+		}
+		Objeto other = (Objeto) obj;
+		return Objects.equals(nombre, other.nombre);
+	}
 }
