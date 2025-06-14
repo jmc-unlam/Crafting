@@ -16,10 +16,6 @@ public class Receta {
 		this.cantidadProducida = cantidadProducida;
 		this.tiempoBase = tiempoBase;
 	}
-    
-    public Map<Objeto, Integer> getIngredientes() {
-        return ingredientes;
-    }
 
     public int getCantidadProducida() {
         return cantidadProducida;
@@ -28,51 +24,61 @@ public class Receta {
     public int getTiempoBase() {
         return tiempoBase;
     }
-
-    // Método para calcular el tiempo total necesario para crear el objeto
-    public int calcularTiempoTotal() {
-        int tiempoTotal = tiempoBase;
-        for (Map.Entry<Objeto, Integer> entry : ingredientes.entrySet()) {
-            Objeto ingrediente = entry.getKey();
-            if (!ingrediente.esBasico()) {
-                tiempoTotal += ingrediente.getReceta().calcularTiempoTotal();
-            }
-        }
-        return tiempoTotal;
-    }
-
     
-    // Método para obtener todos los ingredientes totales (incluyendo sub-ingredientes)
-    public Map<Objeto, Integer> getIngredientesTotales() {
-        Map<Objeto, Integer> ingredientesTotales = new HashMap<>(getIngredientes());
-
-        for (Map.Entry<Objeto, Integer> entry : getIngredientes().entrySet()) {
-            Objeto ingrediente = entry.getKey();
-            if (!ingrediente.esBasico()) {
-                Map<Objeto, Integer> subIngredientes = ingrediente.getReceta().getIngredientesTotales();
-                for (Map.Entry<Objeto, Integer> subEntry : subIngredientes.entrySet()) {
-                    Objeto subIngrediente = subEntry.getKey();
-                    int cantidadSubIngrediente = subEntry.getValue();
-                    int cantidadActual = ingredientesTotales.getOrDefault(subIngrediente, 0);
-                    ingredientesTotales.put(subIngrediente, cantidadActual + cantidadSubIngrediente);
-                }
-            }
-        }
-        return ingredientesTotales;
-    }
-
-	public Map<Objeto, Integer> getIngredientesBasicos() {
-		return null;
-	}
-
 	public Objeto getObjetoProducido() {
 		return objetoProducido;
 	}
-	
+
+	public int calcularTiempoTotal(Recetario recetario) {
+	    int tiempoTotal = tiempoBase;
+	    for (Map.Entry<Objeto, Integer> entry : ingredientes.entrySet()) {
+	        Objeto ingrediente = entry.getKey();
+	        int cantidadIngrediente = entry.getValue();
+	        if (!ingrediente.esBasico()) {
+	            Receta recetaIngrediente = recetario.buscarReceta(ingrediente);
+	            int subTiempo = cantidadIngrediente * recetaIngrediente.calcularTiempoTotal(recetario);
+	            tiempoTotal += subTiempo / recetaIngrediente.getCantidadProducida();
+	        }
+	    }
+	    return tiempoTotal;
+	}
+    
+    public Map<Objeto, Integer> getIngredientes() {
+        return new HashMap<>(ingredientes);
+    }
+    
+	public Map<Objeto, Integer> getIngredientesBasicos(Recetario recetario) {
+		Map<Objeto, Integer> basicos = new HashMap<>();
+
+	    for (Map.Entry<Objeto, Integer> elemento : this.ingredientes.entrySet()) {
+	        Objeto ingrediente = elemento.getKey();
+	        int cantidadRequerida = elemento.getValue();
+
+	        if (ingrediente.esBasico()) {
+	            // Si es básico, lo agregamos directamente
+	            basicos.merge(ingrediente, cantidadRequerida, Integer::sum);
+	        } else {
+	            // Si es intermedio, buscamos su receta y descomponemos recursivamente
+	        	Receta subReceta = recetario.buscarReceta(ingrediente);
+	        	Map<Objeto, Integer> subIngredientesBasicos = subReceta.getIngredientesBasicos(recetario);
+
+                // Multiplicamos por la cantidad requerida y fusionamos
+                for (Map.Entry<Objeto, Integer> subElemento : subIngredientesBasicos.entrySet()) {
+                    basicos.merge(
+                        subElemento.getKey(),
+                        subElemento.getValue() * cantidadRequerida,
+                        Integer::sum
+                    );
+                }
+	        }
+	    }
+	    return basicos;
+	}
+
 	@Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Objeto producido: ").append(objetoProducido).append("\n");
+        sb.append("Objeto producido: ").append(objetoProducido.toString()).append("\n");
         sb.append("Cantidad producida: ").append(cantidadProducida).append("\n");
         sb.append("Tiempo de crafteo: ").append(tiempoBase).append("\n");
         sb.append("Ingredientes:\n");
@@ -80,7 +86,7 @@ public class Receta {
         for (Map.Entry<Objeto, Integer> entry : ingredientes.entrySet()) {
             Objeto obj = entry.getKey();
             int cantidad = entry.getValue();
-            sb.append("    - ").append(obj).append(" x ").append(cantidad).append("\n");
+            sb.append("    - ").append(obj.toString()).append(" x ").append(cantidad).append("\n");
         }
 
         return sb.toString();
