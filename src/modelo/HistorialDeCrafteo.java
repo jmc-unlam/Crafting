@@ -8,38 +8,44 @@ import java.util.Map;
 public class HistorialDeCrafteo {
     private List<RegistroCrafteo> registros;
 
-    // Constructor
     public HistorialDeCrafteo() {
         this.registros = new ArrayList<>();
     }
 
-    // Agregar un registro de crafteo
-    public void agregarRegistro(Objeto objeto, int cantidad) {
-        RegistroCrafteo registro = new RegistroCrafteo(objeto, cantidad);
-        registros.add(registro);
+    public void agregarRegistro(Objeto objeto, int cantidad, int tiempoTotal) {
+        if (objeto == null) {
+            throw new IllegalArgumentException("El objeto no puede ser nulo");
+        }
+        if (cantidad <= 0) {
+            throw new IllegalArgumentException("La cantidad debe ser positiva");
+        }
+        if (tiempoTotal < 0) {
+            throw new IllegalArgumentException("El tiempo no puede ser negativo");
+        }
+        
+        registros.add(new RegistroCrafteo(objeto, cantidad, tiempoTotal));
     }
 
-    // Limpiar el historial de crafteos
     public void limpiarRegistros() {
         registros.clear();
         RegistroCrafteo.reiniciarContador(); 
     }
 
-    // Obtener todos los registros
     public List<RegistroCrafteo> getRegistros() {
         return new ArrayList<>(registros); // Devolver una copia
     }
 
-    // Mostrar todo el historial de crafteos
-    public void mostrarHistorial() {
-        System.out.println("=== Historial de Crafteos ===");
+    @Override
+    public String toString() {
+    	StringBuilder sb = new StringBuilder();
+        sb.append("=== Historial de Crafteos ===\n");
         for (RegistroCrafteo registro : registros) {
-            System.out.println(registro);
+            sb.append(registro.toString()).append("\n"); 
         }
-        System.out.println("=============================");
+        sb.append("=============================\n");
+        return sb.toString();
     }
 
-    // Buscar crafteos por nombre de objeto
     public List<RegistroCrafteo> buscarPorNombre(String nombreObjeto) {
         List<RegistroCrafteo> resultados = new ArrayList<>();
         for (RegistroCrafteo registro : registros) {
@@ -50,7 +56,6 @@ public class HistorialDeCrafteo {
         return resultados;
     }
 
-    // Obtener el primer crafteo de un objeto
     public RegistroCrafteo getPrimerCrafteo(String nombreObjeto) {
         for (RegistroCrafteo registro : registros) {
             if (registro.getObjetoCrafteado().getNombre().equalsIgnoreCase(nombreObjeto)) {
@@ -60,7 +65,6 @@ public class HistorialDeCrafteo {
         return null;
     }
 
-    // Obtener el último crafteo de un objeto
     public RegistroCrafteo getUltimoCrafteo(String nombreObjeto) {
         RegistroCrafteo ultimo = null;
         for (RegistroCrafteo registro : registros) {
@@ -71,7 +75,6 @@ public class HistorialDeCrafteo {
         return ultimo;
     }
 
-    // Obtener cantidad total crafteada de un objeto
     public int getCantidadTotalCrafteada(String nombreObjeto) {
         int total = 0;
         for (RegistroCrafteo registro : registros) {
