@@ -9,4 +9,10 @@ public class ObjetoBasico extends Objeto {
     public boolean esBasico() {
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "ObjetoBásico: " + getNombre();
+    }
+    
 }

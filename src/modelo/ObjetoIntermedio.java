@@ -10,4 +10,8 @@ public class ObjetoIntermedio extends Objeto {
         return false;
     }
 
+    @Override
+    public String toString() {
+        return "ObjetoIntermedio: " + getNombre();
+    }
 }
