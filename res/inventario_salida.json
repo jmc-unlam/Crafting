@@ -1,0 +1,23 @@
+[
+  {
+    "objeto": {
+      "tipo": "intermedio",
+      "nombre": "Hacha de Piedra"
+    },
+    "cantidad": 1
+  },
+  {
+    "objeto": {
+      "tipo": "basico",
+      "nombre": "Madera"
+    },
+    "cantidad": 8
+  },
+  {
+    "objeto": {
+      "tipo": "basico",
+      "nombre": "Piedra"
+    },
+    "cantidad": 2
+  }
+]
