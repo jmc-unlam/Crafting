@@ -1,6 +1,5 @@
 package modelo;
 
-import datos.json.InventarioGSON;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -122,6 +121,43 @@ public class SistemaDeCrafteoTest {
         assertEquals(hachaDePiedra, ultimo.getObjetoCrafteado());
         assertEquals(1, ultimo.getCantidadCrafteada());
         assertTrue(tiempoTotal > 0);
+    }
+    
+    @Test
+    void testCraftearConRecetaAlternativa() {
+    	ObjetoBasico carbonVegetal = new ObjetoBasico("Carbon Vegetal");
+        inventario.agregarObjeto(carbonVegetal, 10);
+        Map<Objeto, Integer> ingredientesAntorcha1 = new HashMap<>();
+        ingredientesAntorcha1.put(carbonVegetal,5);
+        
+        ObjetoBasico carbonMineral = new ObjetoBasico("Carbon Mineral");
+        inventario.agregarObjeto(carbonMineral, 4);
+        Map<Objeto, Integer> ingredientesAntorcha2 = new HashMap<>();
+        ingredientesAntorcha2.put(carbonMineral,2);
+        
+        ObjetoIntermedio antorcha = new ObjetoIntermedio("Antorcha");
+        Receta recetaAntorcha1 = new Receta(antorcha, ingredientesAntorcha1, 1, 20);
+        Receta recetaAntorcha2 = new Receta(antorcha, ingredientesAntorcha2, 1, 5);
+        
+        recetario.agregarReceta(recetaAntorcha1);
+        recetario.agregarReceta(recetaAntorcha2);
+
+        SistemaDeCrafteo sistema = new SistemaDeCrafteo(inventario, recetario);
+
+        // Elegimos la segunda receta (índice 1)
+        sistema.craftearObjetoConReceta(antorcha,1,1);
+
+        // Verificar que se usó carbón vegetal y palo
+        assertEquals(2, inventario.getCantidad(carbonMineral));
+        
+        // Elegimos la primera receta (índice 0)
+        sistema.craftearObjetoConReceta(antorcha,1,0);
+        
+        // Verificar que se usó carbón vegetal y palo
+        assertEquals(5, inventario.getCantidad(carbonVegetal));
+
+        // Verificar que se produjo antorcha
+        assertTrue(inventario.getCantidad(antorcha) == 2);
     }
 
 }
