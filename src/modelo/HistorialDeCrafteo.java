@@ -46,39 +46,45 @@ public class HistorialDeCrafteo {
         return sb.toString();
     }
 
-    public List<RegistroCrafteo> buscarPorNombre(String nombreObjeto) {
+    public List<RegistroCrafteo> buscarCrafteosPorNombre(Object objeto) {
         List<RegistroCrafteo> resultados = new ArrayList<>();
         for (RegistroCrafteo registro : registros) {
-            if (registro.getObjetoCrafteado().getNombre().equalsIgnoreCase(nombreObjeto)) {
+            if (registro.getObjetoCrafteado().equals(objeto)) {
                 resultados.add(registro);
             }
         }
         return resultados;
     }
 
-    public RegistroCrafteo getPrimerCrafteo(String nombreObjeto) {
-        for (RegistroCrafteo registro : registros) {
-            if (registro.getObjetoCrafteado().getNombre().equalsIgnoreCase(nombreObjeto)) {
-                return registro;
-            }
-        }
-        return null;
-    }
-
-    public RegistroCrafteo getUltimoCrafteo(String nombreObjeto) {
-        RegistroCrafteo ultimo = null;
-        for (RegistroCrafteo registro : registros) {
-            if (registro.getObjetoCrafteado().getNombre().equalsIgnoreCase(nombreObjeto)) {
+    public RegistroCrafteo buscarPrimerCrafteo(Object objeto) {
+    	//el primero esta al ultimo de la lista
+    	RegistroCrafteo ultimo = null;
+        for (int i = registros.size() - 1; i >= 0; i--) {
+        	RegistroCrafteo registro = registros.get(i);
+            if (registro.getObjetoCrafteado().equals(objeto)) {
                 ultimo = registro;
             }
         }
         return ultimo;
     }
 
-    public int getCantidadTotalCrafteada(String nombreObjeto) {
+    public RegistroCrafteo buscarUltimoCrafteo(Object objeto) {
+    	//el ultimo crafteo es el primero de la lista
+    	RegistroCrafteo primero = null;
+    	for (int i = 0; i < registros.size(); i++) {
+    		RegistroCrafteo registro = registros.get(i);
+            if (registro.getObjetoCrafteado().equals(objeto)) {
+            	primero = registro;
+            }
+        }
+        return primero;
+        
+    }
+
+    public int getCantidadTotalCrafteada(Object objeto) {
         int total = 0;
         for (RegistroCrafteo registro : registros) {
-            if (registro.getObjetoCrafteado().getNombre().equalsIgnoreCase(nombreObjeto)) {
+            if (registro.getObjetoCrafteado().equals(objeto)) {
                 total += registro.getCantidadCrafteada();
             }
         }
