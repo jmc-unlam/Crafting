@@ -1,6 +1,7 @@
 package modelo;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -114,40 +115,54 @@ public class Inventario {
 	    }
 	}
 	
-//	public void removerObjetos (Map<Objeto, Integer> objetos, int cantidad) {
-//		// Primero validar que tenemos suficientes recursos
-//	    for (Map.Entry<Objeto, Integer> entry : objetos.entrySet()) {
-//	        Objeto objeto = entry.getKey();
-//	        int cantidadNecesaria = entry.getValue() * cantidad;
-//	        int cantidadDisponible = getCantidad(objeto);
-//	        
-//	        if (cantidadDisponible < cantidadNecesaria) {
-//	            throw new IllegalArgumentException("No hay suficiente cantidad de " + 
-//	                objeto.getNombre() + " (necesario: " + cantidadNecesaria + 
-//	                ", disponible: " + cantidadDisponible + ")");
-//	        }
-//	    }
-//	    
-//	    // Luego realizar las remociones
-//	    for (Map.Entry<Objeto, Integer> entry : objetos.entrySet()) {
-//	        Objeto objeto = entry.getKey();
-//	        int cantidadNecesaria = entry.getValue() * cantidad;
-//	        removerObjeto(objeto, cantidadNecesaria);
-//	    }
-////		for (Map.Entry<Objeto, Integer> entry : objetos.entrySet()) {
-////			Objeto objeto = entry.getKey();
-////            int cantidadNecesaria = entry.getValue() * cantidad;
-////            
-////            if (!objeto.esBasico()) {
-////                int cantidadExistente = this.getCantidad(objeto);
-////                int cantidadAFabricar = Math.max(0, cantidadNecesaria - cantidadExistente);
-////
-////                if (cantidadAFabricar > 0) {
-////                    this.removerObjetos(objeto, cantidadAFabricar);
-////                }
-////            }
-////            this.removerObjeto(objeto, cantidadNecesaria);
-////        }
-//	}
+	//*****Implementacion Recetas Alternativas*************
+	public Map<Objeto, Integer> getFaltantesBasicos(Map<Objeto, Integer> requeridosBasicos, Recetario recetario, int indiceReceta) {
+		Map<Objeto, Integer> faltantesBasicos = new HashMap<>();
+
+	    for (Map.Entry<Objeto, Integer> entry : requeridosBasicos.entrySet()) {
+	        Objeto ingrediente = entry.getKey();
+	        int cantidadNecesaria = entry.getValue();
+
+	        // Calculamos cuánto tenemos disponible (incluyendo desglose de intermedios)
+	        int disponible = getCantidadBasico(ingrediente,recetario,indiceReceta);
+
+	        if (disponible < cantidadNecesaria) {
+	            faltantesBasicos.put(ingrediente, cantidadNecesaria - disponible);
+	        }
+	    }
+
+	    return faltantesBasicos;
+	}
+	
+	public int getCantidadBasico(Objeto objeto, Recetario recetario, int indiceReceta) {
+		// Condición de corte: si es básico, devuelve la cantidad directa
+	    if (objeto.esBasico()) {
+	        return getCantidad(objeto);
+	    } else { 
+	        // Llamada recursiva para objetos compuestos
+	    	List<Receta> recetas = recetario.buscarRecetas(objeto);
+	        if (recetas == null) {
+	            throw new IllegalArgumentException("No se encontró una receta para el objeto intermedio: " + objeto.getNombre());
+	        }
+	        
+	        // Obtenemos cuántas unidades podemos craftear del objeto compuesto
+	        int cantidadDirecta = getCantidad(objeto);
+	        Map<Objeto, Integer> ingredientes = recetas.get(indiceReceta).getIngredientes();
+	        
+	        // Calculamos cuántas unidades adicionales podríamos craftear
+	        int maxCrafteable = Integer.MAX_VALUE;
+	        
+	        for (Map.Entry<Objeto, Integer> entry : ingredientes.entrySet()) {
+	            Objeto ingrediente = entry.getKey();
+	            int cantidadNecesaria = entry.getValue();
+	            int cantidadDisponible = getCantidadBasico(ingrediente, recetario); // Llamada recursiva
+	            
+	            maxCrafteable = Math.min(maxCrafteable, cantidadDisponible / cantidadNecesaria);
+	        }
+	        
+	        // Sumamos lo que tenemos directamente más lo que podemos craftear
+	        return cantidadDirecta + maxCrafteable;
+	    }
+	}
 
 }
