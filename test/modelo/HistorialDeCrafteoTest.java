@@ -73,7 +73,7 @@ class HistorialDeCrafteoTest {
         historial.agregarRegistro(silla, 2, 20);
         historial.agregarRegistro(mesa, 1, 10);
         
-        List<RegistroCrafteo> resultados = historial.buscarPorNombre("mesa");
+        List<RegistroCrafteo> resultados = historial.buscarCrafteosPorNombre(mesa);
         assertEquals(2, resultados.size());
         assertEquals(mesa, resultados.get(0).getObjetoCrafteado());
         assertEquals(mesa, resultados.get(1).getObjetoCrafteado());
@@ -85,7 +85,7 @@ class HistorialDeCrafteoTest {
         historial.agregarRegistro(silla, 2, 20);
         historial.agregarRegistro(mesa, 1, 10);
         
-        RegistroCrafteo primerMesa = historial.getPrimerCrafteo("mesa");
+        RegistroCrafteo primerMesa = historial.buscarPrimerCrafteo(mesa);
         assertEquals(1, primerMesa.getTurno());
         assertEquals(15, primerMesa.getTiempoTotal());
     }
@@ -96,7 +96,7 @@ class HistorialDeCrafteoTest {
         historial.agregarRegistro(silla, 2, 20);
         historial.agregarRegistro(mesa, 1, 10);
         
-        RegistroCrafteo ultimaMesa = historial.getUltimoCrafteo("mesa");
+        RegistroCrafteo ultimaMesa = historial.buscarUltimoCrafteo(mesa);
         assertEquals(3, ultimaMesa.getTurno());
         assertEquals(10, ultimaMesa.getTiempoTotal());
     }
@@ -108,13 +108,13 @@ class HistorialDeCrafteoTest {
         historial.agregarRegistro(mesa, 3, 10);
         historial.agregarRegistro(mesa, 2, 5);
         
-        int totalMesas = historial.getCantidadTotalCrafteada("mesa");
+        int totalMesas = historial.getCantidadTotalCrafteada(mesa);
         assertEquals(6, totalMesas);
         
-        int totalSillas = historial.getCantidadTotalCrafteada("silla");
+        int totalSillas = historial.getCantidadTotalCrafteada(silla);
         assertEquals(2, totalSillas);
         
-        int totalMadera = historial.getCantidadTotalCrafteada("madera");
+        int totalMadera = historial.getCantidadTotalCrafteada(madera);
         assertEquals(0, totalMadera);
     }
 
@@ -137,9 +137,10 @@ class HistorialDeCrafteoTest {
     void testBusquedasConNombreInexistente() {
         historial.agregarRegistro(mesa, 1, 15);
         
-        assertTrue(historial.buscarPorNombre("inexistente").isEmpty());
-        assertNull(historial.getPrimerCrafteo("inexistente"));
-        assertNull(historial.getUltimoCrafteo("inexistente"));
-        assertEquals(0, historial.getCantidadTotalCrafteada("inexistente"));
+        Objeto objetoInexistente = new ObjetoBasico("inexistente");
+        assertTrue(historial.buscarCrafteosPorNombre(objetoInexistente).isEmpty());
+        assertNull(historial.buscarPrimerCrafteo(objetoInexistente));
+        assertNull(historial.buscarUltimoCrafteo(objetoInexistente));
+        assertEquals(0, historial.getCantidadTotalCrafteada(objetoInexistente));
     }
 }
