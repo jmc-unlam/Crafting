@@ -2,22 +2,23 @@ package modelo;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
 public class Recetario {
-    private List<Receta> recetas;
+	private Map<Objeto, List<Receta>> recetasPorObjeto;
 
     public Recetario() {
-        this.recetas = new ArrayList<>();
+        this.recetasPorObjeto = new HashMap<>();
     }
 
     public Recetario(List<Receta> recetasIniciales) {
-        this.recetas = new ArrayList<>();
+        this.recetasPorObjeto = new HashMap<>();
         if (recetasIniciales != null) {
             for (Receta receta : recetasIniciales) {
-                this.agregarReceta(receta); // Usamos nuestro método para validar duplicados
+                this.agregarReceta(receta); // Usa el nuevo método que admite múltiples recetas
             }
         }
     }
@@ -26,30 +27,36 @@ public class Recetario {
         if (receta == null) {
             throw new IllegalArgumentException("La receta no puede ser nula");
         }
-        
-        try {
-            buscarReceta(receta.getObjetoProducido());
-            throw new IllegalArgumentException("Ya existe una receta para el objeto: " +
-                receta.getObjetoProducido().getNombre());
-        } catch (NoSuchElementException e) {
-            recetas.add(receta);
-        }
+    	recetasPorObjeto.putIfAbsent(receta.getObjetoProducido(), new ArrayList<>());
+        recetasPorObjeto.get(receta.getObjetoProducido()).add(receta);
     }
 
     public void removerReceta(Receta receta) {
-        if (!recetas.remove(receta)) {
+    	if (receta == null) {
+            throw new IllegalArgumentException("La receta no puede ser nula");
+        }
+        List<Receta> recetas = recetasPorObjeto.get(receta.getObjetoProducido());
+        if (recetas == null || !recetas.remove(receta)) {
             throw new IllegalArgumentException("La receta no existe en el recetario");
+        }
+        // Eliminar la clave si la lista queda vacía
+        if (recetas.isEmpty()) {
+            recetasPorObjeto.remove(receta.getObjetoProducido());
         }
     }
 
     public List<Receta> getRecetas() {
-        return new ArrayList<>(recetas); // Devolver una copia para evitar mutaciones directas
+    	List<Receta> todas = new ArrayList<>();
+    	for (List<Receta> lista : recetasPorObjeto.values()) {
+            todas.addAll(lista);
+        }
+    	return todas; // Devuelve toda las recetas.
     }
     
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("=== RECETARIO ===\n");
-        for (Receta receta : recetas) {
+        for (Receta receta : this.getRecetas()) {
             sb.append(receta.toString()) 
                     .append("\n");
         }
@@ -57,19 +64,25 @@ public class Recetario {
     }
 
     public Receta buscarReceta(Objeto objetoDeseado) {
-        return recetas.stream()
-            .filter(r -> r.getObjetoProducido().equals(objetoDeseado))
-            .findFirst()
-            .orElseThrow(() -> new NoSuchElementException(
-                    "No se encontró receta para el objeto: " + objetoDeseado.getNombre()
-                ));
+    	List<Receta> recetas = recetasPorObjeto.get(objetoDeseado);
+    	if (recetas == null || recetas.isEmpty()) {
+            throw new NoSuchElementException(
+                "No se encontró ninguna receta para el objeto: " + objetoDeseado.getNombre()
+            );
+        }
+        return recetas.get(0); // Devolver la primera receta disponible
+    }
+    
+    public List<Receta> buscarRecetas(Objeto objetoDeseado) {
+        List<Receta> recetas = recetasPorObjeto.getOrDefault(objetoDeseado, new ArrayList<>());
+        return new ArrayList<>(recetas);
     }
     
     public Map<Objeto, Integer> buscarIngredientes(Objeto objeto) {
-        return recetas.stream()
-            .filter(r -> r.getObjetoProducido().equals(objeto))
-            .map(Receta::getIngredientes)
-            .findFirst()
-            .orElse(Collections.emptyMap());
+    	List<Receta> recetas = recetasPorObjeto.get(objeto);
+    	if (recetas == null || recetas.isEmpty()) {
+            return Collections.emptyMap();
+        }
+        return new HashMap<>(recetas.get(0).getIngredientes()); // Solo de la primera receta
     }
 }
