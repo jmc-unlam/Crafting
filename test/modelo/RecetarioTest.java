@@ -159,7 +159,9 @@ class RecetarioTest {
 
     @Test
     void testBuscarRecetasNoExistente() {
-        assertTrue(recetario.buscarRecetas(mesa).isEmpty());
+    	assertThrows(NoSuchElementException.class, () -> {
+    		assertTrue(recetario.buscarRecetas(mesa).isEmpty());
+    	});
     }
 
     @Test
@@ -219,5 +221,27 @@ class RecetarioTest {
         String str = recetario.toString();
         assertTrue(str.contains("=== RECETARIO ==="));
         assertFalse(str.contains("Objeto producido:"));
+    }
+    
+    @Test
+    void testAgregarDosRecetasParaMismoObjeto() {
+        Objeto antorcha = new ObjetoIntermedio("Antorcha");
+
+        Map<Objeto, Integer> ingredientes1 = new HashMap<>();
+        ingredientes1.put(new ObjetoBasico("Carbón Mineral"), 1);
+        ingredientes1.put(new ObjetoBasico("Palo"), 1);
+        Receta receta1 = new Receta((ObjetoIntermedio)antorcha, ingredientes1, 4, 10);
+
+        Map<Objeto, Integer> ingredientes2 = new HashMap<>();
+        ingredientes2.put(new ObjetoBasico("Carbón Vegetal"), 1);
+        ingredientes2.put(new ObjetoBasico("Palo"), 1);
+        Receta receta2 = new Receta((ObjetoIntermedio)antorcha, ingredientes2, 4, 12);
+
+        Recetario recetario = new Recetario();
+        recetario.agregarReceta(receta1);
+        recetario.agregarReceta(receta2);
+
+        // Verificar que ambas recetas están registradas
+        assertEquals(2, recetario.buscarRecetas(antorcha).size());
     }
 }
