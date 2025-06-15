@@ -19,11 +19,6 @@ public class Inventario {
         if (cantidad <= 0) {
             throw new IllegalArgumentException("La cantidad debe ser positiva");
         }
-//        int cantidadActual = objetos.getOrDefault(objeto, -1);
-//        if (cantidadActual <= 0) {
-//        	objetos.remove(objeto);
-//            throw new IllegalStateException("El objeto tiene una cantidad negativa:" + objeto.getNombre());
-//        }
         objetos.merge(objeto, cantidad, Integer::sum);
     }
 
@@ -118,5 +113,41 @@ public class Inventario {
 	        return cantidadDirecta + maxCrafteable;
 	    }
 	}
+	
+//	public void removerObjetos (Map<Objeto, Integer> objetos, int cantidad) {
+//		// Primero validar que tenemos suficientes recursos
+//	    for (Map.Entry<Objeto, Integer> entry : objetos.entrySet()) {
+//	        Objeto objeto = entry.getKey();
+//	        int cantidadNecesaria = entry.getValue() * cantidad;
+//	        int cantidadDisponible = getCantidad(objeto);
+//	        
+//	        if (cantidadDisponible < cantidadNecesaria) {
+//	            throw new IllegalArgumentException("No hay suficiente cantidad de " + 
+//	                objeto.getNombre() + " (necesario: " + cantidadNecesaria + 
+//	                ", disponible: " + cantidadDisponible + ")");
+//	        }
+//	    }
+//	    
+//	    // Luego realizar las remociones
+//	    for (Map.Entry<Objeto, Integer> entry : objetos.entrySet()) {
+//	        Objeto objeto = entry.getKey();
+//	        int cantidadNecesaria = entry.getValue() * cantidad;
+//	        removerObjeto(objeto, cantidadNecesaria);
+//	    }
+////		for (Map.Entry<Objeto, Integer> entry : objetos.entrySet()) {
+////			Objeto objeto = entry.getKey();
+////            int cantidadNecesaria = entry.getValue() * cantidad;
+////            
+////            if (!objeto.esBasico()) {
+////                int cantidadExistente = this.getCantidad(objeto);
+////                int cantidadAFabricar = Math.max(0, cantidadNecesaria - cantidadExistente);
+////
+////                if (cantidadAFabricar > 0) {
+////                    this.removerObjetos(objeto, cantidadAFabricar);
+////                }
+////            }
+////            this.removerObjeto(objeto, cantidadNecesaria);
+////        }
+//	}
 
 }
