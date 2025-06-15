@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import datos.json.InventarioGSON;
 import modelo.Inventario;
 import modelo.Objeto;
 import modelo.ObjetoBasico;
@@ -82,7 +83,7 @@ public class Main {
             System.out.println("No faltan ingredientes básicos!");
         } else {
             faltantesBasicos.forEach((obj, cant) -> 
-                System.out.println("- Faltan " + cant + " unidades básicas de " + obj.getNombre()));
+            System.out.println("- Faltan " + cant + " unidades básicas de " + obj.getNombre()));
         }
         
         // 3. Prueba cantidadCrafteable
@@ -99,13 +100,17 @@ public class Main {
         System.out.println("Óxido crafteable ahora: " + sistema.cantidadCrafteable(oxido));
         
         System.out.println("\nNuevos ingredientes básicos faltantes para Hacha de Piedra:");
-        sistema.ingredientesBasicosFaltantesParaCraftear(hachaDePiedra)
-              .forEach((obj, cant) -> System.out.println("- " + obj.getNombre() + ": " + cant));
-        
+        Map<Objeto, Integer> faltantesBasicos2 = sistema.ingredientesBasicosFaltantesParaCraftear(hachaDePiedra);
+        if (faltantesBasicos2.isEmpty()) {
+            System.out.println("No faltan ingredientes básicos!");
+        } else {
+    		faltantesBasicos2.forEach((obj, cant) -> 
+    		System.out.println("- " + obj.getNombre() + ": " + cant));
+        }
         try {
             System.out.println("\n=== Intentando craftear 1x" +hachaDePiedra);
-            int tiempo = sistema.craftearObjeto(hachaDePiedra, 1);
-            System.out.println("Tiempo total: " + tiempo);
+            sistema.craftearObjeto(hachaDePiedra, 1);
+            
             
             // Mostrar historial
             System.out.println(sistema.getHistorial());
@@ -114,7 +119,8 @@ public class Main {
             System.out.println("\nInventario actual:");
             inventario.getObjetos().forEach((obj, cant) -> 
                 System.out.println("- " + obj.getNombre() + ": " + cant));
-            
+         
+            //new InventarioGSON("res/inventario_salida.json").guardar(inventario.getObjetos());
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
