@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -134,7 +135,9 @@ class RecetarioTest {
     @Test
     void testBuscarRecetaNoExistente() {
         recetario.agregarReceta(recetaClavo);
-        assertNull(recetario.buscarReceta(mesa));
+        assertThrows(NoSuchElementException.class, () -> {
+        	recetario.buscarReceta(mesa);
+        });
     }
     
     @Test
@@ -142,7 +145,9 @@ class RecetarioTest {
         recetario.agregarReceta(recetaClavo);
         recetario.removerReceta(recetaClavo);
         
-        assertNull(recetario.buscarReceta(clavo));
+        assertThrows(NoSuchElementException.class, () -> {
+        	recetario.buscarReceta(clavo);
+        });
     }
 
     @Test

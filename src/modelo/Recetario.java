@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 public class Recetario {
     private List<Receta> recetas;
@@ -26,12 +27,13 @@ public class Recetario {
             throw new IllegalArgumentException("La receta no puede ser nula");
         }
         
-        if (buscarReceta(receta.getObjetoProducido()) != null) {
-            throw new IllegalArgumentException("Ya existe una receta para el objeto: " + 
+        try {
+            buscarReceta(receta.getObjetoProducido());
+            throw new IllegalArgumentException("Ya existe una receta para el objeto: " +
                 receta.getObjetoProducido().getNombre());
+        } catch (NoSuchElementException e) {
+            recetas.add(receta);
         }
-        
-        recetas.add(receta);
     }
 
     public void removerReceta(Receta receta) {
@@ -58,7 +60,9 @@ public class Recetario {
         return recetas.stream()
             .filter(r -> r.getObjetoProducido().equals(objetoDeseado))
             .findFirst()
-            .orElse(null);
+            .orElseThrow(() -> new NoSuchElementException(
+                    "No se encontró receta para el objeto: " + objetoDeseado.getNombre()
+                ));
     }
     
     public Map<Objeto, Integer> buscarIngredientes(Objeto objeto) {
