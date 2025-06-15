@@ -74,7 +74,10 @@ public class Recetario {
     }
     
     public List<Receta> buscarRecetas(Objeto objetoDeseado) {
-        List<Receta> recetas = recetasPorObjeto.getOrDefault(objetoDeseado, new ArrayList<>());
+        List<Receta> recetas = recetasPorObjeto.get(objetoDeseado);
+        if (recetas == null || recetas.isEmpty()) {
+            throw new NoSuchElementException("No existen recetas asociadas a :" + objetoDeseado);
+        }
         return new ArrayList<>(recetas);
     }
     
