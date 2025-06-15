@@ -2,6 +2,7 @@ package modelo;
 
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 public class SistemaDeCrafteo {
     private Inventario inventario;
@@ -26,24 +27,48 @@ public class SistemaDeCrafteo {
 	};
 	
 	public Map<Objeto, Integer> ingredientesNecesarios(Objeto objeto) {
-		return recetario.buscarReceta(objeto).getIngredientes();
+		if (objeto == null) {
+            throw new IllegalArgumentException("No existe objeto:" + objeto);
+        }
+		try {
+			Receta receta = recetario.buscarReceta(objeto);
+			return receta.getIngredientes();
+		} catch (NoSuchElementException e) {
+			throw new IllegalArgumentException("El objeto no tiene receta:"+ objeto);
+        }
     }
 
     public Map<Objeto, Integer> ingredientesBasicosNecesarios(Objeto objeto) {
-    	return recetario.buscarReceta(objeto).getIngredientesBasicos(recetario);
+    	if (objeto == null) {
+            throw new IllegalArgumentException("No existe objeto:" + objeto);
+        }
+    	try {
+			Receta receta = recetario.buscarReceta(objeto);
+			return receta.getIngredientesBasicos(recetario);
+		} catch (NoSuchElementException e) {
+			throw new IllegalArgumentException("El objeto no tiene receta:"+ objeto);
+        }
     }
 
     public Map<Objeto, Integer> ingredientesFaltantesParaCraftear(Objeto objeto) {
+    	if (objeto == null) {
+            throw new IllegalArgumentException("No existe objeto:" + objeto);
+        }
     	return inventario.getFaltantes(ingredientesNecesarios(objeto));
     }
 
     public Map<Objeto, Integer> ingredientesBasicosFaltantesParaCraftear(Objeto objeto) {
-    	
+    	if (objeto == null) {
+            throw new IllegalArgumentException("No existe objeto:" + objeto);
+        }
     	return inventario.getFaltantesBasicos(ingredientesBasicosNecesarios(objeto), recetario);
 
     }
 
     public int cantidadCrafteable(Objeto objeto) {
+    	if (objeto == null) {
+            throw new IllegalArgumentException("No existe objeto:" + objeto);
+        }
     	return inventario.getCantidadBasico(objeto, recetario);
 
     }
@@ -52,26 +77,23 @@ public class SistemaDeCrafteo {
     	if (cantACraftear <= 0) {
             throw new IllegalArgumentException("La cantidad a craftear debe ser positiva");
         }
-
-        // Verificar si es posible craftear la cantidad solicitada
+    	// Verificar si es posible craftear la cantidad solicitada
         int maxCrafteable = cantidadCrafteable(objeto);
         if (maxCrafteable < cantACraftear) {
             throw new IllegalStateException("No hay suficientes materiales para craftear " + cantACraftear + " " + objeto.getNombre());
         }
-
-        // Si es objeto básico, no se puede craftear
         if (objeto.esBasico()) {
             throw new UnsupportedOperationException("No se puede craftear un objeto básico: " + objeto.getNombre());
         }
-
-        // Obtener la receta
+                
         Receta receta = recetario.buscarReceta(objeto);
         if (receta == null) {
             throw new IllegalStateException("No existe receta para craftear " + objeto.getNombre());
         }
+        
 
         // Calcular tiempo total (empezando con el tiempo de este crafteo)
-        int tiempoTotal = receta.getTiempoBase() * cantACraftear;
+        int tiempoTotal = receta.getTiempoBase() * cantACraftear / receta.getCantidadProducida();
 
         // Procesar ingredientes recursivamente
         for (Map.Entry<Objeto, Integer> entry : receta.getIngredientes().entrySet()) {
