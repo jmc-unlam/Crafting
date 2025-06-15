@@ -120,7 +120,7 @@ public class Main {
             inventario.getObjetos().forEach((obj, cant) -> 
                 System.out.println("- " + obj.getNombre() + ": " + cant));
          
-            //new InventarioGSON("res/inventario_salida.json").guardar(inventario.getObjetos());
+            new InventarioGSON("res/inventario_salida.json").guardar(inventario.getObjetos());
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
