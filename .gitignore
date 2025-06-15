@@ -10,10 +10,10 @@
 .settings/
 
 # Archivos de configuración de IntelliJ IDEA (descomenta si usas IntelliJ)
-# .idea/
-# *.iml
-# *.ipr
-# *.iws
+.idea/
+*.iml
+*.ipr
+*.iws
 
 # Archivos de registro
 *.log
@@ -30,3 +30,7 @@
 .#*#
 .DS_Store # macOS
 Thumbs.db # Windows
+
+# Archivos del proyecto de Crafting 
+*_salida.json
+*_salida.xml
