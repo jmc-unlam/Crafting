@@ -88,4 +88,17 @@ public class Recetario {
         }
         return new HashMap<>(recetas.get(0).getIngredientes()); // Solo de la primera receta
     }
+
+    //*****Implementacion Mesas de Trabajo*************
+	public void agregarRecetas(List<Receta> recetas) {
+		for (Receta receta : recetas ) {
+			this.agregarReceta(receta);
+		}
+	}
+
+	public void removerRecetas(List<Receta> recetas) {
+		for (Receta receta : recetas ) {
+			this.removerReceta(receta);
+		}
+	}
 }
