@@ -58,7 +58,6 @@ public class Inventario {
 	            faltantes.put(objeto, faltante);
 	        }
 	    }
-
 	    return faltantes;
 	}
 	
@@ -76,7 +75,6 @@ public class Inventario {
 	            faltantesBasicos.put(ingrediente, cantidadNecesaria - disponible);
 	        }
 	    }
-
 	    return faltantesBasicos;
 	}
 
@@ -130,7 +128,6 @@ public class Inventario {
 	            faltantesBasicos.put(ingrediente, cantidadNecesaria - disponible);
 	        }
 	    }
-
 	    return faltantesBasicos;
 	}
 	
@@ -164,5 +161,37 @@ public class Inventario {
 	        return cantidadDirecta + maxCrafteable;
 	    }
 	}
-
+	
+	//*****Implementacion Mesas de Trabajo*************
+	public void agregarObjeto(Objeto objeto, int cantidad, Recetario recetario) {
+        if (cantidad <= 0) {
+            throw new IllegalArgumentException("La cantidad debe ser positiva");
+        }
+        if (!objeto.esApilable()) { // Aquí usamos polimorfismo con esApilable()
+            if (objetos.containsKey(objeto)) {
+                throw new IllegalArgumentException("El objeto  no es apilable:" + objeto);
+            }
+        }
+        objeto.activar(recetario);
+        objetos.merge(objeto, cantidad, Integer::sum);
+    }
+	
+	public void removerObjeto(Objeto objeto, int cantidad, Recetario recetario) {
+    	if (cantidad <= 0) {
+            throw new IllegalArgumentException("La cantidad a remover debe ser positiva");
+        }
+        
+        int cantidadActual = objetos.getOrDefault(objeto, 0);
+        if (cantidadActual < cantidad) {
+            throw new IllegalArgumentException("No hay suficiente cantidad del objeto en el inventario.");
+        }
+        
+        int nuevaCantidad = cantidadActual - cantidad;
+        if (nuevaCantidad == 0) {
+        	objeto.desactivar(recetario);
+            objetos.remove(objeto); // Eliminar completamente si llega a cero
+        } else {
+            objetos.put(objeto, nuevaCantidad);
+        }
+    }
 }
