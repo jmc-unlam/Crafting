@@ -33,4 +33,9 @@ public class ObjetoBasico extends Objeto {
 		}
 		return true;
 	}
+
+	@Override
+	public boolean esApilable() {
+		return true;
+	}
 }
