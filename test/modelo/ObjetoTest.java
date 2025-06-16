@@ -17,6 +17,11 @@ class ObjetoTest {
             public boolean esBasico() {
                 return true;
             }
+
+			@Override
+			public boolean esApilable() {
+				return true;
+			}
         };
         
         objetoIntermedio = new Objeto("Mesa") {
@@ -24,6 +29,11 @@ class ObjetoTest {
             public boolean esBasico() {
                 return false;
             }
+
+			@Override
+			public boolean esApilable() {
+				return true;
+			}
         };
     }
     
