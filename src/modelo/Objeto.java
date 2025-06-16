@@ -14,7 +14,13 @@ public abstract class Objeto {
     }
     
     public abstract boolean esBasico();
-
+    
+    public abstract boolean esApilable();
+    
+    public void activar(Recetario recetario) {};
+    
+    public void desactivar(Recetario recetario) {};
+    
 	@Override
 	public int hashCode() {
 		return Objects.hash(nombre);
