@@ -41,7 +41,7 @@ public class SistemaDeCrafteoTest {
 
         // Paso 3: Crear recetas
         Receta recetaHachaDePiedra = new Receta(hachaDePiedra, ingredientesHachaDePiedra, 1, 5);
-        Receta recetaOxido = new Receta(oxido, ingredientesOxido, 1, 2);
+        Receta recetaOxido = new Receta(oxido, ingredientesOxido, 9, 2);
 
         // Paso 4: Inicializar inventario
         inventario = new Inventario();
@@ -70,16 +70,21 @@ public class SistemaDeCrafteoTest {
     void testIngredientesBasicosNecesarios() {
         Map<Objeto, Integer> basicos = sistema.ingredientesBasicosNecesarios(hachaDePiedra);
         assertEquals(3, basicos.size());
-        assertEquals(Integer.valueOf(3), basicos.get(piedra));
-        assertEquals(Integer.valueOf(2), basicos.get(madera));
-        assertEquals(Integer.valueOf(14), basicos.get(hierro)); // 2 * 7 hierro por óxido
+        
+        // Verificar cantidades de ingredientes básicos (piedra, madera, hierro)
+        // Para 1 Hacha: 3 Piedra, 2 Madera, 9 Oxido
+        // Para 9 Oxido (que son los que necesita el Hacha): 7 Hierro
+        // Total: 3 Piedra, 2 Madera, 7 Hierro
+        assertEquals(3, basicos.get(new ObjetoBasico("Piedra")));
+        assertEquals(2, basicos.get(new ObjetoBasico("Madera")));
+        assertEquals(7, basicos.get(new ObjetoBasico("Hierro")));
     }
 
     @Test
     void testIngredientesFaltantesParaCraftear() {
         Map<Objeto, Integer> faltantes = sistema.ingredientesFaltantesParaCraftear(hachaDePiedra);
         assertTrue(faltantes.containsKey(oxido));
-        assertEquals(Integer.valueOf(2), faltantes.get(oxido));
+        assertEquals(2, faltantes.get(oxido));
         assertFalse(faltantes.containsKey(piedra));
     }
 
@@ -87,7 +92,7 @@ public class SistemaDeCrafteoTest {
     void testIngredientesBasicosFaltantesParaCraftear() {
         Map<Objeto, Integer> faltantes = sistema.ingredientesBasicosFaltantesParaCraftear(hachaDePiedra);
         assertTrue(faltantes.containsKey(hierro));
-        assertEquals(Integer.valueOf(10), faltantes.get(hierro)); // Necesita 14, tiene 4
+        assertEquals(3, faltantes.get(hierro)); // Necesita 7, tiene 4
     }
 
     @Test
@@ -158,6 +163,65 @@ public class SistemaDeCrafteoTest {
 
         // Verificar que se produjo antorcha
         assertTrue(inventario.getCantidad(antorcha) == 2);
+    }
+    
+    @Test
+	void testIngredientesDirectosHachaDePiedra() {
+		Map<Objeto, Integer> ingredientes = sistema.ingredientesNecesarios(hachaDePiedra);
+        
+        assertNotNull(ingredientes, "El mapa de ingredientes no debería ser nulo");
+        assertEquals(3, ingredientes.size(), "Debería haber 3 tipos de ingredientes directos para Hacha de Piedra");
+        
+        // Verificar cantidades de ingredientes directos
+        assertEquals(3, ingredientes.get(new ObjetoBasico("Piedra")), "Cantidad de Piedra incorrecta");
+        assertEquals(2, ingredientes.get(new ObjetoBasico("Madera")), "Cantidad de Madera incorrecta");
+        assertEquals(2, ingredientes.get(new ObjetoIntermedio("Oxido")), "Cantidad de Oxido incorrecta");
+	}
+
+	@Test
+	void testIngredientesDirectosOxido() {
+		Map<Objeto, Integer> ingredientes = sistema.ingredientesNecesarios(oxido);
+        
+        assertNotNull(ingredientes, "El mapa de ingredientes no debería ser nulo");
+        assertEquals(1, ingredientes.size(), "Debería haber 1 tipo de ingrediente directo para Oxido");
+        
+        // Verificar cantidad de ingrediente directo
+        assertEquals(7, ingredientes.get(new ObjetoBasico("Hierro")), "Cantidad de Hierro incorrecta para Oxido");
+	}
+
+    @Test
+    void testIngredientesBasicosHachaDePiedra() {
+        Map<Objeto, Integer> ingredientesBasicos = sistema.ingredientesBasicosNecesarios(hachaDePiedra);
+
+        assertNotNull(ingredientesBasicos, "El mapa de ingredientes básicos no debería ser nulo");
+        assertEquals(3, ingredientesBasicos.size(), "Debería haber 3 tipos de ingredientes básicos para Hacha de Piedra");
+
+        // Verificar cantidades de ingredientes básicos (piedra, madera, hierro)
+        // Para 1 Hacha: 3 Piedra, 2 Madera, 9 Oxido
+        // Para 9 Oxido (que son los que necesita el Hacha): 7 Hierro
+        // Total: 3 Piedra, 2 Madera, 7 Hierro
+        assertEquals(3, ingredientesBasicos.get(new ObjetoBasico("Piedra")));
+        assertEquals(2, ingredientesBasicos.get(new ObjetoBasico("Madera")));
+        assertEquals(7, ingredientesBasicos.get(new ObjetoBasico("Hierro")));
+    }
+
+    @Test
+    void testIngredientesObjetoSinRecetaLanzaExcepcion() {
+        ObjetoIntermedio objetoSinReceta = new ObjetoIntermedio("Objeto Desconocido");
+        assertThrows(IllegalArgumentException.class, () -> {
+            sistema.ingredientesNecesarios(objetoSinReceta);
+        }, "Debería lanzar IllegalArgumentException para un objeto sin receta");
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            sistema.ingredientesBasicosNecesarios(objetoSinReceta);
+        }, "Debería lanzar IllegalArgumentException para un objeto sin receta al buscar básicos");
+    }
+
+    @Test
+    void testIngredientesBasicosObjetoBasico() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            sistema.ingredientesBasicosNecesarios(madera);
+        }, "Debería lanzar IllegalArgumentException si se busca ingredientes básicos de un objeto básico sin receta.");
     }
 
 }
