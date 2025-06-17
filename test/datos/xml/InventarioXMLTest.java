@@ -40,28 +40,28 @@ class InventarioXMLTest {
 
         try (FileWriter writer = new FileWriter(INVENTARIO_BASICOS_XML)) {
             writer.write("<objetos>" +
-                         "    <objeto _nombre=\"Madera de Roble\" tipo=\"basico\" cantidad=\"10\"/>" +
-                         "    <objeto _nombre=\"Piedra\" tipo=\"basico\" cantidad=\"5\"/>" +
+                         "    <objeto _nombre=\"madera de Roble\" tipo=\"basico\" cantidad=\"10\"/>" +
+                         "    <objeto _nombre=\"piedra\" tipo=\"basico\" cantidad=\"5\"/>" +
                          "</objetos>");
         }
 
         try (FileWriter writer = new FileWriter(INVENTARIO_INTERMEDIOS_XML)) {
             writer.write("<objetos>" +
-                         "    <objeto _nombre=\"Tablones de Roble\" tipo=\"intermedio\" cantidad=\"4\"/>" +
-                         "    <objeto _nombre=\"Palo\" tipo=\"intermedio\" cantidad=\"8\"/>" +
+                         "    <objeto _nombre=\"tablones de roble\" tipo=\"intermedio\" cantidad=\"4\"/>" +
+                         "    <objeto _nombre=\"palo\" tipo=\"intermedio\" cantidad=\"8\"/>" +
                          "</objetos>");
         }
         
         try (FileWriter writer = new FileWriter(INVENTARIO_MIXTO_XML)) {
             writer.write("<objetos>" +
-                         "    <objeto _nombre=\"Mineral de Hierro\" tipo=\"basico\" cantidad=\"8\"/>" +
-                         "    <objeto _nombre=\"Tablones de Roble\" tipo=\"intermedio\" cantidad=\"3\"/>" +
+                         "    <objeto _nombre=\"mineral de hierro\" tipo=\"basico\" cantidad=\"8\"/>" +
+                         "    <objeto _nombre=\"tablones de roble\" tipo=\"intermedio\" cantidad=\"3\"/>" +
                          "</objetos>");
         }
         
         try (FileWriter writer = new FileWriter(INVENTARIO_DESCONOCIDO_XML)) {
             writer.write("<objetos>" +
-                         "    <objeto _nombre=\"Ruby\" tipo=\"desconocido\" cantidad=\"1\"/>" +
+                         "    <objeto _nombre=\"ruby\" tipo=\"desconocido\" cantidad=\"1\"/>" +
                          "</objetos>");
         }
 	}
@@ -114,8 +114,8 @@ class InventarioXMLTest {
 		assertTrue(objetos.get(new ObjetoIntermedio("Tablones de Roble")) == 3);
 		Set<Objeto> keys = objetos.keySet();
 		Iterator<Objeto> it = keys.iterator();
-		assertTrue(it.next() instanceof ObjetoBasico);
 		assertTrue(it.next() instanceof ObjetoIntermedio);
+		assertTrue(it.next() instanceof ObjetoBasico);
 	}
 	
 	@Test
@@ -138,8 +138,8 @@ class InventarioXMLTest {
 		assertTrue(leidoMixto.get(new ObjetoBasico("Piedra")) == 7);
 		Set<Objeto> keys = leidoMixto.keySet();
 		Iterator<Objeto> it = keys.iterator();
-		assertTrue(it.next() instanceof ObjetoIntermedio);
 		assertTrue(it.next() instanceof ObjetoBasico);
+		assertTrue(it.next() instanceof ObjetoIntermedio);
 	}
 	
 	@Test

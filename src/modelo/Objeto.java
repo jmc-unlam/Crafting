@@ -1,12 +1,28 @@
 package modelo;
 
+import java.text.Normalizer;
 import java.util.Objects;
 
 public abstract class Objeto {
     private String nombre;
+    
+    private String normalizar(String texto) {
+    	if (texto == null || texto.isEmpty()) {
+    		throw new IllegalArgumentException("El nombre esta vacio");
+        }
+
+        String normalized = Normalizer.normalize(texto, Normalizer.Form.NFD)
+                                      .replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+
+        normalized = normalized.toLowerCase();
+        normalized = normalized.trim().replaceAll("\\s+", " ");
+        normalized = normalized.replaceAll("[^a-z0-9 ]", "");
+
+        return normalized;
+    }
 
     public Objeto(String nombre) {
-        this.nombre = nombre;
+        this.nombre = normalizar(nombre);
     }
 
     public String getNombre() {

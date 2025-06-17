@@ -39,8 +39,8 @@ class ObjetoTest {
     
     @Test
     void testGetNombre() {
-        assertEquals("Madera", objetoBasico.getNombre());
-        assertEquals("Mesa", objetoIntermedio.getNombre());
+        assertEquals("madera", objetoBasico.getNombre());
+        assertEquals("mesa", objetoIntermedio.getNombre());
     }
     
     @Test
