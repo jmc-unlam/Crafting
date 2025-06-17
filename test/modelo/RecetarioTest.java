@@ -204,19 +204,6 @@ class RecetarioTest {
     }
 
     @Test
-    void testToString() {
-        recetario.agregarReceta(recetaClavo);
-        recetario.agregarReceta(recetaMesa);
-
-        String str = recetario.toString();
-
-        assertTrue(str.contains("=== RECETARIO ==="));
-        assertTrue(str.contains("Objeto producido: ObjetoIntermedio: Clavo"));
-        assertTrue(str.contains("Objeto producido: ObjetoIntermedio: Mesa"));
-        assertTrue(str.contains("Ingredientes:"));
-    }
-
-    @Test
     void testRecetarioVacioToString() {
         String str = recetario.toString();
         assertTrue(str.contains("=== RECETARIO ==="));

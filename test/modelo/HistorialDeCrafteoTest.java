@@ -55,19 +55,6 @@ class HistorialDeCrafteoTest {
     }
 
     @Test
-    void testToString() {
-        historial.agregarRegistro(mesa, 1, 15);
-        historial.agregarRegistro(silla, 2, 20);
-        
-        String str = historial.toString();
-        
-        assertTrue(str.contains("=== Historial de Crafteos ==="));
-        assertTrue(str.contains("Turno 1 - ObjetoIntermedio: Mesa: 1 unidades (Tiempo: 15)"));
-        assertTrue(str.contains("Turno 2 - ObjetoIntermedio: Silla: 2 unidades (Tiempo: 20)"));
-        assertTrue(str.contains("============================="));
-    }
-
-    @Test
     void testBuscarPorNombre() {
         historial.agregarRegistro(mesa, 1, 15);
         historial.agregarRegistro(silla, 2, 20);

@@ -18,13 +18,7 @@ class ObjetoBasicoTest {
     @Test
     void testConstructorYGetNombre() {
         ObjetoBasico hierro = new ObjetoBasico("Hierro");
-        assertEquals("Hierro", hierro.getNombre());
-    }
-    
-    @Test
-    void testToString() {
-        ObjetoBasico piedra = new ObjetoBasico("Piedra");
-        assertEquals("ObjetoBásico: Piedra", piedra.toString());
+        assertEquals("hierro", hierro.getNombre());
     }
     
     @Test

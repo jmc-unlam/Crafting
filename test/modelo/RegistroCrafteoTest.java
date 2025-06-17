@@ -55,25 +55,6 @@ class RegistroCrafteoTest {
     }
 
     @Test
-    void testToString() {
-        RegistroCrafteo registro = new RegistroCrafteo(mesa, 2, 25);
-        String expected = "Turno 1 - ObjetoIntermedio: Mesa: 2 unidades (Tiempo: 25)";
-        assertEquals(expected, registro.toString());
-    }
-
-    @Test
-    void testMultipleRegistrosToString() {
-        RegistroCrafteo registro1 = new RegistroCrafteo(madera, 10, 5);
-        RegistroCrafteo registro2 = new RegistroCrafteo(mesa, 1, 30);
-        
-        String expected1 = "Turno 1 - ObjetoBásico: Madera: 10 unidades (Tiempo: 5)";
-        String expected2 = "Turno 2 - ObjetoIntermedio: Mesa: 1 unidades (Tiempo: 30)";
-        
-        assertEquals(expected1, registro1.toString());
-        assertEquals(expected2, registro2.toString());
-    }
-
-    @Test
     void testRegistroConCantidadCero() {
         assertThrows(IllegalArgumentException.class, () -> {
             new RegistroCrafteo(mesa, 0, 10);

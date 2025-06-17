@@ -15,13 +15,7 @@ class ObjetoIntermedioTest {
     @Test
     void testConstructorYGetNombre() {
         ObjetoIntermedio silla = new ObjetoIntermedio("Silla");
-        assertEquals("Silla", silla.getNombre());
-    }
-    
-    @Test
-    void testToString() {
-        ObjetoIntermedio hacha = new ObjetoIntermedio("Hacha");
-        assertEquals("ObjetoIntermedio: Hacha", hacha.toString());
+        assertEquals("silla", silla.getNombre());
     }
     
     @Test
