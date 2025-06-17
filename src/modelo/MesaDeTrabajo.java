@@ -28,4 +28,18 @@ public abstract class MesaDeTrabajo extends Objeto {
 	public void desactivar(Recetario recetario) {
 		recetario.removerRecetas(recetasDesbloqueadas);
 	}
+	
+	@Override
+	public boolean esBasico() {
+		return false;
+	}
+
+	@Override
+	public boolean esApilable() {
+		return false;
+	}
+	
+//	public boolean esMesaDeTrabajo() {
+//		return !this.esBasico() && !this.esApilable();
+//	}
 }
