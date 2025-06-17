@@ -61,12 +61,17 @@ public class Receta {
 	            // Si es intermedio, buscamos su receta y descomponemos recursivamente
 	        	Receta subReceta = recetario.buscarReceta(ingrediente);
 	        	Map<Objeto, Integer> subIngredientesBasicos = subReceta.getIngredientesBasicos(recetario);
+	        	
+	        	int batchesNeeded = cantidadRequerida / subReceta.getCantidadProducida();
+	        	if (cantidadRequerida % subReceta.getCantidadProducida() != 0) {
+                    batchesNeeded = (int) Math.ceil((double) cantidadRequerida / subReceta.getCantidadProducida());
+               }
 
                 // Multiplicamos por la cantidad requerida y fusionamos
                 for (Map.Entry<Objeto, Integer> subElemento : subIngredientesBasicos.entrySet()) {
                     basicos.merge(
                         subElemento.getKey(),
-                        subElemento.getValue() * cantidadRequerida,
+                        subElemento.getValue() * batchesNeeded,
                         Integer::sum
                     );
                 }
