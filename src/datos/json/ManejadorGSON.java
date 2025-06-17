@@ -2,39 +2,39 @@ package datos.json;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken; // Importar para TypeTokens
 import com.google.gson.typeadapters.RuntimeTypeAdapterFactory; // Importar la clase
 
+import modelo.MesaDeHierro;
 import modelo.Objeto;
 import modelo.ObjetoBasico;
 import modelo.ObjetoIntermedio;
+import modelo.Receta;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 public abstract class ManejadorGSON<T> {
 	private final String rutaArchivo;
-	private final Gson gson;
+	protected Gson gson;
 	protected T datos;
 	protected Type listType;
+	private RecetaTypeAdapter adaptadorReceta;
 
-    public ManejadorGSON(String rutaArchivo) {
+	public ManejadorGSON(String rutaArchivo) {
     	this.rutaArchivo = rutaArchivo;
-        RuntimeTypeAdapterFactory<Objeto> objetoAdapterFactory = RuntimeTypeAdapterFactory
-                .of(Objeto.class, "tipo")
-                .registerSubtype(ObjetoBasico.class, "basico")
-                .registerSubtype(ObjetoIntermedio.class, "intermedio");
-
+    	this.adaptadorReceta = new RecetaTypeAdapter();
         this.gson = new GsonBuilder()
-                .registerTypeAdapterFactory(objetoAdapterFactory)
+                .registerTypeAdapterFactory(RuntimeTypeAdapterFactory.of(Objeto.class, "tipo")
+                        .registerSubtype(ObjetoBasico.class, "basico")
+                        .registerSubtype(ObjetoIntermedio.class, "intermedio")
+                        .registerSubtype(MesaDeHierro.class, "mesa"))
+                .registerTypeAdapter(Receta.class, adaptadorReceta)
                 .setPrettyPrinting()
                 .create();
+        this.adaptadorReceta.setGson(this.gson);
     }
     
     public T cargarJSON() {
