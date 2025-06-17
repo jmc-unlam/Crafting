@@ -3,10 +3,15 @@ package datos.json;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -19,6 +24,12 @@ import com.google.gson.JsonParseException;
 import modelo.Objeto;
 import modelo.ObjetoBasico;
 import modelo.ObjetoIntermedio;
+import modelo.Receta;
+import modelo.Recetario;
+import modelo.Inventario;
+import modelo.MesaDeHierro;
+import modelo.MesaDePiedra;
+import modelo.MesaDeTrabajo;
 
 class InventarioGSONTest {
     private static final String TEST_DIR = "target/test-temp/";
@@ -42,14 +53,14 @@ class InventarioGSONTest {
             writer.write("[\n" +
                     "  {\n" +
                     "    \"objeto\": {\n" +
-                    "      \"nombre\": \"Madera de Roble\",\n" +
+                    "      \"nombre\": \"madera de roble\",\n" +
                     "      \"tipo\": \"basico\"\n" +
                     "    },\n" +
                     "    \"cantidad\": 10\n" +
                     "  },\n" +
                     "  {\n" +
                     "    \"objeto\": {\n" +
-                    "      \"nombre\": \"Piedra\",\n" +
+                    "      \"nombre\": \"piedra\",\n" +
                     "      \"tipo\": \"basico\"\n" +
                     "    },\n" +
                     "    \"cantidad\": 5\n" +
@@ -61,14 +72,14 @@ class InventarioGSONTest {
             writer.write("[\n" +
                     "  {\n" +
                     "    \"objeto\": {\n" +
-                    "      \"nombre\": \"Tablones de Roble\",\n" +
+                    "      \"nombre\": \"tablones de roble\",\n" +
                     "      \"tipo\": \"intermedio\"\n" +
                     "    },\n" +
                     "    \"cantidad\": 4\n" +
                     "  },\n" +
                     "  {\n" +
                     "    \"objeto\": {\n" +
-                    "      \"nombre\": \"Palo\",\n" +
+                    "      \"nombre\": \"palo\",\n" +
                     "      \"tipo\": \"intermedio\"\n" +
                     "    },\n" +
                     "    \"cantidad\": 8\n" +
@@ -80,14 +91,14 @@ class InventarioGSONTest {
             writer.write("[\n" +
                     "  {\n" +
                     "    \"objeto\": {\n" +
-                    "      \"nombre\": \"Mineral de Hierro\",\n" +
+                    "      \"nombre\": \"mineral de hierro\",\n" +
                     "      \"tipo\": \"basico\"\n" +
                     "    },\n" +
                     "    \"cantidad\": 8\n" +
                     "  },\n" +
                     "  {\n" +
                     "    \"objeto\": {\n" +
-                    "      \"nombre\": \"Tablones de Roble\",\n" +
+                    "      \"nombre\": \"tablones de roble\",\n" +
                     "      \"tipo\": \"intermedio\"\n" +
                     "    },\n" +
                     "    \"cantidad\": 3\n" +
@@ -99,7 +110,7 @@ class InventarioGSONTest {
             writer.write("[\n" +
                     "  {\n" +
                     "    \"objeto\": {\n" +
-                    "      \"nombre\": \"Ruby\",\n" +
+                    "      \"nombre\": \"ruby\",\n" +
                     "      \"tipo\": \"desconocido\"\n" +
                     "    },\n" +
                     "    \"cantidad\": 1\n" +
@@ -118,6 +129,23 @@ class InventarioGSONTest {
         Files.deleteIfExists(Path.of(INVENTARIO_VACIO_SALIDA_JSON));
         Files.deleteIfExists(Path.of(INVENTARIO_MIXTO_SALIDA_JSON));
         Files.deleteIfExists(Path.of(TEST_DIR));
+    }
+    
+    // Helper to compare recipes (deep equality)
+    private boolean areRecipesEqual(Receta r1, Receta r2) {
+        if (!r1.getObjetoProducido().equals(r2.getObjetoProducido())) return false;
+        if (r1.getCantidadProducida() != r2.getCantidadProducida()) return false;
+        if (r1.getTiempoBase() != r2.getTiempoBase()) return false;
+        if (r1.getIngredientes().size() != r2.getIngredientes().size()) return false;
+
+        for (Map.Entry<Objeto, Integer> entry : r1.getIngredientes().entrySet()) {
+            Objeto ing1 = entry.getKey();
+            int qty1 = entry.getValue();
+            if (!r2.getIngredientes().containsKey(ing1) || r2.getIngredientes().get(ing1) != qty1) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Test
@@ -156,8 +184,8 @@ class InventarioGSONTest {
         assertEquals(3, objetos.get(new ObjetoIntermedio("Tablones de Roble")));
         Set<Objeto> keys = objetos.keySet();
         Iterator<Objeto> it = keys.iterator();
-        assertTrue(it.next() instanceof ObjetoBasico);
         assertTrue(it.next() instanceof ObjetoIntermedio);
+        assertTrue(it.next() instanceof ObjetoBasico);
     }
 
     @Test
@@ -180,8 +208,8 @@ class InventarioGSONTest {
         assertEquals(7, leidoMixto.get(new ObjetoBasico("Piedra")));
         Set<Objeto> keys = leidoMixto.keySet();
         Iterator<Objeto> it = keys.iterator();
-        assertTrue(it.next() instanceof ObjetoIntermedio);
         assertTrue(it.next() instanceof ObjetoBasico);
+        assertTrue(it.next() instanceof ObjetoIntermedio);
     }
 
     @Test
@@ -206,5 +234,150 @@ class InventarioGSONTest {
     void cargarInventarioConArchivoInvalidoEsVacio() {
         Map<Objeto, Integer> objetos = new InventarioGSON("null").cargar();
         assertTrue(objetos.isEmpty());
+    }
+    
+    @Test
+    void cargarInventarioConMesaDeTrabajo() throws Exception {
+        String json = "[\n" +
+                "  {\n" +
+                "    \"objeto\": {\n" +
+                "      \"tipo\": \"basico\",\n" +
+                "      \"nombre\": \"madera\"\n" +
+                "    },\n" +
+                "    \"cantidad\": 10\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"objeto\": {\n" +
+                "      \"tipo\": \"mesa\",\n" +
+                "      \"nombre\": \"mesa de hierro\",\n" +
+                "      \"recetasDesbloqueadas\": [\n" +
+                "        {\n" +
+                "          \"objetoProducido\": { \"tipo\": \"intermedio\", \"nombre\": \"palo\" },\n" +
+                "          \"ingredientes\": [\n" +
+                "            { \"objeto\": { \"tipo\": \"basico\", \"nombre\": \"madera\" }, \"cantidad\": 2 }\n" +
+                "          ],\n" +
+                "          \"cantidadProducida\": 4,\n" +
+                "          \"tiempoBase\": 10\n" +
+                "        }\n" +
+                "      ]\n" +
+                "    },\n" +
+                "    \"cantidad\": 1\n" +
+                "  }\n" +
+                "]";
+
+        Path testFile = Paths.get(INVENTARIO_MIXTO_JSON);
+        try (FileWriter writer = new FileWriter(testFile.toString())) {
+            writer.write(json);
+        }
+
+        Map<Objeto, Integer> objetos = new InventarioGSON(testFile.toString()).cargar();
+        assertNotNull(objetos);
+        assertEquals(2, objetos.size());
+
+        // Verifica que hay una Madera
+        ObjetoBasico madera = new ObjetoBasico("Madera");
+        assertTrue(objetos.containsKey(madera));
+        assertEquals(10, objetos.get(madera));
+
+        // Verifica que hay una MesaDeHierro
+        for (Objeto key : objetos.keySet()) {
+            if (!key.esBasico() && !key.esApilable()) {
+                assertTrue(key instanceof MesaDeHierro);
+                assertEquals(1, objetos.get(key));
+
+                // Verifica que tiene recetas desbloqueadas
+                MesaDeHierro mesa = (MesaDeHierro) key;
+                assertEquals(1, mesa.getRecetasDesbloqueadas().size());
+                Receta receta = mesa.getRecetasDesbloqueadas().get(0);
+
+                // Verifica datos de la receta
+                assertEquals(new ObjetoIntermedio("Palo"), receta.getObjetoProducido());
+                assertEquals(4, receta.getCantidadProducida());
+                assertEquals(10, receta.getTiempoBase());
+
+                // Verifica ingredientes
+                Map<Objeto, Integer> ing = receta.getIngredientes();
+                assertEquals(1, ing.size());
+                assertEquals(Integer.valueOf(2), ing.get(new ObjetoBasico("Madera")));
+            }
+        }
+    }
+    
+    @Test
+    void guardarInventarioConMesaDeTrabajo() {
+        // Crear objetos
+        ObjetoBasico madera = new ObjetoBasico("Madera");
+        ObjetoIntermedio palo = new ObjetoIntermedio("Palo");
+
+        // Crear receta
+        Map<Objeto, Integer> ingredientes = new HashMap<>();
+        ingredientes.put(madera, 2);
+        Receta receta = new Receta(palo, ingredientes, 4, 10);
+
+        // Crear mesa
+        MesaDeHierro mesa = new MesaDeHierro(List.of(receta));
+
+        // Crear inventario
+        Inventario inventario = new Inventario();
+        inventario.agregarObjeto(madera, 10);
+        inventario.agregarObjeto(mesa, 1);
+
+        // Guardar
+        InventarioGSON inventarioGson = new InventarioGSON(INVENTARIO_MIXTO_SALIDA_JSON);
+        inventarioGson.guardar(inventario.getObjetos());
+
+        // Cargar y verificar
+        Map<Objeto, Integer> leido = new InventarioGSON(INVENTARIO_MIXTO_SALIDA_JSON).cargar();
+
+        assertNotNull(leido);
+        assertEquals(2, leido.size());
+
+        // Comprobamos si tenemos la mesa
+        boolean encontrada = false;
+        for (Objeto obj : leido.keySet()) {
+            if (!obj.esBasico() && !obj.esApilable()) {
+                MesaDeHierro mesaLeida = (MesaDeHierro) obj;
+                List<Receta> recetas = mesaLeida.getRecetasDesbloqueadas();
+                assertEquals(1, recetas.size());
+                assertTrue(areRecipesEqual(receta, recetas.get(0)));
+                encontrada = true;
+            }
+        }
+        assertTrue(encontrada);
+    }
+    
+    @Test
+    void guardarYLeerMesasNoPierdeDatos() {
+        ObjetoBasico madera = new ObjetoBasico("Madera");
+        ObjetoIntermedio palo = new ObjetoIntermedio("Palo");
+
+        Map<Objeto, Integer> ingredientes = new HashMap<>();
+        ingredientes.put(madera, 2);
+        Receta receta = new Receta(palo, ingredientes, 4, 10);
+
+        MesaDeHierro mesa = new MesaDeHierro(List.of(receta));
+
+        Map<Objeto, Integer> guardado = new HashMap<>();
+        guardado.put(madera, 10);
+        guardado.put(mesa, 1);
+
+        InventarioGSON inventarioGson = new InventarioGSON(INVENTARIO_MIXTO_SALIDA_JSON);
+        inventarioGson.guardar(guardado);
+
+        Map<Objeto, Integer> cargado = inventarioGson.cargar();
+        assertNotNull(cargado);
+        assertEquals(2, cargado.size());
+
+        boolean encontrada = false;
+        for (Objeto obj : cargado.keySet()) {
+            if (!obj.esBasico() && !obj.esApilable()) {
+                MesaDeHierro mesaCargada = (MesaDeHierro) obj;
+                List<Receta> recetas = mesaCargada.getRecetasDesbloqueadas();
+                assertEquals(1, recetas.size());
+                assertTrue(areRecipesEqual(receta, recetas.get(0)));
+                encontrada = true;
+            }
+        }
+        assertTrue(encontrada);
     }
 }

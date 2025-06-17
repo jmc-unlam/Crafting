@@ -3,6 +3,8 @@ package modelo;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -148,5 +150,50 @@ class InventarioTest {
         
         assertEquals(1, faltantes.size());
         assertEquals(2, faltantes.get(hierro)); // Necesita 2 hierro (2 por mesa), tiene 0
+    }
+    
+    @Test
+    void noSePuedenApilarMesasDelMismoTipo() {
+    	// Crear objetos
+        ObjetoBasico madera = new ObjetoBasico("Madera");
+        ObjetoIntermedio palo = new ObjetoIntermedio("Palo");
+
+        // Crear receta
+        Map<Objeto, Integer> ingredientes = new HashMap<>();
+        ingredientes.put(madera, 2);
+        Receta receta = new Receta(palo, ingredientes, 4, 10);
+
+        // Crear mesa
+        MesaDeHierro mesa1 = new MesaDeHierro(Arrays.asList(receta));
+        MesaDeHierro mesa2 = new MesaDeHierro(Arrays.asList(receta));
+
+        Recetario recetario = new Recetario();
+        inventario.agregarObjeto(mesa1, 1,recetario);
+        
+        assertThrows(IllegalArgumentException.class, () -> {
+            inventario.agregarObjeto(mesa2, 1,recetario); // Debe lanzar excepción
+        });
+    }
+    
+    @Test
+    void sePermitenMesasDeDistintosTipos() {
+    	// Crear objetos
+        ObjetoBasico madera = new ObjetoBasico("Madera");
+        ObjetoIntermedio palo = new ObjetoIntermedio("Palo");
+
+        // Crear receta
+        Map<Objeto, Integer> ingredientes = new HashMap<>();
+        ingredientes.put(madera, 2);
+        Receta receta = new Receta(palo, ingredientes, 4, 10);
+
+        MesaDeHierro mesa = new MesaDeHierro(Arrays.asList(receta));
+        MesaDePiedra otraMesa = new MesaDePiedra(Arrays.asList(receta));
+
+        Inventario inventario = new Inventario();
+        Recetario recetario = new Recetario();
+        inventario.agregarObjeto(mesa, 1,recetario);
+        inventario.agregarObjeto(otraMesa, 1,recetario); // Esto debe funcionar
+
+        assertEquals(2, inventario.getObjetos().size());
     }
 }
