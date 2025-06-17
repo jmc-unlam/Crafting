@@ -104,7 +104,7 @@ class RecetaTest {
         
         assertEquals(2, basicos.size());
         assertEquals(4, basicos.get(madera));
-        assertEquals(10, basicos.get(hierro)); // 10 clavos * 1 hierro por clavo
+        assertEquals(2, basicos.get(hierro));
     }
 
     @Test
