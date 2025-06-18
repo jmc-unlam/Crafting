@@ -13,7 +13,17 @@ public class Inventario {
     }
 
     public Inventario(Map<Objeto, Integer> objetosIniciales) {
-        this.objetos = new HashMap<>(objetosIniciales);
+    	this.objetos = new HashMap<>();
+    	for (Map.Entry<Objeto, Integer> entry : objetosIniciales.entrySet()) {
+            this.agregarObjeto(entry.getKey(), entry.getValue());
+        }
+    }
+    
+    public Inventario(Map<Objeto, Integer> objetosIniciales, Recetario recetario) {
+    	this.objetos = new HashMap<>();
+    	for (Map.Entry<Objeto, Integer> entry : objetosIniciales.entrySet()) {
+            this.agregarObjeto(entry.getKey(), entry.getValue(), recetario);
+        }
     }
 
     public void agregarObjeto(Objeto objeto, int cantidad) {
