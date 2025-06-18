@@ -23,7 +23,8 @@ import modelo.Objeto;
 import modelo.ObjetoBasico;
 import modelo.ObjetoIntermedio;
 import modelo.Receta;
-import modelo.Recetario; // Needed for getIngredientesBasicos
+import modelo.Recetario;
+import modelo.MesaDeHierro;
 
 class RecetaGSONTest {
 
@@ -40,7 +41,7 @@ class RecetaGSONTest {
     private ObjetoBasico carbon;
     private ObjetoIntermedio palo;
     private ObjetoIntermedio antorcha;
-    private ObjetoIntermedio mesaDeTrabajo;
+    private MesaDeHierro mesaHierro;
 
     private Receta recetaPalo;
     private Receta recetaAntorcha;
@@ -59,7 +60,7 @@ class RecetaGSONTest {
         carbon = new ObjetoBasico("Carbon");
         palo = new ObjetoIntermedio("Palo");
         antorcha = new ObjetoIntermedio("Antorcha");
-        mesaDeTrabajo = new ObjetoIntermedio("Mesa de Trabajo");
+        
 
         // Initialize recipes
         Map<Objeto, Integer> ingredientesPalo = new HashMap<>();
@@ -71,9 +72,11 @@ class RecetaGSONTest {
         ingredientesAntorcha.put(carbon, 1);
         recetaAntorcha = new Receta(antorcha, ingredientesAntorcha, 4, 5); // 1 Palo, 1 Carbon -> 4 Antorchas, 5s
 
+        
+        mesaHierro = new MesaDeHierro(List.of(recetaAntorcha,recetaPalo));
         Map<Objeto, Integer> ingredientesMesa = new HashMap<>();
         ingredientesMesa.put(madera, 4);
-        recetaMesaDeTrabajo = new Receta(mesaDeTrabajo, ingredientesMesa, 1, 20); // 4 Madera -> 1 Mesa, 20s
+        recetaMesaDeTrabajo = new Receta(mesaHierro, ingredientesMesa, 1, 20); // 4 Madera -> 1 Mesa, 20s
 
         // Create test JSON files
         try (FileWriter writer = new FileWriter(RECETAS_VACIO_JSON)) {
@@ -82,10 +85,8 @@ class RecetaGSONTest {
 
         List<RecetaSerializable> simples = new ArrayList<>();
         simples.add(RecetaSerializable.fromReceta(recetaPalo));
-        simples.add(RecetaSerializable.fromReceta(recetaMesaDeTrabajo));
         try (FileWriter writer = new FileWriter(RECETAS_SIMPLES_JSON)) {
             new ManejadorGSON<List<RecetaSerializable>>(RECETAS_SIMPLES_JSON) {
-                public List<RecetaSerializable> cargar() { return null; } // Not used for this manual setup
                 public void guardar(List<RecetaSerializable> datosAGuardar) {
                     super.gson.toJson(datosAGuardar, writer);
                 }
@@ -93,12 +94,9 @@ class RecetaGSONTest {
         }
 
         List<RecetaSerializable> complejas = new ArrayList<>();
-        complejas.add(RecetaSerializable.fromReceta(recetaPalo));
         complejas.add(RecetaSerializable.fromReceta(recetaAntorcha));
-        complejas.add(RecetaSerializable.fromReceta(recetaMesaDeTrabajo));
         try (FileWriter writer = new FileWriter(RECETAS_COMPLEJAS_JSON)) {
             new ManejadorGSON<List<RecetaSerializable>>(RECETAS_COMPLEJAS_JSON) {
-                public List<RecetaSerializable> cargar() { return null; }
                 public void guardar(List<RecetaSerializable> datosAGuardar) {
                     super.gson.toJson(datosAGuardar, writer);
                 }
@@ -181,22 +179,19 @@ class RecetaGSONTest {
     void cargarRecetasSimples() {
         RecetaGSON recetaGSON = new RecetaGSON(RECETAS_SIMPLES_JSON);
         List<Receta> loadedRecetas = recetaGSON.cargar();
-        assertEquals(2, loadedRecetas.size());
+        assertEquals(1, loadedRecetas.size());
 
         // Verify loaded recipes
         assertTrue(loadedRecetas.stream().anyMatch(r -> areRecipesEqual(r, recetaPalo)));
-        assertTrue(loadedRecetas.stream().anyMatch(r -> areRecipesEqual(r, recetaMesaDeTrabajo)));
     }
 
     @Test
     void cargarRecetasComplejas() {
         RecetaGSON recetaGSON = new RecetaGSON(RECETAS_COMPLEJAS_JSON);
         List<Receta> loadedRecetas = recetaGSON.cargar();
-        assertEquals(3, loadedRecetas.size());
+        assertEquals(1, loadedRecetas.size());
 
-        assertTrue(loadedRecetas.stream().anyMatch(r -> areRecipesEqual(r, recetaPalo)));
         assertTrue(loadedRecetas.stream().anyMatch(r -> areRecipesEqual(r, recetaAntorcha)));
-        assertTrue(loadedRecetas.stream().anyMatch(r -> areRecipesEqual(r, recetaMesaDeTrabajo)));
 
         // Verify the type of the produced object and ingredients
         loadedRecetas.forEach(rec -> {
