@@ -30,8 +30,8 @@ public abstract class ManejadorGSON<T> {
                 .registerTypeAdapterFactory(RuntimeTypeAdapterFactory.of(Objeto.class, "tipo")
                         .registerSubtype(ObjetoBasico.class, "basico")
                         .registerSubtype(ObjetoIntermedio.class, "intermedio")
-                        .registerSubtype(MesaDeHierro.class, "mesa"))
-                .registerTypeAdapter(Receta.class, adaptadorReceta)
+                        .registerSubtype(MesaDeHierro.class, "mesa")) //para serializar mesas de trabajo concretas
+                .registerTypeAdapter(Receta.class, adaptadorReceta) 
                 .setPrettyPrinting()
                 .create();
         this.adaptadorReceta.setGson(this.gson);

@@ -71,7 +71,7 @@ public class RecetaSerializable {
             // Manejar error o lanzar excepción si el tipo no es el esperado
             throw new IllegalStateException("El objeto producido no es un ObjetoIntermedio como se esperaba en Receta.");
         }
-        return new Receta((ObjetoIntermedio) this.objetoProducido, ingredientesMap, this.cantidadProducida, this.tiempoBase);
+        return new Receta(this.objetoProducido, ingredientesMap, this.cantidadProducida, this.tiempoBase);
     }
 
     // Método estático para convertir Receta de dominio a RecetaJSON (para serialización)

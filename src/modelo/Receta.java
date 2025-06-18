@@ -4,12 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Receta {
-	private ObjetoIntermedio objetoProducido;
+	private Objeto objetoProducido;
     private Map<Objeto, Integer> ingredientes;
     private int cantidadProducida;
     private int tiempoBase;
 
-    public Receta(ObjetoIntermedio objetoProducido, Map<Objeto, Integer> ingredientes, int cantidadProducida,
+    public Receta(Objeto objetoProducido, Map<Objeto, Integer> ingredientes, int cantidadProducida,
 			int tiempoBase) {
 		this.objetoProducido = objetoProducido;
 		this.ingredientes = ingredientes;
