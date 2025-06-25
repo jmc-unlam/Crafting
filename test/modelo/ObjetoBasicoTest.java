@@ -10,23 +10,23 @@ import modelo.ObjetoIntermedio;
 class ObjetoBasicoTest {
 
     @Test
-    void testEsBasico() {
+    void esBasico() {
         ObjetoBasico madera = new ObjetoBasico("Madera");
         assertTrue(madera.esBasico());
     }
     
     @Test
-    void testConstructorYGetNombre() {
+    void constructorYGetNombre() {
         ObjetoBasico hierro = new ObjetoBasico("Hierro");
         assertEquals("hierro", hierro.getNombre());
     }
     
     @Test
-    void testEqualsEntreObjetoBasicoYIntermedio() {
+    void equalsEntreObjetoBasicoYIntermedio() {
         ObjetoBasico madera = new ObjetoBasico("Madera");
         ObjetoIntermedio mesa = new ObjetoIntermedio("Madera");
         
-        // Aunque tienen el mismo nombre, son de clases diferentes
+        // Aunque tienen el mismo nombre, son de objetos diferentes
         assertFalse(madera.equals(mesa));
     }
 }
