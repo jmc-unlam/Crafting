@@ -52,12 +52,12 @@ class RecetarioTest {
     }
 
     @Test
-    void testConstructorVacio() {
+    void constructorVacio() {
         assertTrue(recetario.getRecetas().isEmpty());
     }
 
     @Test
-    void testConstructorConRecetasIniciales() {
+    void constructorConRecetasIniciales() {
         List<Receta> recetasIniciales = new ArrayList<>();
         recetasIniciales.add(recetaClavo);
         recetasIniciales.add(recetaClavoAlternativa); // Ahora está permitido
@@ -69,7 +69,7 @@ class RecetarioTest {
     }
 
     @Test
-    void testAgregarReceta() {
+    void agregarReceta() {
         recetario.agregarReceta(recetaClavo);
         recetario.agregarReceta(recetaClavoAlternativa); // Ahora se permite
 
@@ -79,14 +79,14 @@ class RecetarioTest {
     }
 
     @Test
-    void testAgregarRecetaNula() {
+    void agregarRecetaNula() {
         assertThrows(IllegalArgumentException.class, () -> {
             recetario.agregarReceta(null);
         });
     }
 
     @Test
-    void testRemoverReceta() {
+    void removerReceta() {
         recetario.agregarReceta(recetaClavo);
         recetario.agregarReceta(recetaClavoAlternativa);
         recetario.agregarReceta(recetaMesa);
@@ -100,7 +100,7 @@ class RecetarioTest {
     }
 
     @Test
-    void testRemoverRecetaNoExistente() {
+    void removerRecetaNoExistente() {
         recetario.agregarReceta(recetaClavo);
 
         assertThrows(IllegalArgumentException.class, () -> {
@@ -109,7 +109,7 @@ class RecetarioTest {
     }
 
     @Test
-    void testGetRecetasDevuelveCopia() {
+    void getRecetasDevuelveCopia() {
         recetario.agregarReceta(recetaClavo);
         List<Receta> copia = recetario.getRecetas();
         copia.clear(); // No debería afectar al recetario original
@@ -118,7 +118,7 @@ class RecetarioTest {
     }
 
     @Test
-    void testBuscarRecetaExistente() {
+    void buscarRecetaExistente() {
         recetario.agregarReceta(recetaClavo);
         recetario.agregarReceta(recetaClavoAlternativa);
         recetario.agregarReceta(recetaMesa);
@@ -130,14 +130,14 @@ class RecetarioTest {
     }
 
     @Test
-    void testBuscarRecetaNoExistente() {
+    void buscarRecetaNoExistente() {
         assertThrows(NoSuchElementException.class, () -> {
             recetario.buscarReceta(mesa);
         });
     }
 
     @Test
-    void testBuscarRecetaDespuesDeRemover() {
+    void buscarRecetaDespuesDeRemover() {
         recetario.agregarReceta(recetaClavo);
         recetario.removerReceta(recetaClavo);
 
@@ -147,7 +147,7 @@ class RecetarioTest {
     }
 
     @Test
-    void testBuscarRecetas() {
+    void buscarRecetasAlternativa() {
         recetario.agregarReceta(recetaClavo);
         recetario.agregarReceta(recetaClavoAlternativa);
 
@@ -158,14 +158,14 @@ class RecetarioTest {
     }
 
     @Test
-    void testBuscarRecetasNoExistente() {
+    void buscarRecetasAlternativaQueNoExiste() {
     	assertThrows(NoSuchElementException.class, () -> {
-    		assertTrue(recetario.buscarRecetas(mesa).isEmpty());
+    		recetario.buscarRecetas(mesa);
     	});
     }
 
     @Test
-    void testBuscarIngredientesExistente() {
+    void buscarIngredientesExistente() {
         recetario.agregarReceta(recetaMesa);
         Map<Objeto, Integer> ingredientes = recetario.buscarIngredientes(mesa);
 
@@ -175,7 +175,7 @@ class RecetarioTest {
     }
 
     @Test
-    void testBuscarIngredientesNoExistente() {
+    void buscarIngredientesNoExistente() {
         recetario.agregarReceta(recetaClavo);
         Map<Objeto, Integer> ingredientes = recetario.buscarIngredientes(mesa);
 
@@ -183,7 +183,7 @@ class RecetarioTest {
     }
 
     @Test
-    void testBuscarIngredientesActualizados() {
+    void buscarIngredientesActualizados() {
         recetario.agregarReceta(recetaClavo);
         recetario.agregarReceta(recetaMesa);
 
@@ -204,14 +204,14 @@ class RecetarioTest {
     }
 
     @Test
-    void testRecetarioVacioToString() {
+    void recetarioVacioToString() {
         String str = recetario.toString();
         assertTrue(str.contains("=== RECETARIO ==="));
         assertFalse(str.contains("Objeto producido:"));
     }
     
     @Test
-    void testAgregarDosRecetasParaMismoObjeto() {
+    void agregarDosRecetasParaMismoObjeto() {
         Objeto antorcha = new ObjetoIntermedio("Antorcha");
 
         Map<Objeto, Integer> ingredientes1 = new HashMap<>();
@@ -224,7 +224,6 @@ class RecetarioTest {
         ingredientes2.put(new ObjetoBasico("Palo"), 1);
         Receta receta2 = new Receta((ObjetoIntermedio)antorcha, ingredientes2, 4, 12);
 
-        Recetario recetario = new Recetario();
         recetario.agregarReceta(receta1);
         recetario.agregarReceta(receta2);
 
