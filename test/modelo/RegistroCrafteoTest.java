@@ -26,7 +26,7 @@ class RegistroCrafteoTest {
     }
 
     @Test
-    void testConstructorYGetters() {
+    void constructorYGetters() {
         RegistroCrafteo registro = new RegistroCrafteo(mesa, 3, 15);
         
         assertEquals(1, registro.getTurno());
@@ -36,7 +36,7 @@ class RegistroCrafteoTest {
     }
 
     @Test
-    void testContadorTurnosAutoincremental() {
+    void contadorDeTurnosSeAutoIncrementa() {
         RegistroCrafteo registro1 = new RegistroCrafteo(madera, 5, 2);
         RegistroCrafteo registro2 = new RegistroCrafteo(mesa, 1, 10);
         
@@ -45,7 +45,7 @@ class RegistroCrafteoTest {
     }
 
     @Test
-    void testReiniciarContador() {
+    void reiniciarContador() {
         RegistroCrafteo registro1 = new RegistroCrafteo(madera, 5, 2);
         RegistroCrafteo.reiniciarContador();
         RegistroCrafteo registro2 = new RegistroCrafteo(mesa, 1, 10);
@@ -55,28 +55,28 @@ class RegistroCrafteoTest {
     }
 
     @Test
-    void testRegistroConCantidadCero() {
+    void registroConCantidadCero() {
         assertThrows(IllegalArgumentException.class, () -> {
             new RegistroCrafteo(mesa, 0, 10);
         });
     }
 
     @Test
-    void testRegistroConCantidadNegativa() {
+    void registroConCantidadNegativa() {
         assertThrows(IllegalArgumentException.class, () -> {
             new RegistroCrafteo(mesa, -1, 10);
         });
     }
 
     @Test
-    void testRegistroConTiempoNegativo() {
+    void registroConTiempoNegativo() {
         assertThrows(IllegalArgumentException.class, () -> {
             new RegistroCrafteo(mesa, 1, -5);
         });
     }
 
     @Test
-    void testRegistroConObjetoNulo() {
+    void registroConObjetoNulo() {
         assertThrows(IllegalArgumentException.class, () -> {
             new RegistroCrafteo(null, 1, 10);
         });
