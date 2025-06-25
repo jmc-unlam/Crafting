@@ -12,56 +12,58 @@ class ObjetoTest {
     
     @BeforeEach
     void setUp() {
-        objetoBasico = new Objeto("Madera") {
-            @Override
-            public boolean esBasico() {
-                return true;
-            }
-
-			@Override
-			public boolean esApilable() {
-				return true;
-			}
-        };
-        
-        objetoIntermedio = new Objeto("Mesa") {
-            @Override
-            public boolean esBasico() {
-                return false;
-            }
-
-			@Override
-			public boolean esApilable() {
-				return true;
-			}
-        };
+        objetoBasico = new ObjetoBasico("- m A  d e r     a//");
+        objetoIntermedio = new ObjetoIntermedio("_M_e__s_a");
     }
     
     @Test
-    void testGetNombre() {
+    void nombreEstaNormalizado() {
         assertEquals("madera", objetoBasico.getNombre());
         assertEquals("mesa", objetoIntermedio.getNombre());
     }
     
     @Test
-    void testEquals() {
+    void equalsSonIguales() {
         Objeto otraMadera = new ObjetoBasico("Madera");
-        Objeto otroHierro = new ObjetoBasico("Hierro");
+        Objeto otraMesa = new ObjetoIntermedio("Mesa");
         
-        // Igualdad por nombre
         assertTrue(objetoBasico.equals(otraMadera));
-        assertFalse(objetoBasico.equals(otroHierro));
-        
-        // No igual con null
+        assertFalse(objetoBasico.equals(otraMesa));
         assertFalse(objetoBasico.equals(null));
-        
-        // No igual con clase diferente
         assertFalse(objetoBasico.equals("Madera"));
+        
+        assertTrue(objetoIntermedio.equals(otraMesa));
+        assertFalse(objetoIntermedio.equals(otraMadera));
+        assertFalse(objetoIntermedio.equals(null));
+        assertFalse(objetoIntermedio.equals("Mesa"));
     }
     
     @Test
-    void testHashCode() {
+    void hashCodeEsigual() {
         Objeto otraMadera = new ObjetoBasico("Madera");
         assertEquals(objetoBasico.hashCode(), otraMadera.hashCode());
+    }
+    
+    @Test
+    void noSonLaMismaInstancia() {
+        Objeto madera1 = new ObjetoBasico("Madera");
+        Objeto madera2 = new ObjetoBasico("Madera");
+        Objeto mesa1 = new ObjetoIntermedio("Mesa");
+        Objeto mesa2 = new ObjetoIntermedio("Mesa");
+        
+        assertNotSame(madera1, madera2);
+        assertNotSame(mesa1, mesa2);
+    }
+    
+    @Test
+    void equalsSonIgualesMasSimbolos() {
+        ObjetoBasico madera1 = new ObjetoBasico("M a d e r  a de ñogal");
+        ObjetoBasico madera2 = new ObjetoBasico("madera de nogal");
+        ObjetoIntermedio mesa1 = new ObjetoIntermedio("Mesa/ d e  ñogal/");
+        ObjetoIntermedio mesa2 = new ObjetoIntermedio("mesa de nogal");
+        
+        assertEquals(madera1, madera2);
+        assertEquals(mesa1, mesa2);
+        
     }
 }
