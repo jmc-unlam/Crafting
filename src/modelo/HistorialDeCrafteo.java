@@ -19,8 +19,8 @@ public class HistorialDeCrafteo {
         if (cantidad <= 0) {
             throw new IllegalArgumentException("La cantidad debe ser positiva");
         }
-        if (tiempoTotal < 0) {
-            throw new IllegalArgumentException("El tiempo no puede ser negativo");
+        if (tiempoTotal <= 0) {
+            throw new IllegalArgumentException("El tiempo no puede ser negativo o nulo");
         }
         
         registros.add(new RegistroCrafteo(objeto, cantidad, tiempoTotal));
