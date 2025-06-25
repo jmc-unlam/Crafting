@@ -7,19 +7,19 @@ import org.junit.jupiter.api.Test;
 class ObjetoIntermedioTest {
 
     @Test
-    void testEsBasico() {
+    void intermedioNoEsBasico() {
         ObjetoIntermedio mesa = new ObjetoIntermedio("Mesa");
         assertFalse(mesa.esBasico());
     }
     
     @Test
-    void testConstructorYGetNombre() {
+    void constructorYGetNombre() {
         ObjetoIntermedio silla = new ObjetoIntermedio("Silla");
         assertEquals("silla", silla.getNombre());
     }
     
     @Test
-    void testEqualsConMismoNombreDiferenteTipo() {
+    void equalsConMismoNombreDiferenteTipo() {
         ObjetoIntermedio mesa = new ObjetoIntermedio("Mesa");
         ObjetoBasico mesaBasica = new ObjetoBasico("Mesa");
         
