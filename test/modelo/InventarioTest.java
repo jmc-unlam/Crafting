@@ -37,34 +37,34 @@ class InventarioTest {
     }
 
     @Test
-    void testAgregarObjetoValido() {
+    void agregarObjetoValido() {
         inventario.agregarObjeto(madera, 5);
         assertEquals(5, inventario.getCantidad(madera));
     }
 
     @Test
-    void testAgregarObjetoConCantidadNegativa() {
+    void agregarObjetoConCantidadNegativa() {
         assertThrows(IllegalArgumentException.class, () -> {
             inventario.agregarObjeto(madera, -1);
         });
     }
 
     @Test
-    void testAgregarObjetoConCantidadCero() {
+    void agregarObjetoConCantidadCero() {
         assertThrows(IllegalArgumentException.class, () -> {
             inventario.agregarObjeto(madera, 0);
         });
     }
 
     @Test
-    void testRemoverObjetoValido() {
+    void removerObjetoValido() {
         inventario.agregarObjeto(madera, 5);
         inventario.removerObjeto(madera, 3);
         assertEquals(2, inventario.getCantidad(madera));
     }
 
     @Test
-    void testRemoverObjetoHastaCero() {
+    void removerObjetoHastaCero() {
         inventario.agregarObjeto(madera, 5);
         inventario.removerObjeto(madera, 5);
         assertEquals(0, inventario.getCantidad(madera));
@@ -72,7 +72,7 @@ class InventarioTest {
     }
 
     @Test
-    void testRemoverObjetoConCantidadInsuficiente() {
+    void removerObjetoConCantidadInsuficiente() {
         inventario.agregarObjeto(madera, 3);
         assertThrows(IllegalArgumentException.class, () -> {
             inventario.removerObjeto(madera, 5);
@@ -80,7 +80,7 @@ class InventarioTest {
     }
 
     @Test
-    void testGetObjetosDevuelveCopia() {
+    void getObjetosDevuelveCopia() {
         inventario.agregarObjeto(madera, 2);
         Map<Objeto, Integer> copia = inventario.getObjetos();
         copia.put(hierro, 1); // Modificación no debe afectar al inventario
@@ -90,7 +90,7 @@ class InventarioTest {
     }
 
     @Test
-    void testGetFaltantes() {
+    void getFaltantes() {
         inventario.agregarObjeto(madera, 3);
         inventario.agregarObjeto(hierro, 1);
         
@@ -108,13 +108,13 @@ class InventarioTest {
     }
 
     @Test
-    void testGetCantidadBasicoParaObjetoBasico() {
+    void getCantidadBasicoParaObjetoBasico() {
         inventario.agregarObjeto(madera, 5);
         assertEquals(5, inventario.getCantidadBasico(madera, recetario));
     }
 
     @Test
-    void testGetCantidadBasicoParaObjetoIntermedio() {
+    void getCantidadBasicoParaObjetoIntermedio() {
         inventario.agregarObjeto(mesa, 2);
         
         // Configurar receta mock para la mesa
@@ -132,7 +132,7 @@ class InventarioTest {
     }
 
     @Test
-    void testGetFaltantesBasicos() {
+    void getFaltantesBasicos() {
         inventario.agregarObjeto(madera, 5);
         
         // Configurar receta mock para la mesa
@@ -154,11 +154,11 @@ class InventarioTest {
     
     @Test
     void noSePuedenApilarMesasDelMismoTipo() {
-    	// Crear objetos
+    	
         ObjetoBasico madera = new ObjetoBasico("Madera");
         ObjetoIntermedio palo = new ObjetoIntermedio("Palo");
 
-        // Crear receta
+        
         Map<Objeto, Integer> ingredientes = new HashMap<>();
         ingredientes.put(madera, 2);
         Receta receta = new Receta(palo, ingredientes, 4, 10);
@@ -171,17 +171,17 @@ class InventarioTest {
         inventario.agregarObjeto(mesa1, 1,recetario);
         
         assertThrows(IllegalArgumentException.class, () -> {
-            inventario.agregarObjeto(mesa2, 1,recetario); // Debe lanzar excepción
+            inventario.agregarObjeto(mesa2, 1,recetario);
         });
     }
     
     @Test
     void sePermitenMesasDeDistintosTipos() {
-    	// Crear objetos
+    	
         ObjetoBasico madera = new ObjetoBasico("Madera");
         ObjetoIntermedio palo = new ObjetoIntermedio("Palo");
 
-        // Crear receta
+        
         Map<Objeto, Integer> ingredientes = new HashMap<>();
         ingredientes.put(madera, 2);
         Receta receta = new Receta(palo, ingredientes, 4, 10);
@@ -192,7 +192,7 @@ class InventarioTest {
         Inventario inventario = new Inventario();
         Recetario recetario = new Recetario();
         inventario.agregarObjeto(mesa, 1,recetario);
-        inventario.agregarObjeto(otraMesa, 1,recetario); // Esto debe funcionar
+        inventario.agregarObjeto(otraMesa, 1,recetario); 
 
         assertEquals(2, inventario.getObjetos().size());
     }
