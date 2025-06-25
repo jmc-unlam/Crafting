@@ -53,12 +53,10 @@ class RecetaTest {
         recetaClavo = new Receta(clavo, ingredientesClavo, 5, 2);
         recetaMesa = new Receta(mesa, ingredientesMesa, 1, 10);
         
-        //Configurar comportamiento del mock Recetario
-        //when(recetario.buscarReceta(clavo)).thenReturn(recetaClavo);
     }
 
     @Test
-    void testConstructorYGetters() {
+    void constructorYGetters() {
         assertEquals(mesa, recetaMesa.getObjetoProducido());
         assertEquals(1, recetaMesa.getCantidadProducida());
         assertEquals(10, recetaMesa.getTiempoBase());
@@ -69,7 +67,7 @@ class RecetaTest {
     }
 
     @Test
-    void testGetIngredientesReturnsCopy() {
+    void getIngredientesEsUnaCopia() {
         Map<Objeto, Integer> ingredientes = recetaMesa.getIngredientes();
         ingredientes.put(new ObjetoBasico("Oro"), 1); // Modificación no debe afectar a la receta
         
@@ -77,20 +75,20 @@ class RecetaTest {
     }
 
     @Test
-    void testCalcularTiempoTotalParaRecetaSimple() {
+    void calcularTiempoTotalParaRecetaSimple() {
         assertEquals(2, recetaClavo.calcularTiempoTotal(recetario));
     }
 
     @Test
-    void testCalcularTiempoTotalParaRecetaCompuesta() {
+    void calcularTiempoTotalParaRecetaCompuesta() {
     	when(recetario.buscarReceta(clavo)).thenReturn(recetaClavo);
         // Mesa: 10 (tiempo base) + 10 clavos * (2 tiempo cada clavo / 5 clavos por receta)
         assertEquals(14, recetaMesa.calcularTiempoTotal(recetario));
     }
 
     @Test
-    void testGetIngredientesBasicosParaRecetaSimple() {
-    	//when(recetario.buscarReceta(clavo)).thenReturn(recetaClavo);
+    void getIngredientesBasicosParaRecetaSimple() {
+    	//aqui no usa la maqueta recetario porque son ingredientes basicos
         Map<Objeto, Integer> basicos = recetaClavo.getIngredientesBasicos(recetario);
         
         assertEquals(1, basicos.size());
@@ -98,7 +96,7 @@ class RecetaTest {
     }
 
     @Test
-    void testGetIngredientesBasicosParaRecetaCompuesta() {
+    void getIngredientesBasicosParaRecetaCompuesta() {
     	when(recetario.buscarReceta(clavo)).thenReturn(recetaClavo);
         Map<Objeto, Integer> basicos = recetaMesa.getIngredientesBasicos(recetario);
         
@@ -108,7 +106,7 @@ class RecetaTest {
     }
 
     @Test
-    void testRecetaConIngredienteIntermedioSinReceta() {
+    void recetaConIngredienteIntermedioSinReceta() {
         when(recetario.buscarReceta(clavo)).thenReturn(null);
         
         assertThrows(NullPointerException.class, () -> {
