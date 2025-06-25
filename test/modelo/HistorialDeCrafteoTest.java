@@ -24,7 +24,7 @@ class HistorialDeCrafteoTest {
     }
 
     @Test
-    void testAgregarRegistro() {
+    void agregarRegistro() {
         historial.agregarRegistro(mesa, 1, 15);
         assertEquals(1, historial.getRegistros().size());
         
@@ -35,7 +35,7 @@ class HistorialDeCrafteoTest {
     }
 
     @Test
-    void testLimpiarRegistros() {
+    void limpiarRegistros() {
         historial.agregarRegistro(mesa, 1, 15);
         historial.agregarRegistro(silla, 2, 20);
         
@@ -46,7 +46,7 @@ class HistorialDeCrafteoTest {
     }
 
     @Test
-    void testGetRegistrosDevuelveCopia() {
+    void getRegistrosDevuelveCopia() {
         historial.agregarRegistro(mesa, 1, 15);
         List<RegistroCrafteo> copia = historial.getRegistros();
         copia.clear();
@@ -55,7 +55,7 @@ class HistorialDeCrafteoTest {
     }
 
     @Test
-    void testBuscarPorNombre() {
+    void buscarPorNombre() {
         historial.agregarRegistro(mesa, 1, 15);
         historial.agregarRegistro(silla, 2, 20);
         historial.agregarRegistro(mesa, 1, 10);
@@ -67,7 +67,7 @@ class HistorialDeCrafteoTest {
     }
 
     @Test
-    void testGetPrimerCrafteo() {
+    void getPrimerCrafteo() {
         historial.agregarRegistro(mesa, 1, 15);
         historial.agregarRegistro(silla, 2, 20);
         historial.agregarRegistro(mesa, 1, 10);
@@ -78,7 +78,7 @@ class HistorialDeCrafteoTest {
     }
 
     @Test
-    void testGetUltimoCrafteo() {
+    void getUltimoCrafteo() {
         historial.agregarRegistro(mesa, 1, 15);
         historial.agregarRegistro(silla, 2, 20);
         historial.agregarRegistro(mesa, 1, 10);
@@ -89,7 +89,7 @@ class HistorialDeCrafteoTest {
     }
 
     @Test
-    void testGetCantidadTotalCrafteada() {
+    void getCantidadTotalCrafteada() {
         historial.agregarRegistro(mesa, 1, 15);
         historial.agregarRegistro(silla, 2, 20);
         historial.agregarRegistro(mesa, 3, 10);
@@ -106,22 +106,30 @@ class HistorialDeCrafteoTest {
     }
 
     @Test
-    void testAgregarRegistroConParametrosInvalidos() {
+    void agregarRegistroConParametrosInvalidos() {
+    	//objeto creado es null
         assertThrows(IllegalArgumentException.class, () -> {
             historial.agregarRegistro(null, 1, 10);
         });
         
+        //cantidad creada es cero osea nada
         assertThrows(IllegalArgumentException.class, () -> {
             historial.agregarRegistro(mesa, 0, 10);
         });
         
+        //tiempo que tardo no es numero entero 
         assertThrows(IllegalArgumentException.class, () -> {
             historial.agregarRegistro(mesa, 1, -1);
+        });
+        
+      //tiempo que tardo fue cero osea no tardo nada
+        assertThrows(IllegalArgumentException.class, () -> {
+            historial.agregarRegistro(mesa, 1, 0);
         });
     }
 
     @Test
-    void testBusquedasConNombreInexistente() {
+    void busquedasConNombreInexistente() {
         historial.agregarRegistro(mesa, 1, 15);
         
         Objeto objetoInexistente = new ObjetoBasico("inexistente");
