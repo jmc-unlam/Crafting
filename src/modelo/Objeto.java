@@ -11,12 +11,19 @@ public abstract class Objeto {
     		throw new IllegalArgumentException("El nombre esta vacio");
         }
 
-        String normalized = Normalizer.normalize(texto, Normalizer.Form.NFD)
-                                      .replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
-
+    	//normalizado en forma canonica
+        String normalized = Normalizer.normalize(texto, Normalizer.Form.NFD);
+        //quita los acentos y simbolos raros 
+        normalized = normalized.replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
         normalized = normalized.toLowerCase();
-        normalized = normalized.trim().replaceAll("\\s+", " ");
+        //quita todas letras que no son a-z y 0-9
         normalized = normalized.replaceAll("[^a-z0-9 ]", "");
+        //quita los espacios repetidos
+        normalized = normalized.replaceAll("\\s+", " ");
+        //quita los espacios entre palabras de longitud 1
+        normalized = normalized.replaceAll("(?<=\\b\\w)\\s(?=\\w\\b)", "");
+        //quita los espacios al principio y al final 
+        normalized = normalized.trim();
 
         return normalized;
     }
