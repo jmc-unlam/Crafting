@@ -40,7 +40,7 @@ public class HistorialDeCrafteo {
     	StringBuilder sb = new StringBuilder();
         sb.append("=== Historial de Crafteos ===\n");
         for (RegistroCrafteo registro : registros) {
-            sb.append(registro.toString()).append("\n"); 
+            sb.append(registro).append("\n"); 
         }
         sb.append("=============================\n");
         return sb.toString();
