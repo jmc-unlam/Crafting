@@ -57,8 +57,7 @@ public class Recetario {
     public String toString() {
         StringBuilder sb = new StringBuilder("=== RECETARIO ===\n");
         for (Receta receta : this.getRecetas()) {
-            sb.append(receta.toString()) 
-                    .append("\n");
+            sb.append(receta).append("\n");
         }
         return sb.toString();
     }
