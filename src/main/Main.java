@@ -16,14 +16,14 @@ import modelo.SistemaDeCrafteo;
 
 public class Main {
     public static void main(String[] args) {
-        // Paso 1: Crear objetos 
+        //Crear objetos 
     	ObjetoBasico madera = new ObjetoBasico("Madera");
         ObjetoBasico piedra = new ObjetoBasico("Piedra");
         ObjetoBasico hierro = new ObjetoBasico("Hierro");
         ObjetoIntermedio oxido = new ObjetoIntermedio("Oxido");
         ObjetoIntermedio hachaDePiedra = new ObjetoIntermedio("Hacha de Piedra");
 
-        // Paso 2: Crear ingredientes de los objetos
+        //Crear ingredientes de los objetos
         Map<Objeto, Integer> ingredientesHachaDePiedra = new HashMap<>();
         ingredientesHachaDePiedra.put(piedra, 3);
         ingredientesHachaDePiedra.put(madera, 2);
@@ -32,59 +32,55 @@ public class Main {
         Map<Objeto, Integer> ingredientesOxido = new HashMap<>();
         ingredientesOxido.put(hierro, 7);
 
-        // Paso 3: Crear recetas
+        //Crear recetas
                 
         Receta recetaHachaDePiedra = new Receta(hachaDePiedra,ingredientesHachaDePiedra, 1, 5); // produce 1 hacha, tiempo 5
         Receta recetaOxido = new Receta(oxido,ingredientesOxido,1,2);
 
-        // Paso 4: Inicializar inventario y agregar algunos recursos
+        //Inicializar inventario y agregar algunos recursos
         Inventario inventario = new Inventario();
         inventario.agregarObjeto(madera, 10);
         inventario.agregarObjeto(piedra, 5);
         inventario.agregarObjeto(hierro, 4);
 
-        // Paso 5: Inicializar recetario y sistema de crafteo
+        //Inicializar recetario y sistema de crafteo
         Recetario recetario = new Recetario();
         recetario.agregarReceta(recetaHachaDePiedra);
         recetario.agregarReceta(recetaOxido);
 
         SistemaDeCrafteo sistema = new SistemaDeCrafteo(inventario, recetario);
+        System.out.println("=== Inventario Inicial ===");
+        System.out.println(inventario);
+        System.out.println("=== Recetario Inicial ===");
+        System.out.println(recetario);
+        
 
-        // Paso 6: Probar funcionalidades del sistema
-        Map<Objeto, Integer> ingredientes = null;
+        //funcionalidades del sistema
         System.out.println("=== Ingredientes necesarios para Hacha de Piedra ===");
-        ingredientes = sistema.ingredientesNecesarios(hachaDePiedra);
-        for (Map.Entry<Objeto, Integer> entry : ingredientes.entrySet()) {
-            System.out.println("- " + entry.getKey().getNombre() + ": " + entry.getValue());
-        }
+        Map<Objeto, Integer> ingredientes = sistema.ingredientesNecesarios(hachaDePiedra);
+        ingredientes.forEach((obj,cant)->System.out.println("- " + obj + ": " + cant));
         
         System.out.println("=== Ingredientes basicos necesarios para Hacha de Piedra ===");
         ingredientes = sistema.ingredientesBasicosNecesarios(hachaDePiedra);
-        for (Map.Entry<Objeto, Integer> entry : ingredientes.entrySet()) {
-            System.out.println("- " + entry.getKey().getNombre() + ": " + entry.getValue());
-        }
+        ingredientes.forEach((obj,cant)->System.out.println("- " + obj + ": " + cant));
         
         System.out.println("\n=== Pruebas de faltantes ===");
         
         // 1. Prueba ingredientesFaltantesParaCraftear
         System.out.println("\nIngredientes faltantes para Hacha de Piedra:");
         Map<Objeto, Integer> faltantes = sistema.ingredientesFaltantesParaCraftear(hachaDePiedra);
-        if (faltantes.isEmpty()) {
-            System.out.println("No faltan ingredientes directos!");
-        } else {
-            faltantes.forEach((obj, cant) -> 
-                System.out.println("- Faltan " + cant + " de " + obj.getNombre()));
-        }
+        if (faltantes.isEmpty())
+        	System.out.println("No faltan ingredientes directos!"); 
+        else
+        	faltantes.forEach((obj, cant) -> System.out.println("- Faltan " + cant + " de " + obj));        
         
         // 2. Prueba ingredientesBasicosFaltantesParaCraftear
         System.out.println("\nIngredientes básicos faltantes para Hacha de Piedra:");
         Map<Objeto, Integer> faltantesBasicos = sistema.ingredientesBasicosFaltantesParaCraftear(hachaDePiedra);
-        if (faltantesBasicos.isEmpty()) {
-            System.out.println("No faltan ingredientes básicos!");
-        } else {
-            faltantesBasicos.forEach((obj, cant) -> 
-            System.out.println("- Faltan " + cant + " unidades básicas de " + obj.getNombre()));
-        }
+        if (faltantesBasicos.isEmpty()) 
+        	System.out.println("No faltan ingredientes básicos!");
+        else 
+        	faltantesBasicos.forEach((obj, cant) -> System.out.println("- Faltan " + cant + " unidades básicas de " + obj));
         
         // 3. Prueba cantidadCrafteable
         System.out.println("\n=== Prueba de cantidad crafteable ===");
@@ -94,6 +90,7 @@ public class Main {
         // 4. Prueba después de agregar más recursos
         System.out.println("\n[Agregando 10 hierros más al inventario...]");
         inventario.agregarObjeto(hierro, 10);
+        System.out.println(inventario);
         
         System.out.println("\nNuevos valores después de agregar recursos:");
         System.out.println("Hachas de piedra crafteables ahora: " + sistema.cantidadCrafteable(hachaDePiedra));
@@ -101,28 +98,24 @@ public class Main {
         
         System.out.println("\nNuevos ingredientes básicos faltantes para Hacha de Piedra:");
         Map<Objeto, Integer> faltantesBasicos2 = sistema.ingredientesBasicosFaltantesParaCraftear(hachaDePiedra);
-        if (faltantesBasicos2.isEmpty()) {
+        if (faltantesBasicos2.isEmpty())
             System.out.println("No faltan ingredientes básicos!");
-        } else {
-    		faltantesBasicos2.forEach((obj, cant) -> 
-    		System.out.println("- " + obj.getNombre() + ": " + cant));
-        }
+        else
+    		faltantesBasicos2.forEach((obj, cant) -> System.out.println("- " + obj + ": " + cant));
+        
         try {
-            System.out.println("\n=== Intentando craftear 1x" +hachaDePiedra);
-            sistema.craftearObjeto(hachaDePiedra, 1);
+            System.out.println("\n=== Intentando craftear 1 unidad de " +hachaDePiedra);
+            System.out.println("Tiempo Total: "+sistema.craftearObjeto(hachaDePiedra, 1));
             
+            System.out.println("\n=== Historial de crfateo:");
+            sistema.getHistorial().forEach((registro)-> System.out.println(registro));
             
-            // Mostrar historial
-            System.out.println(sistema.getHistorial());
-            
-            // Mostrar inventario actualizado
-            System.out.println("\nInventario actual:");
-            inventario.getObjetos().forEach((obj, cant) -> 
-                System.out.println("- " + obj.getNombre() + ": " + cant));
+            System.out.println("\n=== Inventario final:");
+            inventario.getObjetos().forEach((obj, cant) -> System.out.println("- " + obj + ": " + cant));
          
             new InventarioGSON("res/inventario_salida.json").guardar(inventario.getObjetos());
         } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+            System.err.println("Error: " + e.getMessage());
         }
 
     }
