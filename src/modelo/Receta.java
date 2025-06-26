@@ -62,16 +62,16 @@ public class Receta {
 	        	Receta subReceta = recetario.buscarReceta(ingrediente);
 	        	Map<Objeto, Integer> subIngredientesBasicos = subReceta.getIngredientesBasicos(recetario);
 	        	
-	        	int batchesNeeded = cantidadRequerida / subReceta.getCantidadProducida();
+	        	int vecesReceta = cantidadRequerida / subReceta.getCantidadProducida();
 	        	if (cantidadRequerida % subReceta.getCantidadProducida() != 0) {
-                    batchesNeeded = (int) Math.ceil((double) cantidadRequerida / subReceta.getCantidadProducida());
+                    vecesReceta = Math.ceilDiv( cantidadRequerida, subReceta.getCantidadProducida());
                }
 
                 // Multiplicamos por la cantidad requerida y fusionamos
                 for (Map.Entry<Objeto, Integer> subElemento : subIngredientesBasicos.entrySet()) {
                     basicos.merge(
                         subElemento.getKey(),
-                        subElemento.getValue() * batchesNeeded,
+                        subElemento.getValue() * vecesReceta,
                         Integer::sum
                     );
                 }
