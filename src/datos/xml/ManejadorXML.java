@@ -32,7 +32,7 @@ public abstract class ManejadorXML<T> extends DefaultHandler {
 			SAXParser parser = factory.newSAXParser();
 			parser.parse(new File(rutaArchivo), this);
 			
-			System.out.println("Recetas leidas desde: ./" + rutaArchivo);
+			System.out.println("Archivo xml leidas desde: " + rutaArchivo);
 		} catch (SAXException e) { 
 			//System.err.println("Error de parseo SAX al cargar"); //si falla una carga contonua con las demas.
             throw e; // necesito volver a tirar la exeption.
@@ -70,7 +70,7 @@ public abstract class ManejadorXML<T> extends DefaultHandler {
             StreamResult result = new StreamResult(new File(rutaArchivo));
             transformer.transform(source, result);
             
-            System.out.println("Recetas guardadas en: ./" + rutaArchivo);
+            System.out.println("Archivo xml guardadas en: " + rutaArchivo);
             
         } catch (Exception e) {
             e.printStackTrace();

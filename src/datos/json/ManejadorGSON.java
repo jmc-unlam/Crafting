@@ -45,7 +45,6 @@ public abstract class ManejadorGSON<T> {
             }
             //Type listType = new TypeToken<T>() {}.getType();
             datos = gson.fromJson(reader, listType);
-            System.out.println("Recetas leidas desde: ./" + rutaArchivo);
         } catch (IOException e) {
         	//si esto pasa devolvera una lista vacia.
             //System.err.println("Archivo de recetas no encontrado o error de lectura: " + rutaArchivo + ". Se carga una lista vacía.");
@@ -56,10 +55,13 @@ public abstract class ManejadorGSON<T> {
     public void guardarJSON(T datosAGuardar) {
         try (FileWriter writer = new FileWriter(rutaArchivo)) {
             gson.toJson(datosAGuardar, writer);
-            System.out.println("Recetas guardadas en: ./" + rutaArchivo);
         } catch (IOException e) {
             System.err.println("Error al guardar recetas en JSON: " + e.getMessage());
             e.printStackTrace();
         }
     }
+
+	public String getRutaArchivo() {
+		return new String(rutaArchivo);
+	}
 }
