@@ -19,6 +19,7 @@ public class InventarioGSON extends ManejadorGSON<List<InventarioSerializable>> 
 
 	public Map<Objeto,Integer> cargar() {
 		super.cargarJSON();
+		System.out.println("Inventario leidas desde: " + super.getRutaArchivo());
 		Map<Objeto, Integer> objetos = new HashMap<>();
         for (InventarioSerializable entry : datos) {
             objetos.put(entry.getObjeto(), entry.getCantidad());
@@ -33,6 +34,7 @@ public class InventarioGSON extends ManejadorGSON<List<InventarioSerializable>> 
 			objetosJSON.add(new InventarioSerializable(obj.getKey(),obj.getValue()));
 		}
 		super.guardarJSON(objetosJSON);
+		System.out.println("Inventario guardadas en: " + super.getRutaArchivo());
 	}
 
 }
