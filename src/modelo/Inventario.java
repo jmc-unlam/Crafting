@@ -79,7 +79,6 @@ public class Inventario {
 	        Objeto ingrediente = entry.getKey();
 	        int cantidadNecesaria = entry.getValue();
 
-	        // Calculamos cuánto tenemos disponible (incluyendo desglose de intermedios)
 	        int disponible = getCantidadBasico(ingrediente, recetario);
 
 	        if (disponible < cantidadNecesaria) {
@@ -96,33 +95,27 @@ public class Inventario {
 	public int getCantidadBasico(Objeto objeto, Recetario recetario) {
         if (objeto.esBasico()) {
             return getCantidad(objeto);
+        } else {
+	        Receta receta = recetario.buscarReceta(objeto);
+	        
+	        int cantidadTotalDisponible = getCantidad(objeto);
+	        int numLotesCrafteables = Integer.MAX_VALUE;
+	
+	        for (Map.Entry<Objeto, Integer> entry : receta.getIngredientes().entrySet()) {
+	            Objeto ingrediente = entry.getKey();
+	            int cantidadNecesariaDelIngrediente = entry.getValue();
+	            int cantidadDisponibleDelIngrediente = getCantidadBasico(ingrediente, recetario);
+	
+	            int lotesPosibles = cantidadDisponibleDelIngrediente / cantidadNecesariaDelIngrediente;
+	            
+	            // Nos quedamos con el mínimo, ya que estamos limitados por el ingrediente más escaso
+	            numLotesCrafteables = Math.min(numLotesCrafteables, lotesPosibles);
+	        }
+	
+	        cantidadTotalDisponible += numLotesCrafteables * receta.getCantidadProducida();
+	
+	        return cantidadTotalDisponible;
         }
-
-        int cantidadTotalDisponible = getCantidad(objeto);
-
-        try {
-            Receta receta = recetario.buscarReceta(objeto);
-            
-            int numLotesCrafteables = Integer.MAX_VALUE;
-
-            for (Map.Entry<Objeto, Integer> entry : receta.getIngredientes().entrySet()) {
-                Objeto ingrediente = entry.getKey();
-                int cantidadNecesariaDelIngrediente = entry.getValue();
-                int cantidadDisponibleDelIngrediente = getCantidadBasico(ingrediente, recetario);
-
-                int lotesPosiblesPorIngrediente = cantidadDisponibleDelIngrediente / cantidadNecesariaDelIngrediente;
-                
-                // Nos quedamos con el mínimo, ya que estamos limitados por el ingrediente más escaso
-                numLotesCrafteables = Math.min(numLotesCrafteables, lotesPosiblesPorIngrediente);
-            }
-
-            cantidadTotalDisponible += numLotesCrafteables * receta.getCantidadProducida();
-            
-        } catch (NoSuchElementException e) {
-        	throw new IllegalArgumentException("El objeto no tiene receta:"+ objeto);
-        }
-        
-        return cantidadTotalDisponible;
 	}
 	
 	//*****Implementacion Recetas Alternativas*************
@@ -133,7 +126,6 @@ public class Inventario {
 	        Objeto ingrediente = entry.getKey();
 	        int cantidadNecesaria = entry.getValue();
 
-	        // Calculamos cuánto tenemos disponible (incluyendo desglose de intermedios)
 	        int disponible = getCantidadBasico(ingrediente,recetario,indiceReceta);
 
 	        if (disponible < cantidadNecesaria) {
@@ -144,33 +136,28 @@ public class Inventario {
 	}
 	
 	public int getCantidadBasico(Objeto objeto, Recetario recetario, int indiceReceta) {
-		// Condición de corte: si es básico, devuelve la cantidad directa
 	    if (objeto.esBasico()) {
 	        return getCantidad(objeto);
 	    } else { 
-	        // Llamada recursiva para objetos compuestos
 	    	List<Receta> recetas = recetario.buscarRecetas(objeto);
-	        if (recetas == null) {
-	            throw new IllegalArgumentException("No se encontró una receta para el objeto intermedio: " + objeto.getNombre());
-	        }
 	        
-	        // Obtenemos cuántas unidades podemos craftear del objeto compuesto
-	        int cantidadDirecta = getCantidad(objeto);
-	        Map<Objeto, Integer> ingredientes = recetas.get(indiceReceta).getIngredientes();
-	        
-	        // Calculamos cuántas unidades adicionales podríamos craftear
-	        int maxCrafteable = Integer.MAX_VALUE;
-	        
-	        for (Map.Entry<Objeto, Integer> entry : ingredientes.entrySet()) {
+	        int cantidadTotalDisponible = getCantidad(objeto);
+	        int numLotesCrafteables = Integer.MAX_VALUE;
+
+	        for (Map.Entry<Objeto, Integer> entry : recetas.get(indiceReceta).getIngredientes().entrySet()) {
 	            Objeto ingrediente = entry.getKey();
-	            int cantidadNecesaria = entry.getValue();
-	            int cantidadDisponible = getCantidadBasico(ingrediente, recetario); // Llamada recursiva
+	            int cantidadNecesariaDelIngrediente = entry.getValue();
+	            int cantidadDisponibleDelIngrediente = getCantidadBasico(ingrediente, recetario);
+
+	            int lotesPosibles = cantidadDisponibleDelIngrediente / cantidadNecesariaDelIngrediente;
 	            
-	            maxCrafteable = Math.min(maxCrafteable, cantidadDisponible / cantidadNecesaria);
+	            // Nos quedamos con el mínimo, ya que estamos limitados por el ingrediente más escaso
+	            numLotesCrafteables = Math.min(numLotesCrafteables, lotesPosibles);
 	        }
-	        
-	        // Sumamos lo que tenemos directamente más lo que podemos craftear
-	        return cantidadDirecta + maxCrafteable;
+
+	        cantidadTotalDisponible += numLotesCrafteables * recetas.get(indiceReceta).getCantidadProducida();
+
+	        return cantidadTotalDisponible;
 	    }
 	}
 	
@@ -211,8 +198,7 @@ public class Inventario {
     public String toString() {
         StringBuilder sb = new StringBuilder("=== Inventario ===\n");
         for (Map.Entry<Objeto,Integer> entry : objetos.entrySet()) {
-            sb.append(entry.toString()) 
-                    .append("\n");
+            sb.append(entry).append("\n");
         }
         return sb.toString();
     }
