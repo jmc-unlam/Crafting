@@ -6,9 +6,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -25,11 +22,8 @@ import modelo.Objeto;
 import modelo.ObjetoBasico;
 import modelo.ObjetoIntermedio;
 import modelo.Receta;
-import modelo.Recetario;
 import modelo.Inventario;
 import modelo.MesaDeHierro;
-import modelo.MesaDePiedra;
-import modelo.MesaDeTrabajo;
 
 class InventarioGSONTest {
     private static final String TEST_DIR = "target/test-temp/";
@@ -40,9 +34,10 @@ class InventarioGSONTest {
     private static final String INVENTARIO_DESCONOCIDO_JSON = TEST_DIR + "inventario_desconocido.json";
     private static final String INVENTARIO_VACIO_SALIDA_JSON = TEST_DIR + "inventario_vacio_salida.json";
     private static final String INVENTARIO_MIXTO_SALIDA_JSON = TEST_DIR + "inventario_mixto_salida.json";
+    private static final String INVENTARIO_CON_MESA_DE_HIERRO = TEST_DIR + "inventario_mesa_hierro_salida.json";
 
     @BeforeEach
-    void setUp() throws Exception {
+    void setUp() throws IOException {
         Files.createDirectories(Path.of(TEST_DIR));
 
         try (FileWriter writer = new FileWriter(INVENTARIO_VACIO_JSON)) {
@@ -117,6 +112,35 @@ class InventarioGSONTest {
                     "  }\n" +
                     "]");
         }
+        
+        try (FileWriter writer = new FileWriter(INVENTARIO_CON_MESA_DE_HIERRO)) {
+            writer.write("[\n" +
+                    "  {\n" +
+                    "    \"objeto\": {\n" +
+                    "      \"tipo\": \"basico\",\n" +
+                    "      \"nombre\": \"madera\"\n" +
+                    "    },\n" +
+                    "    \"cantidad\": 10\n" +
+                    "  },\n" +
+                    "  {\n" +
+                    "    \"objeto\": {\n" +
+                    "      \"tipo\": \"mesa\",\n" +
+                    "      \"nombre\": \"mesa de hierro\",\n" +
+                    "      \"recetasDesbloqueadas\": [\n" +
+                    "        {\n" +
+                    "          \"objetoProducido\": { \"tipo\": \"intermedio\", \"nombre\": \"palo\" },\n" +
+                    "          \"ingredientes\": [\n" +
+                    "            { \"objeto\": { \"tipo\": \"basico\", \"nombre\": \"madera\" }, \"cantidad\": 2 }\n" +
+                    "          ],\n" +
+                    "          \"cantidadProducida\": 4,\n" +
+                    "          \"tiempoBase\": 10\n" +
+                    "        }\n" +
+                    "      ]\n" +
+                    "    },\n" +
+                    "    \"cantidad\": 1\n" +
+                    "  }\n" +
+                    "]");
+        }
     }
 
     @AfterEach
@@ -128,24 +152,8 @@ class InventarioGSONTest {
         Files.deleteIfExists(Path.of(INVENTARIO_DESCONOCIDO_JSON));
         Files.deleteIfExists(Path.of(INVENTARIO_VACIO_SALIDA_JSON));
         Files.deleteIfExists(Path.of(INVENTARIO_MIXTO_SALIDA_JSON));
+        Files.deleteIfExists(Path.of(INVENTARIO_CON_MESA_DE_HIERRO));
         Files.deleteIfExists(Path.of(TEST_DIR));
-    }
-    
-    // Helper to compare recipes (deep equality)
-    private boolean areRecipesEqual(Receta r1, Receta r2) {
-        if (!r1.getObjetoProducido().equals(r2.getObjetoProducido())) return false;
-        if (r1.getCantidadProducida() != r2.getCantidadProducida()) return false;
-        if (r1.getTiempoBase() != r2.getTiempoBase()) return false;
-        if (r1.getIngredientes().size() != r2.getIngredientes().size()) return false;
-
-        for (Map.Entry<Objeto, Integer> entry : r1.getIngredientes().entrySet()) {
-            Objeto ing1 = entry.getKey();
-            int qty1 = entry.getValue();
-            if (!r2.getIngredientes().containsKey(ing1) || r2.getIngredientes().get(ing1) != qty1) {
-                return false;
-            }
-        }
-        return true;
     }
 
     @Test
@@ -233,44 +241,13 @@ class InventarioGSONTest {
     @Test
     void cargarInventarioConArchivoInvalidoEsVacio() {
         Map<Objeto, Integer> objetos = new InventarioGSON("null").cargar();
+        assertNotNull(objetos);
         assertTrue(objetos.isEmpty());
     }
     
     @Test
     void cargarInventarioConMesaDeTrabajo() throws Exception {
-        String json = "[\n" +
-                "  {\n" +
-                "    \"objeto\": {\n" +
-                "      \"tipo\": \"basico\",\n" +
-                "      \"nombre\": \"madera\"\n" +
-                "    },\n" +
-                "    \"cantidad\": 10\n" +
-                "  },\n" +
-                "  {\n" +
-                "    \"objeto\": {\n" +
-                "      \"tipo\": \"mesa\",\n" +
-                "      \"nombre\": \"mesa de hierro\",\n" +
-                "      \"recetasDesbloqueadas\": [\n" +
-                "        {\n" +
-                "          \"objetoProducido\": { \"tipo\": \"intermedio\", \"nombre\": \"palo\" },\n" +
-                "          \"ingredientes\": [\n" +
-                "            { \"objeto\": { \"tipo\": \"basico\", \"nombre\": \"madera\" }, \"cantidad\": 2 }\n" +
-                "          ],\n" +
-                "          \"cantidadProducida\": 4,\n" +
-                "          \"tiempoBase\": 10\n" +
-                "        }\n" +
-                "      ]\n" +
-                "    },\n" +
-                "    \"cantidad\": 1\n" +
-                "  }\n" +
-                "]";
-
-        Path testFile = Paths.get(INVENTARIO_MIXTO_JSON);
-        try (FileWriter writer = new FileWriter(testFile.toString())) {
-            writer.write(json);
-        }
-
-        Map<Objeto, Integer> objetos = new InventarioGSON(testFile.toString()).cargar();
+        Map<Objeto, Integer> objetos = new InventarioGSON(INVENTARIO_CON_MESA_DE_HIERRO).cargar();
         assertNotNull(objetos);
         assertEquals(2, objetos.size());
 
@@ -339,7 +316,7 @@ class InventarioGSONTest {
                 MesaDeHierro mesaLeida = (MesaDeHierro) obj;
                 List<Receta> recetas = mesaLeida.getRecetasDesbloqueadas();
                 assertEquals(1, recetas.size());
-                assertTrue(areRecipesEqual(receta, recetas.get(0)));
+                assertTrue(receta.equals(recetas.get(0)));
                 encontrada = true;
             }
         }
@@ -374,7 +351,7 @@ class InventarioGSONTest {
                 MesaDeHierro mesaCargada = (MesaDeHierro) obj;
                 List<Receta> recetas = mesaCargada.getRecetasDesbloqueadas();
                 assertEquals(1, recetas.size());
-                assertTrue(areRecipesEqual(receta, recetas.get(0)));
+                assertTrue(receta.equals(recetas.get(0)));
                 encontrada = true;
             }
         }
