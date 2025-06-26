@@ -83,7 +83,7 @@ public class Receta {
 	@Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Objeto producido: ").append(objetoProducido.toString()).append("\n");
+        sb.append("Objeto producido: ").append(objetoProducido).append("\n");
         sb.append("Cantidad producida: ").append(cantidadProducida).append("\n");
         sb.append("Tiempo de crafteo: ").append(tiempoBase).append("\n");
         sb.append("Ingredientes:\n");
@@ -91,9 +91,8 @@ public class Receta {
         for (Map.Entry<Objeto, Integer> entry : ingredientes.entrySet()) {
             Objeto obj = entry.getKey();
             int cantidad = entry.getValue();
-            sb.append("    - ").append(obj.toString()).append(" x ").append(cantidad).append("\n");
+            sb.append("    - ").append(obj).append(" x ").append(cantidad).append("\n");
         }
-
         return sb.toString();
     }
 }
