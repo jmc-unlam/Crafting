@@ -2,21 +2,21 @@
   {
     "objeto": {
       "tipo": "intermedio",
-      "nombre": "Hacha de Piedra"
+      "nombre": "hacha de piedra"
     },
     "cantidad": 1
   },
   {
     "objeto": {
       "tipo": "basico",
-      "nombre": "Madera"
+      "nombre": "madera"
     },
     "cantidad": 8
   },
   {
     "objeto": {
       "tipo": "basico",
-      "nombre": "Piedra"
+      "nombre": "piedra"
     },
     "cantidad": 2
   }
