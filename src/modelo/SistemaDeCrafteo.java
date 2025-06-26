@@ -1,5 +1,6 @@
 package modelo;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -92,31 +93,33 @@ public class SistemaDeCrafteo {
         }
         
 
-        // Calcular tiempo total (empezando con el tiempo de este crafteo)
-        int tiempoTotal = receta.getTiempoBase() * cantACraftear / receta.getCantidadProducida();
+        //cuantos lotes de la receta necesitamos ejecutar.
+        int vecesReceta = Math.ceilDiv(cantACraftear, receta.getCantidadProducida());
 
-        // Procesar ingredientes recursivamente
+        int cantidadProducida = vecesReceta * receta.getCantidadProducida();
+
+        int tiempoTotal = receta.getTiempoBase() * vecesReceta;
+
+        //Procesar y craftear sub-ingredientes
         for (Map.Entry<Objeto, Integer> entry : receta.getIngredientes().entrySet()) {
             Objeto ingrediente = entry.getKey();
-            int cantidadNecesaria = entry.getValue() * cantACraftear;
+            int cantidadNecesaria = entry.getValue() * vecesReceta;
 
             if (!ingrediente.esBasico()) {
                 int cantidadExistente = inventario.getCantidad(ingrediente);
-                int cantidadAFabricar = Math.max(0, cantidadNecesaria - cantidadExistente);
+                int cantidadFaltante = cantidadNecesaria - cantidadExistente;
 
-                if (cantidadAFabricar > 0) {
-                    tiempoTotal += craftearObjeto(ingrediente, cantidadAFabricar);
+                if (cantidadFaltante > 0) {
+                    tiempoTotal += craftearObjeto(ingrediente, cantidadFaltante);
                 }
             }
-
             inventario.removerObjeto(ingrediente, cantidadNecesaria);
         }
 
-        // Agregar al inventario y registrar en historial
-        int cantidadProducida = cantACraftear * receta.getCantidadProducida();
+        //Agregar el objeto crafteado al inventario.
         inventario.agregarObjeto(objeto, cantidadProducida);
-        
-        // Registrar en el historial
+
+        //Registrar el crafteo en el historial.
         historial.agregarRegistro(objeto, cantidadProducida, tiempoTotal);
 
         return tiempoTotal;
@@ -197,29 +200,30 @@ public class SistemaDeCrafteo {
             throw new IllegalStateException("No existe receta para craftear " + objeto.getNombre());
         }
         
+        //cuantos lotes de la receta necesitamos ejecutar.
+        int vecesReceta = Math.ceilDiv(cantACraftear, recetas.get(indiceReceta).getCantidadProducida());
 
-        // Calcular tiempo total (empezando con el tiempo de este crafteo)
-        int tiempoTotal = recetas.get(indiceReceta).getTiempoBase() * cantACraftear / recetas.get(indiceReceta).getCantidadProducida();
+        int cantidadProducida = vecesReceta * recetas.get(indiceReceta).getCantidadProducida();
 
-        // Procesar ingredientes recursivamente
+        int tiempoTotal = recetas.get(indiceReceta).getTiempoBase() * vecesReceta;
+        
+        //Procesar ingredientes recursivamente
         for (Map.Entry<Objeto, Integer> entry : recetas.get(indiceReceta).getIngredientes().entrySet()) {
             Objeto ingrediente = entry.getKey();
-            int cantidadNecesaria = entry.getValue() * cantACraftear;
+            int cantidadNecesaria = entry.getValue() * vecesReceta;
 
             if (!ingrediente.esBasico()) {
                 int cantidadExistente = inventario.getCantidad(ingrediente);
-                int cantidadAFabricar = Math.max(0, cantidadNecesaria - cantidadExistente);
+                int cantidadFaltante = cantidadNecesaria - cantidadExistente;
 
-                if (cantidadAFabricar > 0) {
-                    tiempoTotal += craftearObjeto(ingrediente, cantidadAFabricar);
+                if (cantidadFaltante > 0) {
+                    tiempoTotal += craftearObjeto(ingrediente, cantidadFaltante);
                 }
             }
-
             inventario.removerObjeto(ingrediente, cantidadNecesaria);
         }
 
         // Agregar al inventario y registrar en historial
-        int cantidadProducida = cantACraftear * recetas.get(indiceReceta).getCantidadProducida();
         inventario.agregarObjeto(objeto, cantidadProducida);
         
         // Registrar en el historial
