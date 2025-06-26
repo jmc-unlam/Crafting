@@ -1,6 +1,5 @@
 package modelo;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -81,15 +80,15 @@ public class SistemaDeCrafteo {
     	// Verificar si es posible craftear la cantidad solicitada
         int maxCrafteable = cantidadCrafteable(objeto);
         if (maxCrafteable < cantACraftear) {
-            throw new IllegalStateException("No hay suficientes materiales para craftear " + cantACraftear + " " + objeto.getNombre());
+            throw new IllegalStateException("No hay suficientes materiales para craftear " + cantACraftear + " " + objeto);
         }
         if (objeto.esBasico()) {
-            throw new UnsupportedOperationException("No se puede craftear un objeto básico: " + objeto.getNombre());
+            throw new UnsupportedOperationException("No se puede craftear un objeto básico: " + objeto);
         }
                 
         Receta receta = recetario.buscarReceta(objeto);
         if (receta == null) {
-            throw new IllegalStateException("No existe receta para craftear " + objeto.getNombre());
+            throw new IllegalStateException("No existe receta para craftear " + objeto);
         }
         
 
@@ -189,15 +188,15 @@ public class SistemaDeCrafteo {
     	// Verificar si es posible craftear la cantidad solicitada
         int maxCrafteable = cantidadCrafteable(objeto);
         if (maxCrafteable < cantACraftear) {
-            throw new IllegalStateException("No hay suficientes materiales para craftear " + cantACraftear + " " + objeto.getNombre());
+            throw new IllegalStateException("No hay suficientes materiales para craftear " + cantACraftear + " " + objeto);
         }
         if (objeto.esBasico()) {
-            throw new UnsupportedOperationException("No se puede craftear un objeto básico: " + objeto.getNombre());
+            throw new UnsupportedOperationException("No se puede craftear un objeto básico: " + objeto);
         }
                 
         List<Receta> recetas = recetario.buscarRecetas(objeto);
         if (recetas == null) {
-            throw new IllegalStateException("No existe receta para craftear " + objeto.getNombre());
+            throw new IllegalStateException("No existe receta para craftear " + objeto);
         }
         
         //cuantos lotes de la receta necesitamos ejecutar.
