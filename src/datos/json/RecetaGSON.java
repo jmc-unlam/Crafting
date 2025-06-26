@@ -17,6 +17,7 @@ public class RecetaGSON extends ManejadorGSON<List<RecetaSerializable>> {
 
 	public List<Receta> cargar() {
 		super.cargarJSON();
+		System.out.println("Receta leidas desde: " + super.getRutaArchivo());
 		List<Receta> recetas = new ArrayList<>();
         for (RecetaSerializable recetaJson : datos) {
         	Receta recetaConvertida = recetaJson.toReceta();
@@ -31,6 +32,7 @@ public class RecetaGSON extends ManejadorGSON<List<RecetaSerializable>> {
 	    	recetasJSON.add(RecetaSerializable.fromReceta(receta));
 	    }
 	    super.guardarJSON(recetasJSON);
+	    System.out.println("Receta guardadas en: " + super.getRutaArchivo());
 	}
 
 }

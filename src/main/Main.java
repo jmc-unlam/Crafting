@@ -1,7 +1,6 @@
 package main;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import datos.json.InventarioGSON;
@@ -11,7 +10,6 @@ import modelo.ObjetoBasico;
 import modelo.ObjetoIntermedio;
 import modelo.Receta;
 import modelo.Recetario;
-import modelo.RegistroCrafteo;
 import modelo.SistemaDeCrafteo;
 
 public class Main {

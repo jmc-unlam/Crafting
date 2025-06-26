@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import modelo.Objeto;
-import modelo.ObjetoIntermedio;
 import modelo.Receta;
 
 public class RecetaSerializable {
@@ -65,16 +64,13 @@ public class RecetaSerializable {
                 ingredientesMap.put(ingJson.getObjeto(), ingJson.getCantidad());
             }
         }
-        // Aquí necesitas un casting seguro si tu clase de dominio Receta espera ObjetoIntermedio
-        // Asegúrate de que objetoProducido sea de hecho un ObjetoIntermedio
         if (this.objetoProducido.esBasico()) {
-            // Manejar error o lanzar excepción si el tipo no es el esperado
-            throw new IllegalStateException("El objeto producido no es un ObjetoIntermedio como se esperaba en Receta.");
+            throw new IllegalStateException("El objeto producido no es crafteable como se esperaba en Receta.");
         }
         return new Receta(this.objetoProducido, ingredientesMap, this.cantidadProducida, this.tiempoBase);
     }
 
-    // Método estático para convertir Receta de dominio a RecetaJSON (para serialización)
+    // Método estático para convertir Receta a RecetaSerializable
     public static RecetaSerializable fromReceta(Receta receta) {
         List<InventarioSerializable> ingredientesJsonList = new ArrayList<>();
         for (Map.Entry<Objeto, Integer> entry : receta.getIngredientes().entrySet()) {

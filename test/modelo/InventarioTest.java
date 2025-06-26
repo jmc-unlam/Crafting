@@ -3,7 +3,6 @@ package modelo;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -139,9 +138,6 @@ class InventarioTest {
         Map<Objeto, Integer> ingredientesMesa = new HashMap<>();
         ingredientesMesa.put(madera, 3);
         ingredientesMesa.put(hierro, 2);
-        Receta recetaMesa = new Receta(mesa, ingredientesMesa, 1, 10);
-        
-        //when(recetario.buscarReceta(mesa)).thenReturn(recetaMesa);
         
         Map<Objeto, Integer> requeridos = new HashMap<>();
         requeridos.put(hierro, 2);
