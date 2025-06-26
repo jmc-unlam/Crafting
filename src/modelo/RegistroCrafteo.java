@@ -9,7 +9,6 @@ public class RegistroCrafteo {
     private int turno; // Número de turno de crafteo
     private final int tiempoTotal;
 
-    // Constructor
     public RegistroCrafteo(Objeto objetoCrafteado, int cantidadCrafteada, int tiempoTotal) {
         if (objetoCrafteado == null) {
             throw new IllegalArgumentException("El objeto crafteado no puede ser nulo");
@@ -27,17 +26,14 @@ public class RegistroCrafteo {
         this.tiempoTotal = tiempoTotal;
     }
 
-    // Getter para el objeto crafteado
     public Objeto getObjetoCrafteado() {
         return objetoCrafteado;
     }
 
-    // Getter para la cantidad crafteada
     public int getCantidadCrafteada() {
         return cantidadCrafteada;
     }
 
-    // Getter para el turno
     public int getTurno() {
         return turno;
     }
@@ -49,15 +45,14 @@ public class RegistroCrafteo {
     @Override
     public String toString() {
     	StringBuilder sb = new StringBuilder();
-    	sb.append("Turno ").append(turno)
-    	  .append(" - ").append(objetoCrafteado.toString())
-    	  .append(": ").append(cantidadCrafteada)
-    	  .append(" unidades (Tiempo: ").append(tiempoTotal).append(")");
+    	sb.append("Turno:").append(turno).append("\n");
+    	sb.append("\t").append("objeto creado->").append(objetoCrafteado).append("\n");
+    	sb.append("\t").append("cantidad creada: ").append(cantidadCrafteada).append("\n");
+    	sb.append("\t").append("tiempo total: ").append(tiempoTotal).append("\n");
     	return sb.toString();
     }
 
 	public static void reiniciarContador() {
 		contadorTurnos = 1; 
-		
 	}
 }
