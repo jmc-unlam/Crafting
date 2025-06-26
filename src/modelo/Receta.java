@@ -2,6 +2,7 @@ package modelo;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class Receta {
 	private Objeto objetoProducido;
@@ -95,4 +96,22 @@ public class Receta {
         }
         return sb.toString();
     }
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(cantidadProducida, ingredientes, objetoProducido, tiempoBase);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (!(obj instanceof Receta)) {
+			return false;
+		}
+		Receta other = (Receta) obj;
+		return cantidadProducida == other.cantidadProducida && Objects.equals(ingredientes, other.ingredientes)
+				&& Objects.equals(objetoProducido, other.objetoProducido) && tiempoBase == other.tiempoBase;
+	}
 }
