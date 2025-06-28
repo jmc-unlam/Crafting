@@ -28,7 +28,6 @@ jobs:
         java-version: '21'
         distribution: 'temurin'
         cache: maven
-				  
     - name: Build with Maven # Este paso compila el código
       run: mvn -B compile --file pom.xml # Cambiado de 'package' a 'compile' para separar fases
                                         # Esto solo compila el código fuente principal.
