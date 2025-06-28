@@ -1,0 +1,17 @@
+[
+  {
+    "objetoProducido": {"nombre": "mesa de fundicion","tipo": "mesa de fundicion"},
+    "ingredientes": [
+      {
+		  "objeto": {"nombre": "madera", "tipo": "basico" }, 
+		  "cantidad": 10 
+	  },
+      {
+		  "objeto": {"nombre": "ladrillo", "tipo": "basico" }, 
+		  "cantidad": 20 
+	  }
+    ],
+    "cantidadProducida": 1,
+    "tiempoBase": 30
+  }
+]

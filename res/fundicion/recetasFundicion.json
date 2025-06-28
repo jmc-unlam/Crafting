@@ -1,0 +1,62 @@
+[
+  {
+	"objetoProducido": {"nombre": "lingote de hierro", "tipo": "intermedio"},
+	"ingredientes": [
+	  {"objeto": {"nombre": "mineral de hierro", "tipo": "basico"}, "cantidad": 7}
+	],
+	"cantidadProducida": 1,
+	"tiempoBase": 10,
+	"mesaRequerida": {
+      "tipo": "mesa de fundicion",
+      "nombre": "mesa de fundicion"
+    }
+  },
+  {
+	"objetoProducido": {"nombre": "lingote de cobre", "tipo": "intermedio"},
+	"ingredientes": [
+	  {"objeto": {"nombre": "mineral de cobre", "tipo": "basico"}, "cantidad": 3}
+	],
+	"cantidadProducida": 1,
+	"tiempoBase": 10,
+	"mesaRequerida": {
+      "tipo": "mesa de fundicion",
+      "nombre": "mesa de fundicion"
+    }
+  },
+  {
+	"objetoProducido": {"nombre": "lingote de estano", "tipo": "intermedio"},
+	"ingredientes": [
+	  {"objeto": {"nombre": "mineral de estano", "tipo": "basico"}, "cantidad": 4}
+	],
+	"cantidadProducida": 1,
+	"tiempoBase": 5,
+	"mesaRequerida": {
+      "tipo": "mesa de fundicion",
+      "nombre": "mesa de fundicion"
+    }
+  },
+  {
+	"objetoProducido": {"nombre": "lingote de plata", "tipo": "intermedio"},
+	"ingredientes": [
+	  {"objeto": {"nombre": "mineral de plata", "tipo": "basico"}, "cantidad": 3}
+	],
+	"cantidadProducida": 1,
+	"tiempoBase": 10,
+	"mesaRequerida": {
+      "tipo": "mesa de fundicion",
+      "nombre": "mesa de fundicion"
+    }
+  },
+  {
+	"objetoProducido": {"nombre": "lingote de oro", "tipo": "intermedio"},
+	"ingredientes": [
+	  {"objeto": {"nombre": "mineral de oro", "tipo": "basico"}, "cantidad": 3}
+	],
+	"cantidadProducida": 1,
+	"tiempoBase": 5,
+	"mesaRequerida": {
+      "tipo": "mesa de fundicion",
+      "nombre": "mesa de fundicion"
+    }
+  }
+]

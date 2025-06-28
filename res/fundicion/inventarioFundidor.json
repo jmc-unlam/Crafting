@@ -1,0 +1,10 @@
+[
+  {
+    "objeto": { "nombre": "madera", "tipo": "basico" },
+    "cantidad": 10
+  },
+  {
+    "objeto": { "nombre": "ladrillo", "tipo": "basico" },
+    "cantidad": 20
+  }
+]
