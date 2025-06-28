@@ -26,13 +26,6 @@ public class Inventario {
             this.agregarObjeto(entry.getKey(), entry.getValue());
         }
     }
-    
-//    public Inventario(Map<Objeto, Integer> objetosIniciales, Recetario recetario) {
-//    	this.objetos = new HashMap<>();
-//    	for (Map.Entry<Objeto, Integer> entry : objetosIniciales.entrySet()) {
-//            this.agregarObjeto(entry.getKey(), entry.getValue(), recetario);
-//        }
-//    }
 
     public void agregarObjeto(Objeto objeto, int cantidad) {
         if (cantidad <= 0) {
@@ -180,37 +173,6 @@ public class Inventario {
 	}
 	
 	//*****Implementacion Mesas de Trabajo*************
-//	public void agregarObjeto(Objeto objeto, int cantidad, Recetario recetario) {
-//        if (cantidad <= 0) {
-//            throw new IllegalArgumentException("La cantidad debe ser positiva");
-//        }
-//        if (!objeto.esApilable()) { // Aquí usamos polimorfismo con esApilable()
-//            if (objetos.containsKey(objeto)) {
-//                throw new IllegalArgumentException("El objeto  no es apilable:" + objeto);
-//            }
-//        }
-//        objeto.activar(recetario);
-//        objetos.merge(objeto, cantidad, Integer::sum);
-//    }
-//	
-//	public void removerObjeto(Objeto objeto, int cantidad, Recetario recetario) {
-//    	if (cantidad <= 0) {
-//            throw new IllegalArgumentException("La cantidad a remover debe ser positiva");
-//        }
-//        
-//        int cantidadActual = objetos.getOrDefault(objeto, 0);
-//        if (cantidadActual < cantidad) {
-//            throw new IllegalArgumentException("No hay suficiente cantidad del objeto en el inventario.");
-//        }
-//        
-//        int nuevaCantidad = cantidadActual - cantidad;
-//        if (nuevaCantidad == 0) {
-//        	objeto.desactivar(recetario);
-//            objetos.remove(objeto); // Eliminar completamente si llega a cero
-//        } else {
-//            objetos.put(objeto, nuevaCantidad);
-//        }
-//    }
 	
 	public boolean tieneMesa (MesaDeTrabajo mesa) {
 		return (mesa == null)? true : objetos.containsKey(mesa);
@@ -224,6 +186,8 @@ public class Inventario {
         }
         return sb.toString();
     }
+	
+	//*****Implementacion Prolog*************
 	
 	public void prologGenerarInventario() {
 		// Ruta relativa al archivo dentro del proyecto
