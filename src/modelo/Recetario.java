@@ -100,4 +100,8 @@ public class Recetario {
 			this.removerReceta(receta);
 		}
 	}
+
+	public Map<Objeto, List<Receta>> getRecetasPorObjeto() {
+		return new HashMap<>(this.recetasPorObjeto);
+	}
 }
