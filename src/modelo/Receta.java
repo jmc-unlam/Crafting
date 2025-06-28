@@ -9,6 +9,7 @@ public class Receta {
     private Map<Objeto, Integer> ingredientes;
     private int cantidadProducida;
     private int tiempoBase;
+    private MesaDeTrabajo mesaRequerida;
 
     public Receta(Objeto objetoProducido, Map<Objeto, Integer> ingredientes, int cantidadProducida,
 			int tiempoBase) {
@@ -16,6 +17,15 @@ public class Receta {
 		this.ingredientes = ingredientes;
 		this.cantidadProducida = cantidadProducida;
 		this.tiempoBase = tiempoBase;
+	}
+    
+    public Receta(Objeto objetoProducido, Map<Objeto, Integer> ingredientes, int cantidadProducida,
+			int tiempoBase, MesaDeTrabajo mesa) {
+		this.objetoProducido = objetoProducido;
+		this.ingredientes = ingredientes;
+		this.cantidadProducida = cantidadProducida;
+		this.tiempoBase = tiempoBase;
+		this.mesaRequerida = mesa;
 	}
 
     public int getCantidadProducida() {
@@ -28,6 +38,10 @@ public class Receta {
     
 	public Objeto getObjetoProducido() {
 		return objetoProducido;
+	}
+	
+	public MesaDeTrabajo getMesaRequerida() {
+		return mesaRequerida;
 	}
 
 	public int calcularTiempoTotal(Recetario recetario) {

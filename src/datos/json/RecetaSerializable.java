@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import modelo.MesaDeTrabajo;
 import modelo.Objeto;
 import modelo.Receta;
 
@@ -14,15 +15,17 @@ public class RecetaSerializable {
 	private List<InventarioSerializable> ingredientes;
 	private int cantidadProducida;
 	private int tiempoBase;
+	private MesaDeTrabajo mesaRequerida;
 
 	public RecetaSerializable() {}
-
+	
 	public RecetaSerializable(Objeto objetoProducido, List<InventarioSerializable> ingredientes, int cantidadProducida,
-			int tiempoBase) {
+			int tiempoBase, MesaDeTrabajo mesaRequerida) {
 		this.objetoProducido = objetoProducido;
 		this.ingredientes = ingredientes;
 		this.cantidadProducida = cantidadProducida;
 		this.tiempoBase = tiempoBase;
+		this.mesaRequerida = mesaRequerida;
 	}
 
 	public Objeto getObjetoProducido() {
@@ -57,6 +60,14 @@ public class RecetaSerializable {
 		this.tiempoBase = tiempoBase;
 	}
 	
+	public MesaDeTrabajo getMesaRequerida() {
+		return mesaRequerida;
+	}
+
+	public void setMesaRequerida(MesaDeTrabajo mesaRequerida) {
+		this.mesaRequerida = mesaRequerida;
+	}
+
 	public Receta toReceta() {
         Map<Objeto, Integer> ingredientesMap = new HashMap<>();
         if (this.ingredientes != null) {
@@ -67,7 +78,7 @@ public class RecetaSerializable {
         if (this.objetoProducido.esBasico()) {
             throw new IllegalStateException("El objeto producido no es crafteable como se esperaba en Receta.");
         }
-        return new Receta(this.objetoProducido, ingredientesMap, this.cantidadProducida, this.tiempoBase);
+        return new Receta(this.objetoProducido, ingredientesMap, this.cantidadProducida, this.tiempoBase, this.mesaRequerida);
     }
 
     // Método estático para convertir Receta a RecetaSerializable
@@ -80,7 +91,8 @@ public class RecetaSerializable {
             receta.getObjetoProducido(),
             ingredientesJsonList,
             receta.getCantidadProducida(),
-            receta.getTiempoBase()
+            receta.getTiempoBase(),
+            receta.getMesaRequerida()
         );
     }
 }

@@ -1,10 +1,27 @@
 package modelo;
 
-import java.util.List;
-
 public class MesaDePiedra extends MesaDeTrabajo {
 
-	public MesaDePiedra(List<Receta> recetasDesbloqueadas) {
-		super("Mesa De Piedra", recetasDesbloqueadas);
+	public MesaDePiedra() {
+		super("Mesa De Piedra");
+	}
+
+	@Override
+	public int hashCode() {
+		return super.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (!super.equals(obj)) {
+			return false;
+		}
+		if (!(obj instanceof MesaDePiedra)) {
+			return false;
+		}
+		return true;
 	}
 }

@@ -1,9 +1,9 @@
 package modelo;
 
-public class MesaDeFlechas extends MesaDeTrabajo {
+public class MesaDeFundicion extends MesaDeTrabajo {
 
-	public MesaDeFlechas() {
-		super("Mesa de Flechas");
+	public MesaDeFundicion() {
+		super("Mesa de Fundicion");
 	}
 
 	@Override
@@ -19,7 +19,7 @@ public class MesaDeFlechas extends MesaDeTrabajo {
 		if (!super.equals(obj)) {
 			return false;
 		}
-		if (!(obj instanceof MesaDeFlechas)) {
+		if (!(obj instanceof MesaDeFundicion)) {
 			return false;
 		}
 		return true;

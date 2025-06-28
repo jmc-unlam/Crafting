@@ -1,33 +1,10 @@
 package modelo;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public abstract class MesaDeTrabajo extends Objeto {
-	
-	private final List<Receta> recetasDesbloqueadas;
 
-	public MesaDeTrabajo(String nombre, List<Receta> recetasDesbloqueadas) {
+	public MesaDeTrabajo(String nombre) {
         super(nombre);
-        if (recetasDesbloqueadas == null || recetasDesbloqueadas.isEmpty()) {
-            throw new IllegalArgumentException("Una mesa debe desbloquear al menos una receta.");
-        }
-        this.recetasDesbloqueadas = new ArrayList<>(recetasDesbloqueadas);
     }
-
-	public List<Receta> getRecetasDesbloqueadas() {
-        return new ArrayList<>(recetasDesbloqueadas);
-    }
-	
-	@Override
-	public void activar(Recetario recetario) {
-		recetario.agregarRecetas(recetasDesbloqueadas);
-	}
-
-	@Override
-	public void desactivar(Recetario recetario) {
-		recetario.removerRecetas(recetasDesbloqueadas);
-	}
 	
 	@Override
 	public boolean esBasico() {
@@ -38,8 +15,28 @@ public abstract class MesaDeTrabajo extends Objeto {
 	public boolean esApilable() {
 		return false;
 	}
-	
-//	public boolean esMesaDeTrabajo() {
-//		return !this.esBasico() && !this.esApilable();
-//	}
+
+	@Override
+	public int hashCode() {
+		return super.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (!super.equals(obj)) {
+			return false;
+		}
+		if (!(obj instanceof MesaDeTrabajo)) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "MesaDeTrabajo: " + getNombre();
+	}
 }

@@ -11,15 +11,18 @@ public abstract class Objeto {
     		throw new IllegalArgumentException("El nombre esta vacio");
         }
 
-    	//normalizado en forma canonica
-        String normalized = Normalizer.normalize(texto, Normalizer.Form.NFD);
+    	String normalized = texto.toLowerCase();
+        //quita todas letras que no son a-z, 0-9, espacios y la ñ
+        normalized = normalized.replaceAll("[^a-zñ0-9 ]", "");
+    	//quita los espacios repetidos
+        normalized = normalized.replaceAll("\\s+", " ");
+    	//descomposicion canonica
+        normalized = Normalizer.normalize(normalized, Normalizer.Form.NFD);
+        //recompongo solo la ñ
+        normalized = normalized.replaceAll("n\\u0303", "ñ");
         //quita los acentos y simbolos raros 
         normalized = normalized.replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
-        normalized = normalized.toLowerCase();
-        //quita todas letras que no son a-z y 0-9
-        normalized = normalized.replaceAll("[^a-z0-9 ]", "");
-        //quita los espacios repetidos
-        normalized = normalized.replaceAll("\\s+", " ");
+        
         //quita los espacios entre palabras de longitud 1
         normalized = normalized.replaceAll("(?<=\\b\\w)\\s(?=\\w\\b)", "");
         //quita los espacios al principio y al final 
@@ -39,10 +42,6 @@ public abstract class Objeto {
     public abstract boolean esBasico();
     
     public abstract boolean esApilable();
-    
-    public void activar(Recetario recetario) {};
-    
-    public void desactivar(Recetario recetario) {};
     
 	@Override
 	public int hashCode() {

@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import datos.json.InventarioGSON;
+import datos.json.RecetaGSON;
 import modelo.Inventario;
+import modelo.MesaDeFundicion;
 import modelo.Objeto;
 import modelo.ObjetoBasico;
 import modelo.ObjetoIntermedio;
@@ -13,8 +15,15 @@ import modelo.Recetario;
 import modelo.SistemaDeCrafteo;
 
 public class Main {
-    public static void main(String[] args) {
-        //Crear objetos 
+
+
+	public static void main(String[] args) {
+        //escenarioCraftearHachaDePiedraConUnaReceta();
+        escenarioCraftearMesaDeFundicionYSusRecetas();
+    }
+
+	private static void escenarioCraftearHachaDePiedraConUnaReceta() {
+		//Crear objetos 
     	ObjetoBasico madera = new ObjetoBasico("Madera");
         ObjetoBasico piedra = new ObjetoBasico("Piedra");
         ObjetoBasico hierro = new ObjetoBasico("Hierro");
@@ -115,6 +124,47 @@ public class Main {
         } catch (Exception e) {
             System.err.println("Error: " + e.getMessage());
         }
+	}
+	
+	private static void escenarioCraftearMesaDeFundicionYSusRecetas() {
+	    final String RECETA_FUNDIDOR = "res/fundicion/recetaFundidor.json";
+		final String INVENTARIO_FUNDIDOR = "res/fundicion/inventarioFundidor.json";
+		final String INVENTARIO_FUNDICION = "res/fundicion/inventarioFundicion.json";
+		final String RECETAS_FUNDICION = "res/fundicion/recetasFundicion.json";
+		
+		Inventario inventario = new Inventario(new InventarioGSON(INVENTARIO_FUNDIDOR).cargar());
+		Recetario recetario = new Recetario(new RecetaGSON(RECETA_FUNDIDOR).cargar());
+		SistemaDeCrafteo sistema = new SistemaDeCrafteo(inventario,recetario); 
+		System.out.println(inventario);
+		System.out.println(recetario);
+		System.out.println("====Agrego mas materiales y recetas de fundicion====");
+		inventario.agregarObjetos(new InventarioGSON(INVENTARIO_FUNDICION).cargar());
+		recetario.agregarRecetas(new RecetaGSON(RECETAS_FUNDICION).cargar());
+		System.out.println(inventario);
+		System.out.println(recetario);
+		System.out.println("===========================");
+		System.out.println("===Intento craftear recetas que usan el fundidor antes===");
+		try {
+			sistema.craftearObjeto(recetario.getRecetas().getFirst().getObjetoProducido(), 1);
+		} catch (UnsupportedOperationException e) {
+			System.err.println(e.getMessage());
+		}
+		System.out.println(inventario);
 
-    }
+		System.out.println("=====Crafteando mesa de fundicion======");
+		int tiempoFundidor = sistema.craftearObjeto(new MesaDeFundicion(), 1);
+		System.out.println("Se crafteo la mesa de fundicion en: "+tiempoFundidor);
+		System.out.println(inventario);
+		System.out.println("======Crafteando las recetas de fundicion========");
+		try {
+			for (Receta r : recetario.getRecetas()) {
+				System.out.println("Crafting ["+r.getObjetoProducido()+"] en "+sistema.craftearObjeto(r.getObjetoProducido(), 1));
+				System.out.println(inventario);
+				System.out.println("===========================");
+			}
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+			e.printStackTrace(System.err);
+		}
+	}
 }

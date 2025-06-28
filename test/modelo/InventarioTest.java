@@ -3,7 +3,6 @@ package modelo;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -151,44 +150,26 @@ class InventarioTest {
     @Test
     void noSePuedenApilarMesasDelMismoTipo() {
     	
-        ObjetoBasico madera = new ObjetoBasico("Madera");
-        ObjetoIntermedio palo = new ObjetoIntermedio("Palo");
-
-        
-        Map<Objeto, Integer> ingredientes = new HashMap<>();
-        ingredientes.put(madera, 2);
-        Receta receta = new Receta(palo, ingredientes, 4, 10);
-
         // Crear mesa
-        MesaDeHierro mesa1 = new MesaDeHierro(Arrays.asList(receta));
-        MesaDeHierro mesa2 = new MesaDeHierro(Arrays.asList(receta));
+        MesaDeFundicion mesa1 = new MesaDeFundicion();
+        MesaDeFundicion mesa2 = new MesaDeFundicion();
 
-        Recetario recetario = new Recetario();
-        inventario.agregarObjeto(mesa1, 1,recetario);
+        inventario.agregarObjeto(mesa1, 1);
         
         assertThrows(IllegalArgumentException.class, () -> {
-            inventario.agregarObjeto(mesa2, 1,recetario);
+            inventario.agregarObjeto(mesa2, 1);
         });
     }
     
     @Test
     void sePermitenMesasDeDistintosTipos() {
-    	
-        ObjetoBasico madera = new ObjetoBasico("Madera");
-        ObjetoIntermedio palo = new ObjetoIntermedio("Palo");
 
-        
-        Map<Objeto, Integer> ingredientes = new HashMap<>();
-        ingredientes.put(madera, 2);
-        Receta receta = new Receta(palo, ingredientes, 4, 10);
-
-        MesaDeHierro mesa = new MesaDeHierro(Arrays.asList(receta));
-        MesaDePiedra otraMesa = new MesaDePiedra(Arrays.asList(receta));
+        MesaDeFundicion mesa = new MesaDeFundicion();
+        MesaDePiedra otraMesa = new MesaDePiedra();
 
         Inventario inventario = new Inventario();
-        Recetario recetario = new Recetario();
-        inventario.agregarObjeto(mesa, 1,recetario);
-        inventario.agregarObjeto(otraMesa, 1,recetario); 
+        inventario.agregarObjeto(mesa, 1);
+        inventario.agregarObjeto(otraMesa, 1); 
 
         assertEquals(2, inventario.getObjetos().size());
     }

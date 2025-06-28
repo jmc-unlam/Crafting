@@ -8,7 +8,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -22,8 +21,9 @@ import modelo.Objeto;
 import modelo.ObjetoBasico;
 import modelo.ObjetoIntermedio;
 import modelo.Receta;
+import modelo.Recetario;
 import modelo.Inventario;
-import modelo.MesaDeHierro;
+import modelo.MesaDeFundicion;
 
 class InventarioGSONTest {
     private static final String TEST_DIR = "target/test-temp/";
@@ -34,7 +34,7 @@ class InventarioGSONTest {
     private static final String INVENTARIO_DESCONOCIDO_JSON = TEST_DIR + "inventario_desconocido.json";
     private static final String INVENTARIO_VACIO_SALIDA_JSON = TEST_DIR + "inventario_vacio_salida.json";
     private static final String INVENTARIO_MIXTO_SALIDA_JSON = TEST_DIR + "inventario_mixto_salida.json";
-    private static final String INVENTARIO_CON_MESA_DE_HIERRO = TEST_DIR + "inventario_mesa_hierro_salida.json";
+    private static final String INVENTARIO_CON_MESA_DE_FUNDICION = TEST_DIR + "inventario_mesa_hierro_salida.json";
 
     @BeforeEach
     void setUp() throws IOException {
@@ -113,7 +113,7 @@ class InventarioGSONTest {
                     "]");
         }
         
-        try (FileWriter writer = new FileWriter(INVENTARIO_CON_MESA_DE_HIERRO)) {
+        try (FileWriter writer = new FileWriter(INVENTARIO_CON_MESA_DE_FUNDICION)) {
             writer.write("[\n" +
                     "  {\n" +
                     "    \"objeto\": {\n" +
@@ -124,18 +124,8 @@ class InventarioGSONTest {
                     "  },\n" +
                     "  {\n" +
                     "    \"objeto\": {\n" +
-                    "      \"tipo\": \"mesa\",\n" +
-                    "      \"nombre\": \"mesa de hierro\",\n" +
-                    "      \"recetasDesbloqueadas\": [\n" +
-                    "        {\n" +
-                    "          \"objetoProducido\": { \"tipo\": \"intermedio\", \"nombre\": \"palo\" },\n" +
-                    "          \"ingredientes\": [\n" +
-                    "            { \"objeto\": { \"tipo\": \"basico\", \"nombre\": \"madera\" }, \"cantidad\": 2 }\n" +
-                    "          ],\n" +
-                    "          \"cantidadProducida\": 4,\n" +
-                    "          \"tiempoBase\": 10\n" +
-                    "        }\n" +
-                    "      ]\n" +
+                    "      \"nombre\": \"mesa de fundicion\",\n" +
+                    "      \"tipo\": \"mesa de fundicion\"\n" +
                     "    },\n" +
                     "    \"cantidad\": 1\n" +
                     "  }\n" +
@@ -152,7 +142,7 @@ class InventarioGSONTest {
         Files.deleteIfExists(Path.of(INVENTARIO_DESCONOCIDO_JSON));
         Files.deleteIfExists(Path.of(INVENTARIO_VACIO_SALIDA_JSON));
         Files.deleteIfExists(Path.of(INVENTARIO_MIXTO_SALIDA_JSON));
-        Files.deleteIfExists(Path.of(INVENTARIO_CON_MESA_DE_HIERRO));
+        Files.deleteIfExists(Path.of(INVENTARIO_CON_MESA_DE_FUNDICION));
         Files.deleteIfExists(Path.of(TEST_DIR));
     }
 
@@ -247,61 +237,44 @@ class InventarioGSONTest {
     
     @Test
     void cargarInventarioConMesaDeTrabajo() throws Exception {
-        Map<Objeto, Integer> objetos = new InventarioGSON(INVENTARIO_CON_MESA_DE_HIERRO).cargar();
+        Map<Objeto, Integer> objetos = new InventarioGSON(INVENTARIO_CON_MESA_DE_FUNDICION).cargar();
         assertNotNull(objetos);
         assertEquals(2, objetos.size());
 
         // Verifica que hay una Madera
-        ObjetoBasico madera = new ObjetoBasico("Madera");
-        assertTrue(objetos.containsKey(madera));
-        assertEquals(10, objetos.get(madera));
-
+        assertTrue(objetos.containsKey(new ObjetoBasico("Madera")));
+        assertEquals(10, objetos.get(new ObjetoBasico("Madera")));
+        
         // Verifica que hay una MesaDeHierro
-        for (Objeto key : objetos.keySet()) {
-            if (!key.esBasico() && !key.esApilable()) {
-                assertTrue(key instanceof MesaDeHierro);
-                assertEquals(1, objetos.get(key));
-
-                // Verifica que tiene recetas desbloqueadas
-                MesaDeHierro mesa = (MesaDeHierro) key;
-                assertEquals(1, mesa.getRecetasDesbloqueadas().size());
-                Receta receta = mesa.getRecetasDesbloqueadas().get(0);
-
-                // Verifica datos de la receta
-                assertEquals(new ObjetoIntermedio("Palo"), receta.getObjetoProducido());
-                assertEquals(4, receta.getCantidadProducida());
-                assertEquals(10, receta.getTiempoBase());
-
-                // Verifica ingredientes
-                Map<Objeto, Integer> ing = receta.getIngredientes();
-                assertEquals(1, ing.size());
-                assertEquals(Integer.valueOf(2), ing.get(new ObjetoBasico("Madera")));
-            }
-        }
+        assertTrue(objetos.containsKey(new MesaDeFundicion()));
+        assertEquals(1, objetos.get(new MesaDeFundicion()));
     }
     
     @Test
-    void guardarInventarioConMesaDeTrabajo() {
+    void guardarYLeerInventarioConMesaDeFundicion() {
         // Crear objetos
         ObjetoBasico madera = new ObjetoBasico("Madera");
         ObjetoIntermedio palo = new ObjetoIntermedio("Palo");
+        
+        // Crear mesa
+        MesaDeFundicion mesa = new MesaDeFundicion();
 
         // Crear receta
         Map<Objeto, Integer> ingredientes = new HashMap<>();
         ingredientes.put(madera, 2);
-        Receta receta = new Receta(palo, ingredientes, 4, 10);
+        Receta receta = new Receta(palo, ingredientes, 4, 10, mesa);
 
-        // Crear mesa
-        MesaDeHierro mesa = new MesaDeHierro(List.of(receta));
+        
 
-        // Crear inventario
+        // Crear inventario y recetario
         Inventario inventario = new Inventario();
         inventario.agregarObjeto(madera, 10);
         inventario.agregarObjeto(mesa, 1);
+        Recetario recetario = new Recetario();
+        recetario.agregarReceta(receta);
 
         // Guardar
-        InventarioGSON inventarioGson = new InventarioGSON(INVENTARIO_MIXTO_SALIDA_JSON);
-        inventarioGson.guardar(inventario.getObjetos());
+        new InventarioGSON(INVENTARIO_MIXTO_SALIDA_JSON).guardar(inventario.getObjetos());
 
         // Cargar y verificar
         Map<Objeto, Integer> leido = new InventarioGSON(INVENTARIO_MIXTO_SALIDA_JSON).cargar();
@@ -309,52 +282,11 @@ class InventarioGSONTest {
         assertNotNull(leido);
         assertEquals(2, leido.size());
 
-        // Comprobamos si tenemos la mesa
-        boolean encontrada = false;
-        for (Objeto obj : leido.keySet()) {
-            if (!obj.esBasico() && !obj.esApilable()) {
-                MesaDeHierro mesaLeida = (MesaDeHierro) obj;
-                List<Receta> recetas = mesaLeida.getRecetasDesbloqueadas();
-                assertEquals(1, recetas.size());
-                assertTrue(receta.equals(recetas.get(0)));
-                encontrada = true;
-            }
-        }
-        assertTrue(encontrada);
+        // Comprobamos si tenemos la mesa y mesa
+        assertTrue(leido.containsKey(new ObjetoBasico("Madera")));
+        assertEquals(10, leido.get(madera));
+        
+        assertTrue(leido.containsKey(new MesaDeFundicion()));
+        assertEquals(1, leido.get(new MesaDeFundicion()));
     }
-    
-    @Test
-    void guardarYLeerMesasNoPierdeDatos() {
-        ObjetoBasico madera = new ObjetoBasico("Madera");
-        ObjetoIntermedio palo = new ObjetoIntermedio("Palo");
-
-        Map<Objeto, Integer> ingredientes = new HashMap<>();
-        ingredientes.put(madera, 2);
-        Receta receta = new Receta(palo, ingredientes, 4, 10);
-
-        MesaDeHierro mesa = new MesaDeHierro(List.of(receta));
-
-        Map<Objeto, Integer> guardado = new HashMap<>();
-        guardado.put(madera, 10);
-        guardado.put(mesa, 1);
-
-        InventarioGSON inventarioGson = new InventarioGSON(INVENTARIO_MIXTO_SALIDA_JSON);
-        inventarioGson.guardar(guardado);
-
-        Map<Objeto, Integer> cargado = inventarioGson.cargar();
-        assertNotNull(cargado);
-        assertEquals(2, cargado.size());
-
-        boolean encontrada = false;
-        for (Objeto obj : cargado.keySet()) {
-            if (!obj.esBasico() && !obj.esApilable()) {
-                MesaDeHierro mesaCargada = (MesaDeHierro) obj;
-                List<Receta> recetas = mesaCargada.getRecetasDesbloqueadas();
-                assertEquals(1, recetas.size());
-                assertTrue(receta.equals(recetas.get(0)));
-                encontrada = true;
-            }
-        }
-        assertTrue(encontrada);
-    }
-}
+}  

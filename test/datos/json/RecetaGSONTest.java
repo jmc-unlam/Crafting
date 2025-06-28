@@ -20,7 +20,8 @@ import modelo.Objeto;
 import modelo.ObjetoBasico;
 import modelo.ObjetoIntermedio;
 import modelo.Receta;
-import modelo.MesaDeHierro;
+import modelo.MesaDeFundicion;
+import modelo.MesaDeTrabajo;
 
 class RecetaGSONTest {
 
@@ -36,11 +37,11 @@ class RecetaGSONTest {
     private ObjetoBasico carbon;
     private ObjetoIntermedio palo;
     private ObjetoIntermedio antorcha;
-    private MesaDeHierro mesaHierro;
+    private MesaDeTrabajo mesaFundicion;
 
     private Receta recetaPalo;
     private Receta recetaAntorcha;
-    private Receta recetaMesaDeTrabajo;
+    private Receta recetaMesaFundicion;
 
     @BeforeEach
     void setUp() throws IOException {
@@ -54,20 +55,19 @@ class RecetaGSONTest {
         
 
         // recetas
+        mesaFundicion = new MesaDeFundicion();
+        Map<Objeto, Integer> ingredientesMesa = new HashMap<>();
+        ingredientesMesa.put(madera, 4);
+        recetaMesaFundicion = new Receta(mesaFundicion, ingredientesMesa, 1, 20); // 4 Madera -> 1 Mesa, 20s
+        
         Map<Objeto, Integer> ingredientesPalo = new HashMap<>();
         ingredientesPalo.put(madera, 2);
-        recetaPalo = new Receta(palo, ingredientesPalo, 4, 10); // 2 Madera -> 4 Palos, 10s
+        recetaPalo = new Receta(palo, ingredientesPalo, 4, 10,mesaFundicion); // 2 Madera -> 4 Palos, 10s
 
         Map<Objeto, Integer> ingredientesAntorcha = new HashMap<>();
         ingredientesAntorcha.put(palo, 1);
         ingredientesAntorcha.put(carbon, 1);
         recetaAntorcha = new Receta(antorcha, ingredientesAntorcha, 4, 5); // 1 Palo, 1 Carbon -> 4 Antorchas, 5s
-
-        
-        mesaHierro = new MesaDeHierro(List.of(recetaAntorcha,recetaPalo));
-        Map<Objeto, Integer> ingredientesMesa = new HashMap<>();
-        ingredientesMesa.put(madera, 4);
-        recetaMesaDeTrabajo = new Receta(mesaHierro, ingredientesMesa, 1, 20); // 4 Madera -> 1 Mesa, 20s
 
         //json estaticos
         try (FileWriter writer = new FileWriter(RECETAS_VACIO_JSON)) {
@@ -197,7 +197,7 @@ class RecetaGSONTest {
 
     @Test
     void guardarYcargarRecetasMixtas() {
-        List<Receta> recetasGuardadas = List.of(recetaPalo, recetaAntorcha, recetaMesaDeTrabajo);
+        List<Receta> recetasGuardadas = List.of(recetaPalo, recetaAntorcha, recetaMesaFundicion);
         new RecetaGSON(RECETAS_SALIDA_JSON).guardar(recetasGuardadas);
 
         List<Receta> recetasLeidas = new RecetaGSON(RECETAS_SALIDA_JSON).cargar();
