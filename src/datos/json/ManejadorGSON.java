@@ -4,11 +4,13 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.typeadapters.RuntimeTypeAdapterFactory; // Importar la clase
 
-import modelo.MesaDeHierro;
+import modelo.MesaDeFlechas;
+import modelo.MesaDeFundicion;
+import modelo.MesaDePiedra;
+import modelo.MesaDeTrabajo;
 import modelo.Objeto;
 import modelo.ObjetoBasico;
 import modelo.ObjetoIntermedio;
-import modelo.Receta;
 
 import java.io.File;
 import java.io.FileReader;
@@ -21,20 +23,26 @@ public abstract class ManejadorGSON<T> {
 	protected Gson gson;
 	protected T datos;
 	protected Type listType;
-	private RecetaTypeAdapter adaptadorReceta;
 
 	public ManejadorGSON(String rutaArchivo) {
     	this.rutaArchivo = rutaArchivo;
-    	this.adaptadorReceta = new RecetaTypeAdapter();
         this.gson = new GsonBuilder()
-                .registerTypeAdapterFactory(RuntimeTypeAdapterFactory.of(Objeto.class, "tipo")
+                .registerTypeAdapterFactory(
+                		RuntimeTypeAdapterFactory.of(Objeto.class, "tipo")
                         .registerSubtype(ObjetoBasico.class, "basico")
                         .registerSubtype(ObjetoIntermedio.class, "intermedio")
-                        .registerSubtype(MesaDeHierro.class, "mesa")) //para serializar mesas de trabajo concretas
-                .registerTypeAdapter(Receta.class, adaptadorReceta) 
+                        .registerSubtype(MesaDeFundicion.class, "mesa de fundicion") //para serializar mesas de trabajo concretas
+    	                .registerSubtype(MesaDePiedra.class, "mesa de piedra")
+    	                .registerSubtype(MesaDeFlechas.class, "mesa de flechas")
+                        )
+                .registerTypeAdapterFactory(
+                	RuntimeTypeAdapterFactory.of(MesaDeTrabajo.class, "tipo")
+	                .registerSubtype(MesaDeFundicion.class, "mesa de fundicion") //para serializar mesas de trabajo concretas
+	                .registerSubtype(MesaDePiedra.class, "mesa de piedra")
+	                .registerSubtype(MesaDeFlechas.class, "mesa de flechas")
+	            )
                 .setPrettyPrinting()
                 .create();
-        this.adaptadorReceta.setGson(this.gson);
     }
     
     public T cargarJSON() {
