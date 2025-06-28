@@ -21,7 +21,24 @@ public class Main {
         //escenarioCraftearHachaDePiedraConUnaReceta();
         escenarioCraftearMesaDeFundicionYSusRecetas();
     }
-
+	 // Método para mostrar el menú
+    private static void mostrarMenu() {
+        System.out.println("===== MENÚ PRINCIPAL =====");
+        System.out.println("1. ¿Qué necesito para craftear un objeto? - Solo primer nivel.");
+        System.out.println("2. ¿Qué necesito para craftear un objeto desde cero?");
+        System.out.println("3. ¿Qué me falta para craftear un objeto? - Solo primer nivel.");
+        System.out.println("4. ¿Qué me falta para craftear un objeto desde cero?");
+        System.out.println("5. ¿Cuántos puedo craftear? ##FALTA EL TIEMPO##");
+        System.out.println("6. Realizar el crafteo indicado");
+        System.out.println("7. Historial de crafteos");
+        System.out.println("96. Recolectar Objetos Básicos. ##FALTA CODIFICAR##");
+        System.out.println("97. Mostrar Recetario.");
+        System.out.println("98. Mostrar inventario.");
+        System.out.println("99. Consulta Prolog -¿Cuáles son todos los productos que podría generar con el inventario actual?");
+        System.out.println("0. Salir");
+        System.out.println("=========================");
+    }
+    
 	private static void escenarioCraftearHachaDePiedraConUnaReceta() {
 		//Crear objetos 
     	ObjetoBasico madera = new ObjetoBasico("Madera");

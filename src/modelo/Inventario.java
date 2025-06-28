@@ -1,8 +1,16 @@
 package modelo;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.jpl7.Query;
+import org.jpl7.Term;
+
+import main.Config;
 
 
 public class Inventario {
@@ -216,4 +224,68 @@ public class Inventario {
         }
         return sb.toString();
     }
+	
+	public void prologGenerarInventario() {
+		// Ruta relativa al archivo dentro del proyecto
+        File archivo = new File(Config.RUTA_PROLOG_INVENTARIO);
+        
+        // Verificar si el archivo existe
+        if (archivo.exists()) {
+            // Intentar eliminarlo
+        	archivo.delete();
+        }
+		
+        try {
+        	
+        	archivo.createNewFile();
+
+            // Escribir texto en el archivo
+            FileWriter writer = new FileWriter(archivo);
+            writer.write("% Objetos en el inventario\n");
+            
+            //Recorrer el inventario y generar el archivo prolog con las cantidades de los objetos.
+        	for (Map.Entry<Objeto, Integer> item : objetos.entrySet()) {
+				Objeto obj = item.getKey();
+				Integer cantidad = item.getValue();
+				writer.write("inventario('" + obj.getNombre() +"'," + cantidad + ").\n");
+			}
+			
+            writer.close(); // Cerrar el flujo
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void consultaDeProlog() {
+		
+		Query queryConfig = new Query("consult('" + Config.RUTA_PROLOG_CONFIG + "').");
+		queryConfig.hasSolution(); // Cargar el archivo Prolog de Configuracion
+		
+		Query queryRecetas = new Query("consult('" + Config.RUTA_PROLOG_RECETAS + "').");
+		queryRecetas.hasSolution(); // Cargar el archivo Prolog Recetas
+		
+		File archivo = new File(Config.RUTA_PROLOG_INVENTARIO);
+		
+		if(!archivo.exists()) {
+			this.prologGenerarInventario();
+		}
+		
+		Query queryInventario = new Query("consult('" + Config.RUTA_PROLOG_INVENTARIO + "').");
+		queryInventario.hasSolution(); // Cargar el archivo Prolog inventario.
+		
+		Query queryLogica = new Query("consult('" + Config.RUTA_PROLOG_LOGICA + "').");
+		queryLogica.hasSolution(); // Cargar el archivo Prolog con la logica de programación.
+		
+		// Crear una consulta
+		Query consulta = new Query("posibleCrafteo(Objeto)."); 
+		
+		System.out.println("--Objetos crafteables con el inventario actual:");
+		// Obtener resultados
+		while (consulta.hasMoreSolutions()) {
+			java.util.Map<String, Term> solucion = consulta.nextSolution();
+			System.out.println("Objeto = " + solucion.get("Objeto"));
+
+		}
+	}
 }

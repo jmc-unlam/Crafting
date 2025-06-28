@@ -1,0 +1,27 @@
+[  {
+    "objetoProducido": {"nombre": "Palo","tipo": "intermedio"},
+    "ingredientes": [
+      {
+		  "objeto": {"nombre": "Madera", "tipo": "basico" }, 
+		  "cantidad": 1 
+	  }
+    ],
+    "cantidadProducida": 10,
+    "tiempoBase": 10
+  },
+  {
+    "objetoProducido": {"nombre": "Antorcha","tipo": "intermedio"},
+    "ingredientes": [
+      {
+		  "objeto": {"nombre": "Palo", "tipo": "intermedio" }, 
+		  "cantidad": 1 
+	  },
+      {
+		  "objeto": {"nombre": "Carbon", "tipo": "basico" }, 
+		  "cantidad": 1 
+	  }
+    ],
+    "cantidadProducida": 4,
+    "tiempoBase": 5
+  }
+]
