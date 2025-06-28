@@ -52,6 +52,13 @@
             </plugin>
 		</plugins>
 	</build>
+	<repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <name>JitPack Repository</name>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
 	<dependencies>
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
@@ -92,9 +99,9 @@
 			<version>${mockito.version}</version> <scope>test</scope>
 		</dependency>
 		<dependency>
-            <groupId>jpl</groupId>
-            <artifactId>jpl</artifactId>
-            <version>7.4.0</version>
+            <groupId>com.github.SWI-Prolog</groupId>
+            <artifactId>packages-jpl</artifactId>
+            <version>V8.3.2</version> 
         </dependency>
 	</dependencies>
 </project>

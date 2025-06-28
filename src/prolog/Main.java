@@ -20,7 +20,7 @@ public class Main {
 	private static final String PROLOG_INVENTARIO = PROLOG_DIR + "inventario.pl";
 
 	public static void main(String[] args) {
-		Query q = new Query("consult('prolog/Ejercicio3-Agencia de Viajes.pl').");
+		Query q = new Query("consult('src/prolog/03 - Agencia de viajes.pl').");
 		q.hasSolution(); // Cargar el archivo Prolog
 		// Crear una consulta
 		Query consulta = new Query("viaje(Ciudad,1,Hospedaje, Precio).");
