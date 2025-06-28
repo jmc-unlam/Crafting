@@ -52,13 +52,6 @@
             </plugin>
 		</plugins>
 	</build>
-	<repositories>
-        <repository>
-            <id>com.github</id>
-            <name>GitHub SWI-Prolog/packages-jpl Apache Maven Packages</name>
-            <url>https://maven.pkg.github.com/SWI-Prolog/packages-jpl/</url>
-        </repository>
-    </repositories>
 	<dependencies>
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
@@ -99,9 +92,9 @@
 			<version>${mockito.version}</version> <scope>test</scope>
 		</dependency>
 		<dependency>
-            <groupId>com.github.SWI-Prolog</groupId>
-            <artifactId>packages-jpl</artifactId>
-            <version>7.6.1</version>
+            <groupId>jpl</groupId>
+            <artifactId>jpl</artifactId>
+            <version>7.4.0</version>
         </dependency>
 	</dependencies>
 </project>
