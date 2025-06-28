@@ -28,18 +28,6 @@ jobs:
         java-version: '21'
         distribution: 'temurin'
         cache: maven
-		# La siguiente línea (`settings-xml: |`) es la que debe estar a la misma altura que 'java-version', 'distribution', 'cache'
-        settings-xml: |
-          # Y todo este bloque XML debe estar indentado 2 espacios *más* que 'settings-xml:'
-          <settings>
-            <servers>
-              <server>
-                <id>com.github</id>
-                <username>jmc-unlam</username>
-                <password>${{ secrets.GH_PACKAGE_TOKEN }}</password>
-              </server>
-            </servers>
-          </settings>
 				  
     - name: Build with Maven # Este paso compila el código
       run: mvn -B compile --file pom.xml # Cambiado de 'package' a 'compile' para separar fases
