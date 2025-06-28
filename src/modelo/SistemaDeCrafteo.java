@@ -90,6 +90,10 @@ public class SistemaDeCrafteo {
         if (receta == null) {
             throw new IllegalStateException("No existe receta para craftear " + objeto);
         }
+        //verificar si la receta tiene mesa
+        if (!inventario.tieneMesa(receta.getMesaRequerida()) ) {
+        	throw new UnsupportedOperationException("No tienes ["+receta.getMesaRequerida() +"] para craftear->" + objeto);
+        }
         
 
         //cuantos lotes de la receta necesitamos ejecutar.
@@ -197,6 +201,10 @@ public class SistemaDeCrafteo {
         List<Receta> recetas = recetario.buscarRecetas(objeto);
         if (recetas == null) {
             throw new IllegalStateException("No existe receta para craftear " + objeto);
+        }
+        //verificar si la receta tiene mesa
+        if (!inventario.tieneMesa(recetas.get(indiceReceta).getMesaRequerida()) ) {
+        	throw new UnsupportedOperationException("No tienes ["+recetas.get(indiceReceta).getMesaRequerida() +"] para craftear->" + objeto);
         }
         
         //cuantos lotes de la receta necesitamos ejecutar.
