@@ -28,12 +28,12 @@ jobs:
         java-version: '21'
         distribution: 'temurin'
         cache: maven
-		settings-xml: |
+		settings-xml:
 		          <settings>
 		            <servers>
 		              <server>
 		                <id>com.github</id>
-		                <username>jmc-unlam</username> # Asegúrate de que este sea tu nombre de usuario de GitHub
+		                <username>jmc-unlam</username>
 		                <password>${{ secrets.GH_PACKAGE_TOKEN }}</password>
 		              </server>
 		            </servers>
