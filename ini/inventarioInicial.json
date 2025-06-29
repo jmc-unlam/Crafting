@@ -22,36 +22,15 @@
   },
   {
     "objeto": {
-      "tipo": "intermedio",
-      "nombre": "Palo"
-    },
-    "cantidad": 10
-  },
-  {
-    "objeto": {
       "tipo": "basico",
       "nombre": "Madera"
     },
-    "cantidad": 4
+    "cantidad": 5
   },
   {
     "objeto": {
       "tipo": "basico",
       "nombre": "Mineral de Estaño"
-    },
-    "cantidad": 20
-  },
-  {
-    "objeto": {
-      "tipo": "basico",
-      "nombre": "Piedra"
-    },
-    "cantidad": 3
-  },
-  {
-    "objeto": {
-      "tipo": "basico",
-      "nombre": "Mineral de Cobre"
     },
     "cantidad": 20
   },
@@ -65,7 +44,28 @@
   {
     "objeto": {
       "tipo": "basico",
+      "nombre": "Mineral de Cobre"
+    },
+    "cantidad": 20
+  },
+  {
+    "objeto": {
+      "tipo": "basico",
+      "nombre": "Piedra"
+    },
+    "cantidad": 3
+  },
+  {
+    "objeto": {
+      "tipo": "basico",
       "nombre": "Mineral de Oro"
+    },
+    "cantidad": 5
+  },
+  {
+    "objeto": {
+      "tipo": "basico",
+      "nombre": "Cuerda"
     },
     "cantidad": 5
   },
@@ -75,12 +75,5 @@
       "nombre": "Hierro"
     },
     "cantidad": 25
-  },
-  {
-    "objeto": {
-      "tipo": "basico",
-      "nombre": "Cuerda"
-    },
-    "cantidad": 5
   }
 ]

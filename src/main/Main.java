@@ -87,6 +87,7 @@ public class Main {
 				interrupcion(scanner);
 				break;
 			case 5:
+				//Calcula cuantos objetos se pueden craftear con el inventario actual.
 				objePregunta = seleccionarObjetoCrafteable();
 
 				System.out.println("Cantidad de " + objePregunta.getNombre() + " crafteables ahora: "
@@ -94,11 +95,11 @@ public class Main {
 				interrupcion(scanner);
 				break;
 			case 6:
-
+				//Craftear una unidad de un objeto especifico.
 				try {
 					objePregunta = seleccionarObjetoCrafteable();
 					System.out.println("\n=== Intentando craftear 1 unidad de " + objePregunta);
-					System.out.println("Tiempo Total (seg): " + sistema.craftearObjeto(objePregunta, 1));
+					System.out.println("Tiempo Total (min): " + sistema.craftearObjeto(objePregunta, 1));
 					System.out.println(objePregunta.getNombre()+" creado Existosamente.");
 				} catch (Exception e) {
 					System.err.println("Error: " + e.getMessage());
