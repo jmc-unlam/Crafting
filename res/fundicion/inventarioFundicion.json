@@ -1,26 +1,26 @@
 [
   {
     "objeto": { "nombre": "carbon", "tipo": "basico" },
-    "cantidad": 12
+    "cantidad": 8
   },
   {
     "objeto": { "nombre": "mineral de cobre", "tipo": "basico" },
-    "cantidad": 20
+    "cantidad": 3
   },
   {
     "objeto": { "nombre": "mineral de estano", "tipo": "basico" },
-    "cantidad": 20
+    "cantidad": 4
   },
   {
     "objeto": { "nombre": "mineral de hierro", "tipo": "basico" },
-    "cantidad": 20
+    "cantidad": 7
   },
   {
     "objeto": { "nombre": "mineral de plata", "tipo": "basico" },
-    "cantidad": 10
+    "cantidad": 3
   },
   {
     "objeto": { "nombre": "mineral de oro", "tipo": "basico" },
-    "cantidad": 5
+    "cantidad": 3
   }
 ]
