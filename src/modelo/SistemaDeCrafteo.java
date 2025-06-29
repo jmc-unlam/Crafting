@@ -127,7 +127,10 @@ public class SistemaDeCrafteo {
         if (!inventario.tieneMesa(receta.getMesaRequerida()) ) {
         	throw new UnsupportedOperationException("No tienes ["+receta.getMesaRequerida() +"] para craftear->" + objeto);
         }
-        
+        //verificar si se puede apilar
+        if ( inventario.getCantidad(objeto)>=1 && !objeto.esApilable() ) {
+        	throw new UnsupportedOperationException("No se puede crafear porque ya lo tienes, no es apilable: " + objeto);
+        }
 
         //cuantos lotes de la receta necesitamos ejecutar.
         int vecesReceta = Math.ceilDiv(cantACraftear, receta.getCantidadProducida());
@@ -270,6 +273,10 @@ public class SistemaDeCrafteo {
         //verificar si la receta tiene mesa
         if (!inventario.tieneMesa(recetas.get(indiceReceta).getMesaRequerida()) ) {
         	throw new UnsupportedOperationException("No tienes ["+recetas.get(indiceReceta).getMesaRequerida() +"] para craftear->" + objeto);
+        }
+        //verificar si se puede apilar
+        if ( inventario.getCantidad(objeto)>=1 && !objeto.esApilable() ) {
+        	throw new UnsupportedOperationException("No se puede crafear porque ya lo tienes, no es apilable: " + objeto);
         }
         
         //cuantos lotes de la receta necesitamos ejecutar.
