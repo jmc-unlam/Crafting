@@ -169,15 +169,26 @@ public class Main {
 		System.out.println("Se crafteo la mesa de fundicion en: "+tiempoFundidor);
 		System.out.println(inventario);
 		System.out.println("======Crafteando las recetas de fundicion========");
-		try {
-			for (Receta r : recetario.getRecetas()) {
+
+		for (Receta r : recetario.getRecetas()) {
+			try {
 				System.out.println("Crafting ["+r.getObjetoProducido()+"] en "+sistema.craftearObjeto(r.getObjetoProducido(), 1));
-				System.out.println(inventario);
-				System.out.println("===========================");
+			} catch (Exception e) {
+				System.err.println(e.getMessage());
 			}
-		} catch (Exception e) {
-			System.err.println(e.getMessage());
-			e.printStackTrace(System.err);
+			System.out.println(inventario);
+			System.out.println("===========================");
 		}
+		System.out.println("======Crafteando Segunda Vuelta========");
+		for (Receta r : recetario.getRecetas()) {
+			try {
+				System.out.println("Crafting ["+r.getObjetoProducido()+"] en "+sistema.craftearObjeto(r.getObjetoProducido(), 1));
+			} catch (Exception e) {
+				System.err.println(e.getMessage());
+			}
+			System.out.println(inventario);
+			System.out.println("===========================");
+		}
+
 	}
 }
