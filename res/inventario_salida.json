@@ -15,10 +15,10 @@
   },
   {
     "objeto": {
-      "tipo": "basico",
-      "nombre": "Madera"
+      "tipo": "intermedio",
+      "nombre": "Palo"
     },
-    "cantidad": 5
+    "cantidad": 50
   },
   {
     "objeto": {
