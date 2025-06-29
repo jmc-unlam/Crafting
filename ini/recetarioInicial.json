@@ -23,5 +23,35 @@
     ],
     "cantidadProducida": 4,
     "tiempoBase": 5
+  },
+  {
+    "objetoProducido": {"nombre": "Oxido","tipo": "intermedio"},
+    "ingredientes": [
+      {
+		  "objeto": {"nombre": "Hierro", "tipo": "basico" }, 
+		  "cantidad": 7 
+	  }
+    ],
+    "cantidadProducida": 1,
+    "tiempoBase": 2
+  },
+  {
+    "objetoProducido": {"nombre": "Hacha de Piedra","tipo": "intermedio"},
+    "ingredientes": [
+      {
+		  "objeto": {"nombre": "Oxido", "tipo": "intermedio" }, 
+		  "cantidad": 2 
+	  },
+      {
+		  "objeto": {"nombre": "Piedra", "tipo": "basico" }, 
+		  "cantidad": 3
+	  },
+      {
+		  "objeto": {"nombre": "Madera", "tipo": "basico" }, 
+		  "cantidad": 2
+	  }
+    ],
+    "cantidadProducida": 4,
+    "tiempoBase": 5
   }
 ]

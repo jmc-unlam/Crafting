@@ -255,7 +255,7 @@ public class Main {
 		System.out.println("97. Mostrar Recetario.");
 		System.out.println("98. Mostrar inventario.");
 		System.out.println(
-				"99. Consulta Prolog -¿Cuáles son todos los productos que podría generar con el inventario actual?");
+				"99. Consulta Prolog -¿Cuáles son todos los productos que podría generar con el inventario actual? - Primer nivel.");
 		System.out.println("100. Escenarios pre-definidos.");
 		System.out.println("0. Salir");
 		System.out.println("=========================");

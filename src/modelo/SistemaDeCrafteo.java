@@ -80,6 +80,7 @@ public class SistemaDeCrafteo {
             throw new UnsupportedOperationException("No se puede craftear un objeto básico: " + objeto);
         }
     	Receta receta = recetario.buscarReceta(objeto);
+    	
         if (receta == null) {
             throw new IllegalStateException("No existe receta para craftear " + objeto);
         }

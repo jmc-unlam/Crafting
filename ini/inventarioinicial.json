@@ -30,9 +30,9 @@
   {
     "objeto": {
       "tipo": "basico",
-      "nombre": "Carbon"
+      "nombre": "Piedra"
     },
-    "cantidad": 12
+    "cantidad": 3
   },
   {
     "objeto": {
@@ -44,9 +44,9 @@
   {
     "objeto": {
       "tipo": "basico",
-      "nombre": "Piedra"
+      "nombre": "Carbon"
     },
-    "cantidad": 3
+    "cantidad": 12
   },
   {
     "objeto": {
