@@ -16,9 +16,23 @@
   {
     "objeto": {
       "tipo": "basico",
+      "nombre": "Téndon"
+    },
+    "cantidad": 2
+  },
+  {
+    "objeto": {
+      "tipo": "intermedio",
+      "nombre": "Palo"
+    },
+    "cantidad": 10
+  },
+  {
+    "objeto": {
+      "tipo": "basico",
       "nombre": "Madera"
     },
-    "cantidad": 5
+    "cantidad": 4
   },
   {
     "objeto": {
@@ -26,6 +40,13 @@
       "nombre": "Mineral de Estaño"
     },
     "cantidad": 20
+  },
+  {
+    "objeto": {
+      "tipo": "basico",
+      "nombre": "Piedra"
+    },
+    "cantidad": 3
   },
   {
     "objeto": {
@@ -45,6 +66,20 @@
     "objeto": {
       "tipo": "basico",
       "nombre": "Mineral de Oro"
+    },
+    "cantidad": 5
+  },
+  {
+    "objeto": {
+      "tipo": "basico",
+      "nombre": "Hierro"
+    },
+    "cantidad": 25
+  },
+  {
+    "objeto": {
+      "tipo": "basico",
+      "nombre": "Cuerda"
     },
     "cantidad": 5
   }

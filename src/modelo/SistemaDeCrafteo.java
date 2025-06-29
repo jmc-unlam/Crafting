@@ -34,7 +34,7 @@ public class SistemaDeCrafteo {
 		try {
 			Receta receta = recetario.buscarReceta(objeto);
 			
-			System.out.println("Tiempo en Crafteo (seg):"+ receta.getTiempoBase());
+			System.out.println("Tiempo en Crafteo (min):"+ receta.getTiempoBase());
 			
 			return receta.getIngredientes();
 		} catch (NoSuchElementException e) {
@@ -49,7 +49,7 @@ public class SistemaDeCrafteo {
     	try {
 			Receta receta = recetario.buscarReceta(objeto);
 			
-			System.out.println("Tiempo de Crafteo Total (seg):" + receta.calcularTiempoTotal(recetario));
+			System.out.println("Tiempo de Crafteo Total (min):" + receta.calcularTiempoTotal(recetario));
 			
 			return receta.getIngredientesBasicos(recetario);
 		} catch (NoSuchElementException e) {
@@ -79,19 +79,25 @@ public class SistemaDeCrafteo {
     	if (objeto.esBasico()) {
             throw new UnsupportedOperationException("No se puede craftear un objeto básico: " + objeto);
         }
+    	
+    	//busca la receta del objeto.(usa la primera)
     	Receta receta = recetario.buscarReceta(objeto);
+    	
         if (receta == null) {
             throw new IllegalStateException("No existe receta para craftear " + objeto);
         }
+        
+        
         if (!inventario.tieneMesa(receta.getMesaRequerida()) ) {
         	throw new UnsupportedOperationException("No tienes ["+receta.getMesaRequerida() +"] para craftear->" + objeto);
         }
 
-        int cantidadTotalDisponible = 0;
+        int cantidadTotalDisponible = 0; //cantidad disponible de 
         int numLotesCrafteables = Integer.MAX_VALUE;
-
+        
+        //Recorre los ingredientes de la primera receta. Del Objeto inicial a Craftear.
         for (Map.Entry<Objeto, Integer> entry : receta.getIngredientes().entrySet()) {
-            Objeto ingrediente = entry.getKey();
+            Objeto ingrediente = entry.getKey(); 
             int cantidadNecesariaDelIngrediente = entry.getValue();
             int cantidadDisponibleDelIngrediente = inventario.getCantidadBasico(ingrediente,recetario);
 

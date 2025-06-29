@@ -16,13 +16,6 @@
   {
     "objeto": {
       "tipo": "basico",
-      "nombre": "Téndon"
-    },
-    "cantidad": 2
-  },
-  {
-    "objeto": {
-      "tipo": "basico",
       "nombre": "Madera"
     },
     "cantidad": 5
@@ -37,9 +30,9 @@
   {
     "objeto": {
       "tipo": "basico",
-      "nombre": "Carbon"
+      "nombre": "Piedra"
     },
-    "cantidad": 12
+    "cantidad": 3
   },
   {
     "objeto": {
@@ -51,9 +44,9 @@
   {
     "objeto": {
       "tipo": "basico",
-      "nombre": "Piedra"
+      "nombre": "Carbon"
     },
-    "cantidad": 3
+    "cantidad": 12
   },
   {
     "objeto": {
@@ -65,15 +58,8 @@
   {
     "objeto": {
       "tipo": "basico",
-      "nombre": "Cuerda"
-    },
-    "cantidad": 5
-  },
-  {
-    "objeto": {
-      "tipo": "basico",
       "nombre": "Hierro"
     },
-    "cantidad": 25
+    "cantidad": 20
   }
 ]

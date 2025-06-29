@@ -104,6 +104,7 @@ public class Inventario {
 	}
 	
 	public int getCantidadBasico(Objeto objeto, Recetario recetario) {
+		//Funcion Recursiva. Devulve la cantidad 
         if (objeto.esBasico()) {
             return getCantidad(objeto);
         } else {

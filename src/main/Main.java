@@ -52,7 +52,7 @@ public class Main {
 
 				Map<Objeto, Integer> ingredientes = sistema.ingredientesNecesarios(objePregunta);
 				ingredientes.forEach((obj, cant) -> System.out.println("- " + obj + ": " + cant));
-
+				interrupcion(scanner);
 				break;
 			case 2:
 				objePregunta = seleccionarObjetoCrafteable();
@@ -60,7 +60,7 @@ public class Main {
 				System.out.println("=== Ingredientes basicos necesarios para " + objePregunta.getNombre() + " ===");
 				ingredientes = sistema.ingredientesBasicosNecesarios(objePregunta);
 				ingredientes.forEach((obj, cant) -> System.out.println("- " + obj + ": " + cant));
-
+				interrupcion(scanner);
 				break;
 			case 3:
 				objePregunta = seleccionarObjetoCrafteable();
@@ -72,6 +72,7 @@ public class Main {
 					System.out.println("No faltan ingredientes directos!");
 				else
 					faltantes.forEach((obj, cant) -> System.out.println("- Faltan " + cant + " de " + obj));
+				interrupcion(scanner);
 				break;
 			case 4:
 
@@ -83,28 +84,32 @@ public class Main {
 					System.out.println("No faltan ingredientes básicos!");
 				else
 					faltantesBasicos2.forEach((obj, cant) -> System.out.println("- " + obj + ": " + cant));
-
+				interrupcion(scanner);
 				break;
 			case 5:
+				//Calcula cuantos objetos se pueden craftear con el inventario actual.
 				objePregunta = seleccionarObjetoCrafteable();
 
 				System.out.println("Cantidad de " + objePregunta.getNombre() + " crafteables ahora: "
 						+ sistema.cantidadCrafteable(objePregunta));
+				interrupcion(scanner);
 				break;
 			case 6:
-
+				//Craftear una unidad de un objeto especifico.
 				try {
 					objePregunta = seleccionarObjetoCrafteable();
 					System.out.println("\n=== Intentando craftear 1 unidad de " + objePregunta);
-					System.out.println("Tiempo Total (seg): " + sistema.craftearObjeto(objePregunta, 1));
+					System.out.println("Tiempo Total (min): " + sistema.craftearObjeto(objePregunta, 1));
 					System.out.println(objePregunta.getNombre()+" creado Existosamente.");
 				} catch (Exception e) {
 					System.err.println("Error: " + e.getMessage());
 				}
+				interrupcion(scanner);
 				break;
 			case 7:
 				System.out.println("\n=== Historial de crafteo:");
 				sistema.getHistorial().forEach((registro) -> System.out.println(registro));
+				interrupcion(scanner);
 				break;
 			case 96:
 				objePregunta = seleccionarObjetoFarmeable();
@@ -130,21 +135,26 @@ public class Main {
 				
 				inventario.agregarObjeto(objePregunta, cantidadFarmeada);
 				System.out.println(objePregunta+"- Cantidad:" +cantidadFarmeada +", Agregado al inventario.");
+				interrupcion(scanner);
 				break;
 			case 97:
 				System.out.println(recetario);
+				interrupcion(scanner);
 				break;
 			case 98:
 				System.out.println(inventario);
+				interrupcion(scanner);
 				break;
 			case 99:
 				System.out.println("\nProlog:");
 				recetario.PrologGenerarRecetas();
 				inventario.prologGenerarInventario();
 				inventario.consultaDeProlog();
+				interrupcion(scanner);
 				break;
 			case 100:
 				seleccionarEscenario();
+				interrupcion(scanner);
 				break;
 			case 0:
 				System.out.println("Saliendo del programa. ¡Hasta pronto!");
@@ -158,11 +168,7 @@ public class Main {
 
 			System.out.println("");
 
-			System.out.println("\nPresione Enter para continuar...");
-			scanner.nextLine(); // Espera a que el usuario presione Enter
-			scanner.nextLine();
 			// Simular limpiar consola (en Eclipse, imprime saltos de línea)
-
 			// System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
 			System.out.flush();
 
@@ -174,6 +180,12 @@ public class Main {
 		// escenarioCraftearMesaDeFundicionYSusRecetas();
 	}
 
+	private static void interrupcion(Scanner scanner) {
+		System.out.println("\nPresione Enter para continuar...");
+		scanner.nextLine(); // Espera a que el usuario presione Enter
+		scanner.nextLine();
+	}
+	
 	private static Objeto seleccionarObjetoFarmeable() {
 
 		List<Objeto> listaCrafteable = recetario.listaObjetosRecolectables();
@@ -244,7 +256,7 @@ public class Main {
 		System.out.println("97. Mostrar Recetario.");
 		System.out.println("98. Mostrar inventario.");
 		System.out.println(
-				"99. Consulta Prolog -¿Cuáles son todos los productos que podría generar con el inventario actual?");
+				"99. Consulta Prolog -¿Cuáles son todos los productos que podría generar con el inventario actual? - Primer nivel.");
 		System.out.println("100. Escenarios pre-definidos.");
 		System.out.println("0. Salir");
 		System.out.println("=========================");

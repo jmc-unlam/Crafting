@@ -23,5 +23,114 @@
     ],
     "cantidadProducida": 4,
     "tiempoBase": 5
+  },
+  {
+    "objetoProducido": {"nombre": "Oxido","tipo": "intermedio"},
+    "ingredientes": [
+      {
+		  "objeto": {"nombre": "Hierro", "tipo": "basico" }, 
+		  "cantidad": 7 
+	  }
+    ],
+    "cantidadProducida": 1,
+    "tiempoBase": 2
+  },
+  {
+    "objetoProducido": {"nombre": "Hacha de Piedra","tipo": "intermedio"},
+    "ingredientes": [
+      {
+		  "objeto": {"nombre": "Oxido", "tipo": "intermedio" }, 
+		  "cantidad": 2 
+	  },
+      {
+		  "objeto": {"nombre": "Piedra", "tipo": "basico" }, 
+		  "cantidad": 3
+	  },
+      {
+		  "objeto": {"nombre": "Madera", "tipo": "basico" }, 
+		  "cantidad": 2
+	  }
+    ],
+    "cantidadProducida": 4,
+    "tiempoBase": 5
+  },
+  {
+    "objetoProducido": {"nombre": "Arco compuesto","tipo": "intermedio"},
+    "ingredientes": [
+      {
+		  "objeto": {"nombre": "Cuerda", "tipo": "basico" }, 
+		  "cantidad": 1 
+	  },
+      {
+		  "objeto": {"nombre": "Madera", "tipo": "basico" }, 
+		  "cantidad": 1
+	  },
+      {
+		  "objeto": {"nombre": "Téndon", "tipo": "basico" }, 
+		  "cantidad": 2
+	  }
+    ],
+    "cantidadProducida": 1,
+    "tiempoBase": 20
+  },
+  {
+    "objetoProducido": {"nombre": "Punta de Flecha","tipo": "intermedio"},
+    "ingredientes": [
+      {
+		  "objeto": {"nombre": "Hierro", "tipo": "basico" }, 
+		  "cantidad": 1 
+	  }
+    ],
+    "cantidadProducida": 3,
+    "tiempoBase": 5
+  },
+  {
+    "objetoProducido": {"nombre": "Flechas","tipo": "intermedio"},
+    "ingredientes": [
+      {
+		  "objeto": {"nombre": "Punta de Flecha", "tipo": "intermedio" }, 
+		  "cantidad": 3 
+	  },
+      {
+		  "objeto": {"nombre": "Madera", "tipo": "basico" }, 
+		  "cantidad": 1
+	  }
+    ],
+    "cantidadProducida": 3,
+    "tiempoBase": 5
+  },
+  {
+    "objetoProducido": {"nombre": "Carcaj","tipo": "intermedio"},
+    "ingredientes": [
+      {
+		  "objeto": {"nombre": "Cuerda", "tipo": "basico" }, 
+		  "cantidad": 3 
+	  },
+      {
+		  "objeto": {"nombre": "Madera", "tipo": "basico" }, 
+		  "cantidad": 2
+	  }
+    ],
+    "cantidadProducida": 1,
+    "tiempoBase": 10
+  },
+  {
+    "objetoProducido": {"nombre": "Equipamiento para Arquero","tipo": "intermedio"},
+    "ingredientes": [
+      {
+		  "objeto": {"nombre": "Carcaj", "tipo": "intermedio" }, 
+		  "cantidad": 1 
+	  },
+      {
+		  "objeto": {"nombre": "Flechas", "tipo": "intermedio" }, 
+		  "cantidad": 15
+	  },
+      {
+		  "objeto": {"nombre": "Arco compuesto", "tipo": "intermedio" }, 
+		  "cantidad": 1
+	  }
+    ],
+    "cantidadProducida": 1,
+    "tiempoBase": 10
   }
 ]
