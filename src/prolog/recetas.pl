@@ -1,10 +1,9 @@
 % Recetas
 % Lista de Objetos Crafteables 
-ingredientecompuesto('Hacha de Piedra').
-ingredientecompuesto('Óxido').
+ingredientecompuesto('Palo').
+ingredientecompuesto('Antorcha').
 
 % Ingredientes por objeto
-ingrediente('Hacha de Piedra', 'Madera', 2).
-ingrediente('Hacha de Piedra', 'Piedra', 3).
-ingrediente('Hacha de Piedra', 'Óxido', 2).
-ingrediente('Óxido', 'Hierro', 7).
+ingrediente('Palo', 'Madera', 1).
+ingrediente('Antorcha', 'Carbon', 1).
+ingrediente('Antorcha', 'Palo', 1).

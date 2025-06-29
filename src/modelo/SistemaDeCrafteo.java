@@ -1,5 +1,6 @@
 package modelo;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -32,6 +33,9 @@ public class SistemaDeCrafteo {
         }
 		try {
 			Receta receta = recetario.buscarReceta(objeto);
+			
+			System.out.println("Tiempo en Crafteo (seg):"+ receta.getTiempoBase());
+			
 			return receta.getIngredientes();
 		} catch (NoSuchElementException e) {
 			throw new IllegalArgumentException("El objeto no tiene receta:"+ objeto);
@@ -44,6 +48,9 @@ public class SistemaDeCrafteo {
         }
     	try {
 			Receta receta = recetario.buscarReceta(objeto);
+			
+			System.out.println("Tiempo de Crafteo Total (seg):" + receta.calcularTiempoTotal(recetario));
+			
 			return receta.getIngredientesBasicos(recetario);
 		} catch (NoSuchElementException e) {
 			throw new IllegalArgumentException("El objeto no tiene receta:"+ objeto);
@@ -128,7 +135,8 @@ public class SistemaDeCrafteo {
         int cantidadProducida = vecesReceta * receta.getCantidadProducida();
 
         int tiempoTotal = receta.getTiempoBase() * vecesReceta;
-
+        Map<Objeto, Integer> ingredientesUsados = new HashMap<Objeto, Integer>();
+        
         //Procesar y craftear sub-ingredientes
         for (Map.Entry<Objeto, Integer> entry : receta.getIngredientes().entrySet()) {
             Objeto ingrediente = entry.getKey();
@@ -143,13 +151,14 @@ public class SistemaDeCrafteo {
                 }
             }
             inventario.removerObjeto(ingrediente, cantidadNecesaria);
+            ingredientesUsados.put(ingrediente, cantidadNecesaria);
         }
 
         //Agregar el objeto crafteado al inventario.
         inventario.agregarObjeto(objeto, cantidadProducida);
 
         //Registrar el crafteo en el historial.
-        historial.agregarRegistro(objeto, cantidadProducida, tiempoTotal);
+        historial.agregarRegistro(objeto, cantidadProducida, tiempoTotal,ingredientesUsados);
 
         return tiempoTotal;
     }

@@ -1,23 +1,51 @@
 [
   {
     "objeto": {
-      "tipo": "intermedio",
-      "nombre": "hacha de piedra"
+      "tipo": "basico",
+      "nombre": "Mineral de Hierro"
     },
-    "cantidad": 1
+    "cantidad": 20
   },
   {
     "objeto": {
       "tipo": "basico",
-      "nombre": "madera"
+      "nombre": "Mineral de Plata"
     },
-    "cantidad": 8
+    "cantidad": 10
   },
   {
     "objeto": {
       "tipo": "basico",
-      "nombre": "piedra"
+      "nombre": "Madera"
     },
-    "cantidad": 2
+    "cantidad": 5
+  },
+  {
+    "objeto": {
+      "tipo": "basico",
+      "nombre": "Mineral de Estaño"
+    },
+    "cantidad": 20
+  },
+  {
+    "objeto": {
+      "tipo": "basico",
+      "nombre": "Mineral de Cobre"
+    },
+    "cantidad": 20
+  },
+  {
+    "objeto": {
+      "tipo": "basico",
+      "nombre": "Carbon"
+    },
+    "cantidad": 12
+  },
+  {
+    "objeto": {
+      "tipo": "basico",
+      "nombre": "Mineral de Oro"
+    },
+    "cantidad": 5
   }
 ]
