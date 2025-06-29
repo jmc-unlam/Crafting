@@ -86,9 +86,9 @@ public class SistemaDeCrafteo {
         for (Map.Entry<Objeto, Integer> entry : receta.getIngredientes().entrySet()) {
             Objeto ingrediente = entry.getKey();
             int cantidadNecesariaDelIngrediente = entry.getValue();
-            int cantidadDisponibleDelIngrediente = inventario.getCantidad(ingrediente);
+            int cantidadDisponibleDelIngrediente = inventario.getCantidadBasico(ingrediente,recetario);
 
-            int lotesPosibles = Math.ceilDiv(cantidadDisponibleDelIngrediente, cantidadNecesariaDelIngrediente);
+            int lotesPosibles = Math.floorDiv(cantidadDisponibleDelIngrediente, cantidadNecesariaDelIngrediente);
             
             // Nos quedamos con el mínimo, ya que estamos limitados por el ingrediente más escaso
             numLotesCrafteables = Math.min(numLotesCrafteables, lotesPosibles);
