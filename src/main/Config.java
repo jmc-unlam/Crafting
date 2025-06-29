@@ -14,4 +14,9 @@ public class Config {
 	public static final String RUTA_PROLOG_RECETAS = PROLOG_DIR + "recetas.pl";
 	public static final String RUTA_PROLOG_LOGICA = PROLOG_DIR + "logica.pl";
 	
+	//mesa d fundicion
+	public static final String RECETA_FUNDIDOR = "res/fundicion/recetaFundidor.json";
+	public static final String INVENTARIO_FUNDIDOR = "res/fundicion/inventarioFundidor.json";
+	public static final String INVENTARIO_FUNDICION = "res/fundicion/inventarioFundicion.json";
+	public static final String RECETAS_FUNDICION = "res/fundicion/recetasFundicion.json";
 }

@@ -144,19 +144,15 @@ public class Main {
 	}
 	
 	private static void escenarioCraftearMesaDeFundicionYSusRecetas() {
-	    final String RECETA_FUNDIDOR = "res/fundicion/recetaFundidor.json";
-		final String INVENTARIO_FUNDIDOR = "res/fundicion/inventarioFundidor.json";
-		final String INVENTARIO_FUNDICION = "res/fundicion/inventarioFundicion.json";
-		final String RECETAS_FUNDICION = "res/fundicion/recetasFundicion.json";
 		
-		Inventario inventario = new Inventario(new InventarioGSON(INVENTARIO_FUNDIDOR).cargar());
-		Recetario recetario = new Recetario(new RecetaGSON(RECETA_FUNDIDOR).cargar());
+		Inventario inventario = new Inventario(new InventarioGSON(Config.INVENTARIO_FUNDIDOR).cargar());
+		Recetario recetario = new Recetario(new RecetaGSON(Config.RECETA_FUNDIDOR).cargar());
 		SistemaDeCrafteo sistema = new SistemaDeCrafteo(inventario,recetario); 
 		System.out.println(inventario);
 		System.out.println(recetario);
 		System.out.println("====Agrego mas materiales y recetas de fundicion====");
-		inventario.agregarObjetos(new InventarioGSON(INVENTARIO_FUNDICION).cargar());
-		recetario.agregarRecetas(new RecetaGSON(RECETAS_FUNDICION).cargar());
+		inventario.agregarObjetos(new InventarioGSON(Config.INVENTARIO_FUNDICION).cargar());
+		recetario.agregarRecetas(new RecetaGSON(Config.RECETAS_FUNDICION).cargar());
 		System.out.println(inventario);
 		System.out.println(recetario);
 		System.out.println("===========================");
