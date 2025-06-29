@@ -201,10 +201,40 @@ public class SistemaDeCrafteo {
     	if (objeto == null) {
             throw new IllegalArgumentException("No existe objeto:" + objeto);
         }
-    	if (indiceReceta < 0) {
-    		throw new IllegalArgumentException("El indice de receta no debe ser negativo");
+    	if (objeto.esBasico()) {
+            throw new UnsupportedOperationException("No se puede craftear un objeto básico: " + objeto);
         }
-    	return inventario.getCantidadBasico(objeto,recetario,indiceReceta);
+    	List<Receta> recetas = null;
+		try {
+			recetas = recetario.buscarRecetas(objeto);
+		} catch (NoSuchElementException e) {
+			throw new IllegalArgumentException("El objeto no tiene recetas:"+ objeto);
+        }
+		if (recetas == null) {
+            throw new IllegalStateException("No existe receta para craftear " + objeto);
+        }
+    	
+        if (!inventario.tieneMesa(recetas.get(indiceReceta).getMesaRequerida()) ) {
+        	throw new UnsupportedOperationException("No tienes ["+recetas.get(indiceReceta).getMesaRequerida() +"] para craftear->" + objeto);
+        }
+
+        int cantidadTotalDisponible = 0;
+        int numLotesCrafteables = Integer.MAX_VALUE;
+
+        for (Map.Entry<Objeto, Integer> entry : recetas.get(indiceReceta).getIngredientes().entrySet()) {
+            Objeto ingrediente = entry.getKey();
+            int cantidadNecesariaDelIngrediente = entry.getValue();
+            int cantidadDisponibleDelIngrediente = inventario.getCantidadBasico(ingrediente,recetario);
+
+            int lotesPosibles = Math.floorDiv(cantidadDisponibleDelIngrediente, cantidadNecesariaDelIngrediente);
+            
+            // Nos quedamos con el mínimo, ya que estamos limitados por el ingrediente más escaso
+            numLotesCrafteables = Math.min(numLotesCrafteables, lotesPosibles);
+        }
+
+        cantidadTotalDisponible += numLotesCrafteables * recetas.get(indiceReceta).getCantidadProducida();
+
+        return cantidadTotalDisponible;
 
     }
     
