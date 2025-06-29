@@ -2,6 +2,7 @@ package modelo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class HistorialDeCrafteo {
     private List<RegistroCrafteo> registros;
@@ -9,7 +10,21 @@ public class HistorialDeCrafteo {
     public HistorialDeCrafteo() {
         this.registros = new ArrayList<>();
     }
-
+    
+    public void agregarRegistro(Objeto objeto, int cantidad, int tiempoTotal, Map<Objeto, Integer> ingredientesUsados) {
+        if (objeto == null) {
+            throw new IllegalArgumentException("El objeto no puede ser nulo");
+        }
+        if (cantidad <= 0) {
+            throw new IllegalArgumentException("La cantidad debe ser positiva");
+        }
+        if (tiempoTotal <= 0) {
+            throw new IllegalArgumentException("El tiempo no puede ser negativo o nulo");
+        }
+        
+        registros.add(new RegistroCrafteo(objeto, cantidad, tiempoTotal,ingredientesUsados));
+    }
+    
     public void agregarRegistro(Objeto objeto, int cantidad, int tiempoTotal) {
         if (objeto == null) {
             throw new IllegalArgumentException("El objeto no puede ser nulo");
