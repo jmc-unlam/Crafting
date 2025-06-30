@@ -65,6 +65,9 @@ public class SistemaDeCrafteoTest {
         recetario.agregarReceta(recetaEspadaOxidada);
 
         sistema = new SistemaDeCrafteo(inventario, recetario);
+        
+        HistorialDeCrafteo historial = HistorialDeCrafteo.getInstanciaUnica();
+        historial.limpiarRegistros();
     }
 
     @Test
