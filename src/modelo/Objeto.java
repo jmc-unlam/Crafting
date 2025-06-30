@@ -1,6 +1,8 @@
 package modelo;
 
 import java.text.Normalizer;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 public abstract class Objeto {
@@ -43,6 +45,10 @@ public abstract class Objeto {
     public abstract boolean esBasico();
     
     public abstract boolean esApilable();
+    
+    public List<Receta> listaDeRecetasPropias(){
+    	return Collections.emptyList();
+    }
     
 	@Override
 	public int hashCode() {

@@ -23,7 +23,7 @@ public class Escenarios {
 		System.out.println("2. Escenarios Mesa de fundición.");
 		System.out.println("3. Escenarios Puntos 5-6-7 Equipamiento de Arquero:");
 		System.out.println("4. Escenarios Prueba mesa de trabajo:");
-		System.out.println("0. Volver al Menú.");
+		System.out.println("0. Volver al Menú.\n");
 		
 		boolean salir = true;
 		Scanner scanner = new Scanner(System.in);
@@ -184,7 +184,8 @@ public class Escenarios {
 		
 		System.out.println("====Agrego mas materiales y recetas de fundicion====");
 		inventario.agregarObjetos(new InventarioGSON(Config.INVENTARIO_FUNDICION).cargar());
-		recetario.agregarRecetas(new RecetaGSON(Config.RECETAS_FUNDICION).cargar());
+		//recetario.agregarRecetas(new RecetaGSON(Config.RECETAS_FUNDICION).cargar()); ALORDA, evitar q se agrege 2 veces.
+		//ahora las recetas se agregan cuando se crea la mesa de fundicion en el inventario.
 		System.out.println(inventario);
 		System.out.println(recetario);
 		System.out.println("===========================");
@@ -196,11 +197,12 @@ public class Escenarios {
 		}
 		System.out.println(inventario);
 
-		System.out.println("=====Crafteando mesa de fundicion======");
-		int tiempoFundidor = sistema.craftearObjeto(new MesaDeFundicion(), 1);
+		//La mesa de fundicion con este cambio. se crea antes. Unica Receta , espero q no te enojes Jorge!!
+		//System.out.println("=====Crafteando mesa de fundicion======");
+		//int tiempoFundidor = sistema.craftearObjeto(new MesaDeFundicion(), 1);
 		
-		System.out.println("Se crafteo la mesa de fundicion en: " + tiempoFundidor);
-		System.out.println(inventario);
+		//System.out.println("Se crafteo la mesa de fundicion en: " + tiempoFundidor);
+		//System.out.println(inventario);
 		System.out.println("======Crafteando las recetas de fundicion========");
 
 		for (Receta r : recetario.getRecetas()) {
@@ -224,6 +226,8 @@ public class Escenarios {
 			System.out.println(inventario);
 			System.out.println("===========================");
 		}
+		
+		System.out.println(recetario);
 		new InventarioGSON(Config.INVENTARIO_FUNDICION_FINAL).guardar(inventario.getObjetos());
 	}
 	
@@ -276,10 +280,13 @@ public class Escenarios {
 		}
 		
 		mesa = recetario.objetoCrafteable("Mesa de Flechas");
-		
 		new Resultado(1,sistema.craftearObjeto(mesa, 1),mesa).informarTiempoCrafteoOpcion6();
 		
 		inventario.cantidadPosibleCraftear(mesa, recetario).informarCantidadOpcion5();
+		
+		recetario.PrologGenerarRecetas();
+		inventario.prologGenerarInventario();
+		inventario.consultaDeProlog();
 		
 		System.out.println(inventario);
 		new InventarioGSON(Config.ESCE04_RUTA_FINAL_INVENTARIO).guardar(inventario.getObjetos());

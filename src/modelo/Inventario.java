@@ -247,7 +247,8 @@ public class Inventario {
 
 		// Crear una consulta
 		Query consulta = new Query("posibleCrafteo(Objeto).");
-
+		
+		System.out.println("\n--PROLOG:");
 		System.out.println("--Objetos crafteables con el inventario actual:");
 		// Obtener resultados
 		while (consulta.hasMoreSolutions()) {

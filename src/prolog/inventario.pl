@@ -1,6 +1,9 @@
 % Objetos en el inventario
-inventario('Téndon',2).
-inventario('Madera',5).
-inventario('Piedra',3).
-inventario('Hierro',25).
-inventario('Cuerda',5).
+inventario('mineral de plata',3).
+inventario('Mesa de Generica',1).
+inventario('Mesa de Flechas',1).
+inventario('carbon',8).
+inventario('mineral de hierro',7).
+inventario('mineral de oro',3).
+inventario('mineral de estano',4).
+inventario('mineral de cobre',3).

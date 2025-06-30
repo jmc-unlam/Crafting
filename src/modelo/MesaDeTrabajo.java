@@ -1,11 +1,18 @@
 package modelo;
 
-public class MesaDeTrabajo extends Objeto {  //Alorda, quite el abstract para probar algo.
+import java.io.File;
+import java.util.Collections;
+import java.util.List;
+
+import datos.json.RecetaGSON;
+import main.Config;
+
+public class MesaDeTrabajo extends Objeto { // Alorda, quite el abstract para probar algo.
 
 	public MesaDeTrabajo(String nombre) {
-        super(nombre);
-    }
-	
+		super(nombre);
+	}
+
 	@Override
 	public boolean esBasico() {
 		return false;
@@ -14,6 +21,16 @@ public class MesaDeTrabajo extends Objeto {  //Alorda, quite el abstract para pr
 	@Override
 	public boolean esApilable() {
 		return false;
+	}
+
+	@Override
+	public List<Receta> listaDeRecetasPropias() {
+		File archivo = new File(Config.RECETAS_DE_MESAS_DIR + this.getNombre() + ".json");
+
+		if (archivo.exists()) 
+			return new RecetaGSON(archivo.getPath()).cargar();
+		else
+			return Collections.emptyList();
 	}
 
 	@Override

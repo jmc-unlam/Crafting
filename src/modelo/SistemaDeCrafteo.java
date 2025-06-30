@@ -175,7 +175,8 @@ public class SistemaDeCrafteo {
 
         //Agregar el objeto crafteado al inventario.
         inventario.agregarObjeto(objeto, cantidadProducida);
-
+        recetario.agregarRecetas(objeto.listaDeRecetasPropias());
+        
         //Registrar el crafteo en el historial.
         historial.agregarRegistro(objeto, cantidadProducida, tiempoTotal,ingredientesUsados);
 
