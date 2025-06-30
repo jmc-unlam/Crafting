@@ -1,0 +1,65 @@
+[
+  {
+    "objeto": {
+      "tipo": "intermedio",
+      "nombre": "lingote de acero"
+    },
+    "cantidad": 2
+  },
+  {
+    "objeto": {
+      "tipo": "intermedio",
+      "nombre": "lingote de estano"
+    },
+    "cantidad": 2
+  },
+  {
+    "objeto": {
+      "tipo": "intermedio",
+      "nombre": "lingote de hierro"
+    },
+    "cantidad": 1
+  },
+  {
+    "objeto": {
+      "tipo": "basico",
+      "nombre": "madera"
+    },
+    "cantidad": 10
+  },
+  {
+    "objeto": {
+      "tipo": "intermedio",
+      "nombre": "lingote de oro"
+    },
+    "cantidad": 1
+  },
+  {
+    "objeto": {
+      "tipo": "intermedio",
+      "nombre": "lingote de plata"
+    },
+    "cantidad": 1
+  },
+  {
+    "objeto": {
+      "tipo": "intermedio",
+      "nombre": "lingote de cobre"
+    },
+    "cantidad": 2
+  },
+  {
+    "objeto": {
+      "tipo": "mesa de fundicion",
+      "nombre": "mesa de fundicion"
+    },
+    "cantidad": 1
+  },
+  {
+    "objeto": {
+      "tipo": "basico",
+      "nombre": "ladrillo"
+    },
+    "cantidad": 20
+  }
+]

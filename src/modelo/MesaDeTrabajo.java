@@ -1,6 +1,6 @@
 package modelo;
 
-public abstract class MesaDeTrabajo extends Objeto {
+public class MesaDeTrabajo extends Objeto {  //Alorda, quite el abstract para probar algo.
 
 	public MesaDeTrabajo(String nombre) {
         super(nombre);

@@ -1,0 +1,32 @@
+[
+  {
+    "objetoProducido": {"nombre": "Mesa de Generica","tipo": "mesa de trabajo"},
+    "ingredientes": [
+      {
+		  "objeto": {"nombre": "madera", "tipo": "basico" }, 
+		  "cantidad": 10 
+	  },
+      {
+		  "objeto": {"nombre": "ladrillo", "tipo": "basico" }, 
+		  "cantidad": 20 
+	  }
+    ],
+    "cantidadProducida": 1,
+    "tiempoBase": 30
+  },
+  {
+    "objetoProducido": {"nombre": "Mesa de Flechas","tipo": "mesa de trabajo"},
+    "ingredientes": [
+      {
+		  "objeto": {"nombre": "madera", "tipo": "basico" }, 
+		  "cantidad": 10 
+	  },
+      {
+		  "objeto": {"nombre": "ladrillo", "tipo": "basico" }, 
+		  "cantidad": 20 
+	  }
+    ],
+    "cantidadProducida": 1,
+    "tiempoBase": 40
+  }
+]

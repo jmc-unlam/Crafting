@@ -24,4 +24,9 @@ public class MesaDePiedra extends MesaDeTrabajo {
 		}
 		return true;
 	}
+	
+	@Override
+	public String toString() {
+		return "MesaDePiedra: " + getNombre();
+	}
 }

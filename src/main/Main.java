@@ -142,7 +142,7 @@ public class Main {
 				interrupcion(scanner);
 				break;
 			case 12:
-				seleccionarEscenario();
+				Escenarios.seleccionarEscenario();
 				interrupcion(scanner);
 				break;
 			case 0:
@@ -247,48 +247,7 @@ public class Main {
 		System.out.println("=========================");
 	}
 
-	private static void seleccionarEscenario() {
-		System.out.println("1. Escenarios Crear Hacha de Piedra con una receta.");
-		System.out.println("2. Escenarios Mesa de fundición.");
-		System.out.println("3. Escenarios Puntos 5-6-7 Equipamiento de Arquero:");
-		System.out.println("0. Volver al Menú.");
-		
-		boolean salir = true;
-		Scanner scanner = new Scanner(System.in);
-		int intescenario;
-
-		do {
-			// Leer ID del usuario
-			System.out.print("Elige el N° de escenario (0=volver al menú): ");
-			while (!scanner.hasNextInt()) {
-				System.out.println("N° inválido. Por favor, elige un número dentro del listado de escenarios.");
-				scanner.next(); // Limpiar entrada incorrecta
-				System.out.print("Elige el N° de escenario (0=volver al menú): ");
-			}
-
-			intescenario = scanner.nextInt();
-
-			switch (intescenario) {
-			case 1:
-				Escenarios.escenarioCraftearHachaDePiedraConUnaReceta();
-				break;
-			case 2:
-				Escenarios.escenarioCraftearMesaDeFundicionYSusRecetas();
-				break;
-			case 3:
-				Escenarios.ESCE03EquipamientoDeArquero();
-				break;
-			case 0:
-				salir = false;
-				break;
-			default:
-				System.out.println("N° inválido. Por favor, elige un número dentro del listado de escenarios.");
-				break;
-			}
-
-		} while (salir);
-
-	}
+	
 
 	public static void inicio() {
 		System.out.println("** Bienvenido al MedievalCraft **");

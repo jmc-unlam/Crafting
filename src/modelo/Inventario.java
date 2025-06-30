@@ -275,8 +275,8 @@ public class Inventario {
 		}
 		// verificar si se puede apilar
 		if (this.getCantidad(ObjCrafteable) >= 1 && !ObjCrafteable.esApilable()) {
-			throw new UnsupportedOperationException(
-					"No se puede crafear porque ya lo tienes, no es apilable: " + ObjCrafteable);
+			//throw new UnsupportedOperationException("No se puede crafear porque ya lo tienes, no es apilable: " + ObjCrafteable);
+			return new Resultado(0, 0,ObjCrafteable);
 		}
 
 		// Caso un. Un objeto simple , con materiales basico.
@@ -325,6 +325,8 @@ public class Inventario {
 				cantEjecuciones++;
 				totaltiempo += tiempoAcumulado; // acumula el tiempo que tardo en craftear esta ejecucio.
 				tiempoAcumulado = 0;
+				if(!ObjCrafteable.esApilable() && cantEjecuciones==1)
+					senCorte = false; //si no es apilable, cuando es uno sale.
 			}
 		} while (senCorte);
 

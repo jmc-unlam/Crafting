@@ -1,0 +1,58 @@
+[
+  {
+    "objeto": {
+      "tipo": "basico",
+      "nombre": "mineral de plata"
+    },
+    "cantidad": 3
+  },
+  {
+    "objeto": {
+      "tipo": "mesa de trabajo",
+      "nombre": "Mesa de Generica"
+    },
+    "cantidad": 1
+  },
+  {
+    "objeto": {
+      "tipo": "mesa de trabajo",
+      "nombre": "Mesa de Flechas"
+    },
+    "cantidad": 1
+  },
+  {
+    "objeto": {
+      "tipo": "basico",
+      "nombre": "carbon"
+    },
+    "cantidad": 8
+  },
+  {
+    "objeto": {
+      "tipo": "basico",
+      "nombre": "mineral de hierro"
+    },
+    "cantidad": 7
+  },
+  {
+    "objeto": {
+      "tipo": "basico",
+      "nombre": "mineral de oro"
+    },
+    "cantidad": 3
+  },
+  {
+    "objeto": {
+      "tipo": "basico",
+      "nombre": "mineral de estano"
+    },
+    "cantidad": 4
+  },
+  {
+    "objeto": {
+      "tipo": "basico",
+      "nombre": "mineral de cobre"
+    },
+    "cantidad": 3
+  }
+]

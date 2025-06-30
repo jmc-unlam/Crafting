@@ -118,6 +118,11 @@ public class SistemaDeCrafteo {
     	if (cantACraftear <= 0) {
             throw new IllegalArgumentException("La cantidad a craftear debe ser positiva");
         }
+    	
+    	if (!objeto.esApilable() && cantACraftear>1 ) {
+        	throw new UnsupportedOperationException("No se puede crafear la cantidad de " + cantACraftear +  " , no es apilable solo admite 1 unidad: " + objeto);
+        }
+    	
     	// Verificar si es posible craftear la cantidad solicitada
         Resultado res = inventario.cantidadPosibleCraftear(objeto, recetario);
         
@@ -138,7 +143,7 @@ public class SistemaDeCrafteo {
         if (!inventario.tieneMesa(receta.getMesaRequerida()) ) {
         	throw new UnsupportedOperationException("No tienes ["+receta.getMesaRequerida() +"] para craftear->" + objeto);
         }
-        //verificar si se puede apilar
+        //verificar si se puede apilar y q este en el inventario.
         if ( inventario.getCantidad(objeto)>=1 && !objeto.esApilable() ) {
         	throw new UnsupportedOperationException("No se puede crafear porque ya lo tienes, no es apilable: " + objeto);
         }
