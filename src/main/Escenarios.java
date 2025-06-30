@@ -22,7 +22,8 @@ public class Escenarios {
 		System.out.println("1. Escenarios Crear Hacha de Piedra con una receta.");
 		System.out.println("2. Escenarios Mesa de fundición.");
 		System.out.println("3. Escenarios Puntos 5-6-7 Equipamiento de Arquero:");
-		System.out.println("4. Escenarios Prueba mesa de trabajo:");
+		System.out.println("4. Escenarios Prueba de craftear 2 mesas de trabajo diferente:");
+		System.out.println("5. Escenarios Mesa de trabajo agregando recetas múltiples:");
 		System.out.println("0. Volver al Menú.\n");
 
 		boolean salir = true;
@@ -54,6 +55,9 @@ public class Escenarios {
 				break;
 			case 4:
 				Escenarios.ESCE04PruebaMesaDeTrabajo();
+				break;
+			case 5:
+				Escenarios.ESCE05RecetasMultiplesCon();
 				break;
 			case 0:
 				salir = false;
