@@ -4,34 +4,13 @@
       "tipo": "basico",
       "nombre": "Madera"
     },
-    "cantidad": 5
+    "cantidad": 1
   },
   {
     "objeto": {
-      "tipo": "basico",
-      "nombre": "Téndon"
+      "tipo": "intermedio",
+      "nombre": "Equipamiento para Arquero"
     },
     "cantidad": 2
-  },
-  {
-    "objeto": {
-      "tipo": "basico",
-      "nombre": "Piedra"
-    },
-    "cantidad": 3
-  },
-  {
-    "objeto": {
-      "tipo": "basico",
-      "nombre": "Hierro"
-    },
-    "cantidad": 25
-  },
-  {
-    "objeto": {
-      "tipo": "basico",
-      "nombre": "Cuerda"
-    },
-    "cantidad": 5
   }
 ]

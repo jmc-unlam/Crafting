@@ -176,7 +176,7 @@ public class Recetario {
 		}
 		
 		if(listaObjetos.size()>0)
-		{
+		{//crea el listado de objetos crafteables con un Nr para identificarlo 
 			System.out.println("--Lista de Objetos a Craftear.");
 			int id = 1;
 			for (Objeto objeto : listaObjetos) {
@@ -227,4 +227,15 @@ public class Recetario {
 		
 		return listaObjetos;
 	}
+	
+	public Objeto objetoCrafteable(String nombre) {
+		for (Map.Entry<Objeto, List<Receta>> entry : recetasPorObjeto.entrySet()) {
+			Objeto objBuscado = entry.getKey();
+			if(objBuscado.getNombre().equals(nombre))
+				return objBuscado;
+		}
+		System.out.println("no encontro un *" + nombre + "* con ese nombre.");
+		return null;
+	}
+	
 }
