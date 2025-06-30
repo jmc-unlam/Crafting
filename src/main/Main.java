@@ -82,15 +82,11 @@ public class Main {
 				// Craftear una unidad de un objeto especifico.
 				try {
 					objePregunta = seleccionarObjetoCrafteable();
-<<<<<<< HEAD
-					new Resultado(1,sistema.craftearObjeto(objePregunta, 1),objePregunta).informarTiempoCrafteoOpcion6();
+					new Resultado(1, sistema.craftearObjeto(objePregunta, 1), objePregunta)
+							.informarTiempoCrafteoOpcion6();
 					System.out.println("===========================");
 					System.out.println("===Arbol de crafteo -> "+objePregunta+"===");
 					sistema.mostrarArbolCrafteo(objePregunta);
-=======
-					new Resultado(1, sistema.craftearObjeto(objePregunta, 1), objePregunta)
-							.informarTiempoCrafteoOpcion6();
->>>>>>> refs/heads/AlordaV7
 				} catch (Exception e) {
 					System.err.println("Error: " + e.getMessage());
 				}
