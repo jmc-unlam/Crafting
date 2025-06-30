@@ -35,7 +35,11 @@ public class Recetario {
             throw new IllegalArgumentException("La receta no puede ser nula");
         }
     	recetasPorObjeto.putIfAbsent(receta.getObjetoProducido(), new ArrayList<>());
-        recetasPorObjeto.get(receta.getObjetoProducido()).add(receta);
+    	List<Receta> recetasExistentes = recetasPorObjeto.get(receta.getObjetoProducido());
+    	
+    	if (!recetasExistentes.contains(receta)) {
+            recetasExistentes.add(receta);
+        }
     }
 
     public void removerReceta(Receta receta) {
@@ -97,6 +101,7 @@ public class Recetario {
 
     //*****Implementacion Mesas de Trabajo*************
 	public void agregarRecetas(List<Receta> recetas) {
+		
 		for (Receta receta : recetas ) {
 			this.agregarReceta(receta);
 		}
