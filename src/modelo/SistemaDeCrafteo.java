@@ -135,8 +135,8 @@ public class SistemaDeCrafteo {
 		cantidadTotalDisponible += numLotesCrafteables * receta.getCantidadProducida();
 
 		int vecesReceta = (numLotesCrafteables == 0) ? 1 : numLotesCrafteables;
-		System.out.println(
-				"La cantidad crafteable se ejecuto en: " + receta.calcularTiempoTotal(recetario) * vecesReceta);
+		//System.out.println(
+				//"La cantidad crafteable se ejecuto en: " + receta.calcularTiempoTotal(recetario) * vecesReceta);
 		return cantidadTotalDisponible;
 	}
 
@@ -156,7 +156,7 @@ public class SistemaDeCrafteo {
 		int maxCrafteable = res.getCantidadCrafteable();
 
 		if (maxCrafteable < cantACraftear) {
-			System.out.println(maxCrafteable + "-" + cantACraftear);
+			
 			throw new IllegalStateException(
 					"No hay suficientes materiales para craftear " + cantACraftear + " " + objeto);
 		}
@@ -403,7 +403,9 @@ public class SistemaDeCrafteo {
         }
     	try {
 			Receta receta = recetario.buscarReceta(objeto);
-						
+			System.out.println("===========================");
+			System.out.println("===Arbol de crafteo -> "+ objeto +"===");
+			
 			mostrarArbolRecursivo(receta, recetario, 0);
 		} catch (NoSuchElementException e) {
 			throw new IllegalArgumentException("El objeto no tiene receta:"+ objeto);

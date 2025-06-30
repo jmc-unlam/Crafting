@@ -140,6 +140,10 @@ public class Main {
 				Escenarios.seleccionarEscenario();
 				interrupcion(scanner);
 				break;
+			case 13:
+				sistema.mostrarArbolCrafteo(seleccionarObjetoCrafteable());
+				interrupcion(scanner);
+				break;
 			case 0:
 				System.out.println("Saliendo del programa. ¡Hasta pronto!");
 				System.out.println("Guardando Inventario...");
@@ -238,6 +242,7 @@ public class Main {
 		System.out.println(
 				"11. Consulta Prolog -¿Cuáles son todos los productos que podría generar con el inventario actual? - Primer nivel.");
 		System.out.println("12. Escenarios pre-definidos.");
+		System.out.println("13. Arbol de Crafteo.");
 		System.out.println("0. Salir");
 		System.out.println("=========================");
 	}
