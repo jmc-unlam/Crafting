@@ -44,6 +44,14 @@ public class Resultado {
 		ingredientes.forEach((obj, cant) -> System.out.println("- " + obj + ": " + cant));
 	}
 	
+	public void informarCantidadOpcion2() {
+		System.out.println("=== Ingredientes basicos necesarios para " + this.objetoCrafteableUnico.getNombre() + " ===");
+		
+		System.out.println("Tiempo de Crafteo Total (min):" + this.tiempo);
+		ingredientes.forEach((obj, cant) -> System.out.println("- " + obj + ": " + cant));
+		
+	}
+	
 	public void informarCantidadOpcion5() {
 		System.out.println("Cantidad de (" + objetoCrafteableUnico.getNombre() + ") crafteables ahora: "
 				+ cantidadCrafteable + " en un tiempo de " + tiempo + "(min).");
