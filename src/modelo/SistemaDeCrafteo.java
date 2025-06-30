@@ -88,14 +88,29 @@ public class SistemaDeCrafteo {
 		return inventario.getFaltantes(ingredientesNecesarios(objeto));
 	}
 
+	public Resultado ingredientesFaltantesParaCraftearConTiempo(Objeto objeto) {
+		if (objeto == null) {
+			throw new IllegalArgumentException("No existe objeto:" + objeto);
+		}
+		return new Resultado(1,recetario.buscarReceta(objeto).getTiempoBase(),objeto,inventario.getFaltantes(ingredientesNecesarios(objeto)));
+	}
+	
 	public Map<Objeto, Integer> ingredientesBasicosFaltantesParaCraftear(Objeto objeto) {
 		if (objeto == null) {
 			throw new IllegalArgumentException("No existe objeto:" + objeto);
 		}
 		return inventario.getFaltantesBasicos(ingredientesBasicosNecesarios(objeto), recetario);
-
 	}
 
+	public Resultado ingredientesBasicosFaltantesParaCraftearConTiempo(Objeto objeto) {
+		if (objeto == null) {
+			throw new IllegalArgumentException("No existe objeto:" + objeto);
+		}
+		Receta receta = recetario.buscarReceta(objeto);
+		
+		return new Resultado(1,receta.calcularTiempoTotal(recetario),objeto,inventario.getFaltantesBasicos(ingredientesBasicosNecesarios(objeto), recetario));
+	}
+	
 	public int cantidadCrafteable(Objeto objeto) {
 		if (objeto == null) {
 			throw new IllegalArgumentException("No existe objeto:" + objeto);

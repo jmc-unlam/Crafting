@@ -1,10 +1,46 @@
-[
+[  {
+    "objetoProducido": {"nombre": "Palo","tipo": "intermedio"},
+    "ingredientes": [
+      {
+		  "objeto": {"nombre": "Madera", "tipo": "basico" }, 
+		  "cantidad": 1 
+	  }
+    ],
+    "cantidadProducida": 10,
+    "tiempoBase": 10
+  },
+  {
+    "objetoProducido": {"nombre": "Oxido","tipo": "intermedio"},
+    "ingredientes": [
+      {
+		  "objeto": {"nombre": "Hierro", "tipo": "basico" }, 
+		  "cantidad": 7 
+	  }
+    ],
+    "cantidadProducida": 1,
+    "tiempoBase": 2
+  },
   {
     "objetoProducido": {"nombre": "Punta de Flecha","tipo": "intermedio"},
     "ingredientes": [
       {
 		  "objeto": {"nombre": "Hierro", "tipo": "basico" }, 
 		  "cantidad": 1 
+	  }
+    ],
+    "cantidadProducida": 3,
+    "tiempoBase": 5
+  },
+  {
+    "objetoProducido": {"nombre": "Flechas","tipo": "intermedio"},
+    "ingredientes": [
+      {
+		  "objeto": {"nombre": "Punta de Flecha", "tipo": "intermedio" }, 
+		  "cantidad": 3 
+	  },
+      {
+		  "objeto": {"nombre": "Madera", "tipo": "basico" }, 
+		  "cantidad": 1
 	  }
     ],
     "cantidadProducida": 3,

@@ -52,6 +52,29 @@ public class Resultado {
 		
 	}
 	
+	public void informarCantidadOpcion3() {
+		System.out.println("\nIngredientes faltantes para " + objetoCrafteableUnico.getNombre() + ":");
+
+		Map<Objeto, Integer> faltantes = ingredientes;
+		
+		System.out.println("Tiempo de Crafteo (min):" + this.tiempo);
+		if (faltantes.isEmpty())
+			System.out.println("No faltan ingredientes directos!");
+		else
+			faltantes.forEach((obj, cant) -> System.out.println("- Faltan " + cant + " de " + obj));
+	}
+	
+	public void informarCantidadOpcion4() {
+		System.out.println("\nNuevos ingredientes básicos faltantes para " + objetoCrafteableUnico.getNombre() + ":");
+		Map<Objeto, Integer> faltantesBasicos2 = ingredientes;
+		
+		System.out.println("Tiempo de Crafteo Total (min):" + this.tiempo);
+		if (faltantesBasicos2.isEmpty())
+			System.out.println("No faltan ingredientes básicos!");
+		else
+			faltantesBasicos2.forEach((obj, cant) -> System.out.println("- " + obj + ": " + cant));
+	}
+	
 	public void informarCantidadOpcion5() {
 		System.out.println("Cantidad de (" + objetoCrafteableUnico.getNombre() + ") crafteables ahora: "
 				+ cantidadCrafteable + " en un tiempo de " + tiempo + "(min).");
