@@ -22,14 +22,15 @@ public class Escenarios {
 		System.out.println("1. Escenarios Crear Hacha de Piedra con una receta.");
 		System.out.println("2. Escenarios Mesa de fundición.");
 		System.out.println("3. Escenarios Puntos 5-6-7 Equipamiento de Arquero:");
-		System.out.println("4. Escenarios Prueba mesa de trabajo:");
+		System.out.println("4. Escenarios Prueba de craftear 2 mesas de trabajo diferente:");
+		System.out.println("5. Escenarios Mesa de trabajo agregando recetas múltiples:");
 		System.out.println("0. Volver al Menú.\n");
-		
+
 		boolean salir = true;
 		Scanner scanner = new Scanner(System.in);
 		int intescenario;
 		HistorialDeCrafteo historial = HistorialDeCrafteo.getInstanciaUnica();
-        
+
 		do {
 			// Leer ID del usuario
 			System.out.print("Elige el N° de escenario (0=volver al menú): ");
@@ -40,8 +41,8 @@ public class Escenarios {
 			}
 
 			intescenario = scanner.nextInt();
-			
-			historial.limpiarRegistros(); //reinicia el historial.
+
+			historial.limpiarRegistros(); // reinicia el historial.
 			switch (intescenario) {
 			case 1:
 				Escenarios.escenarioCraftearHachaDePiedraConUnaReceta();
@@ -55,6 +56,9 @@ public class Escenarios {
 			case 4:
 				Escenarios.ESCE04PruebaMesaDeTrabajo();
 				break;
+			case 5:
+				Escenarios.ESCE05RecetasMultiplesCon();
+				break;
 			case 0:
 				salir = false;
 				break;
@@ -66,6 +70,7 @@ public class Escenarios {
 		} while (salir);
 
 	}
+
 	public static void escenarioCraftearHachaDePiedraConUnaReceta() {
 		// Crear objetos
 		ObjetoBasico madera = new ObjetoBasico("Madera");
@@ -224,7 +229,7 @@ public class Escenarios {
 			System.out.println("===========================");
 		}
 	}
-	
+
 	public static void ESCE03EquipamientoDeArquero() {
 		System.out.println("-ESCENARIO 03.");
 		System.out.println("-Este escenario emula la creación de un Objeto compuesto de 3 nivels.");
@@ -232,22 +237,23 @@ public class Escenarios {
 		System.out.println("\n");
 		Inventario inventario = new Inventario(new InventarioGSON(Config.ESCE03_RUTA_INICIO_INVENTARIO).cargar());
 		Recetario recetario = new Recetario(new RecetaGSON(Config.ESCE03_RUTA_INICIO_RECETARIO).cargar());
-		
+
 		SistemaDeCrafteo sistema = new SistemaDeCrafteo(inventario, recetario);
-        
+
 		System.out.println(inventario);
-		
+
 		Objeto equipoDeArquero = recetario.objetoCrafteable("Equipamiento para Arquero");
-		
-		//devolver cantidad posible a craftear.
+
+		// devolver cantidad posible a craftear.
 		inventario.cantidadPosibleCraftear(equipoDeArquero, recetario).informarCantidadOpcion5();
-		
+
 		try {
-			new Resultado(2,sistema.craftearObjeto(equipoDeArquero, 2),equipoDeArquero).informarTiempoCrafteoOpcion6();
+			new Resultado(2, sistema.craftearObjeto(equipoDeArquero, 2), equipoDeArquero)
+					.informarTiempoCrafteoOpcion6();
 		} catch (Exception e) {
 			System.err.println("Error: " + e.getMessage());
 		}
-		
+
 		System.out.println(sistema.getHistorialReal().toString());
 		System.out.println(inventario);
 		new InventarioGSON(Config.ESCE03_RUTA_FINAL_INVENTARIO).guardar(inventario.getObjetos());
@@ -261,36 +267,67 @@ public class Escenarios {
 		SistemaDeCrafteo sistema = new SistemaDeCrafteo(inventario, recetario);
 		System.out.println(inventario);
 		System.out.println(recetario);
-		
+
 		Objeto mesa = recetario.objetoCrafteable("Mesa de Generica");
 		inventario.cantidadPosibleCraftear(mesa, recetario).informarCantidadOpcion5();
-		
+
 		try {
-			new Resultado(1,sistema.craftearObjeto(mesa, 1),mesa).informarTiempoCrafteoOpcion6();
+			new Resultado(1, sistema.craftearObjeto(mesa, 1), mesa).informarTiempoCrafteoOpcion6();
 		} catch (Exception e) {
 			System.err.println("Error: " + e.getMessage());
 		}
-		
+
 		mesa = recetario.objetoCrafteable("Mesa de Flechas");
-		new Resultado(1,sistema.craftearObjeto(mesa, 1),mesa).informarTiempoCrafteoOpcion6();
-		
+		new Resultado(1, sistema.craftearObjeto(mesa, 1), mesa).informarTiempoCrafteoOpcion6();
+
 		inventario.cantidadPosibleCraftear(mesa, recetario).informarCantidadOpcion5();
-		
+
 		Objeto objeIntermedio = recetario.objetoCrafteable("lingote de hierro");
-		new Resultado(2,sistema.craftearObjeto(objeIntermedio, 2),objeIntermedio).informarTiempoCrafteoOpcion6();
-		
+		new Resultado(2, sistema.craftearObjeto(objeIntermedio, 2), objeIntermedio).informarTiempoCrafteoOpcion6();
+
 		objeIntermedio = recetario.objetoCrafteable("Punta de Flecha");
-		new Resultado(5,sistema.craftearObjeto(objeIntermedio, 5),objeIntermedio).informarTiempoCrafteoOpcion6();
-		
+		new Resultado(5, sistema.craftearObjeto(objeIntermedio, 5), objeIntermedio).informarTiempoCrafteoOpcion6();
+
 		recetario.PrologGenerarRecetas();
 		inventario.prologGenerarInventario();
 		inventario.consultaDeProlog();
-		
+
 		System.out.println(recetario);
 		System.out.println(inventario);
-		System.out.println("COMENTARIO FINAL: Se crearon las fechas usando la mesa de flechas y el lingote de hierro para las fechas creada con la mesa General.");
+		System.out.println(
+				"COMENTARIO FINAL: Se crearon las fechas usando la mesa de flechas y el lingote de hierro para las fechas creada con la mesa General.");
 		new InventarioGSON(Config.ESCE04_RUTA_FINAL_INVENTARIO).guardar(inventario.getObjetos());
-		
-		
+
 	}
+
+	public static void ESCE05RecetasMultiplesCon() {
+		System.out.println("ESCENARIO05:");
+		System.out.println("Construir una mesa de flechas, la cual incorpora una receta nueva para la ");
+		System.out.println("la creación de las puntas de flecha más, generando mas eficiencia al craftearlas.");
+		
+		Inventario inventario = new Inventario(new InventarioGSON(Config.ESCE05_RUTA_INICIO_INVENTARIO).cargar());
+		Recetario recetario = new Recetario(new RecetaGSON(Config.ESCE05_RUTA_INICIO_RECETARIO).cargar());
+		SistemaDeCrafteo sistema = new SistemaDeCrafteo(inventario, recetario);
+		
+		System.out.println(inventario);
+		System.out.println(recetario);
+		
+		Objeto objCraftear = recetario.objetoCrafteable("Mesa de Flechas");
+		new Resultado(1, sistema.craftearObjeto(objCraftear, 1), objCraftear).informarTiempoCrafteoOpcion6();
+		
+		System.out.println("\n--Cambio de inventario y Recetario al agregar la Mesa de Flechas:\n");
+		System.out.println(inventario);
+		System.out.println(recetario);
+		
+		System.out.println("\n--PUNTA DE FLECHA -- Mejor Receta es:");
+		objCraftear = recetario.objetoCrafteable("Punta de Flecha");
+		
+		sistema.ingredientesNecesariosConCantidad(objCraftear).informarCantidadOpcion1();
+		new Resultado(1, sistema.craftearObjeto(objCraftear, 1), objCraftear).informarTiempoCrafteoOpcion6();
+		
+		System.out.println(sistema.getHistorialReal().toString());
+		
+		new InventarioGSON(Config.ESCE05_RUTA_FINAL_INVENTARIO).guardar(inventario.getObjetos());
+	}
+
 }

@@ -43,7 +43,7 @@ public class Main {
 			// Ejecutar acción según la opción
 			switch (opcion) {
 			case 1:
-				sistema.ingredientesNecesariosConCantidad(seleccionarObjetoCrafteable()).informarCantidadOpcion1();;
+				sistema.ingredientesNecesariosConCantidad(seleccionarObjetoCrafteable()).informarCantidadOpcion1();
 				interrupcion(scanner);
 				break;
 			case 2:
