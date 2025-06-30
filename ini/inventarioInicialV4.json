@@ -25,7 +25,7 @@
       "tipo": "basico",
       "nombre": "Madera"
     },
-    "cantidad": 9
+    "cantidad": 7
   },
   {
     "objeto": {
@@ -60,14 +60,7 @@
       "tipo": "basico",
       "nombre": "Cuerda"
     },
-    "cantidad": 4
-  },
-  {
-    "objeto": {
-      "tipo": "basico",
-      "nombre": "Téndon"
-    },
-    "cantidad": 2
+    "cantidad": 1
   },
   {
     "objeto": {
@@ -95,6 +88,6 @@
       "tipo": "basico",
       "nombre": "Hierro"
     },
-    "cantidad": 5
+    "cantidad": 1
   }
 ]

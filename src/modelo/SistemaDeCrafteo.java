@@ -120,6 +120,7 @@ public class SistemaDeCrafteo {
         }
     	// Verificar si es posible craftear la cantidad solicitada
         int maxCrafteable = cantidadCrafteable(objeto);
+        
         if (maxCrafteable < cantACraftear) {
             throw new IllegalStateException("No hay suficientes materiales para craftear " + cantACraftear + " " + objeto);
         }

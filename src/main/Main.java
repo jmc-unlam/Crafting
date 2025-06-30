@@ -14,6 +14,7 @@ import modelo.ObjetoBasico;
 import modelo.ObjetoIntermedio;
 import modelo.Receta;
 import modelo.Recetario;
+import modelo.Resultado;
 import modelo.SistemaDeCrafteo;
 
 public class Main {
@@ -156,6 +157,16 @@ public class Main {
 				seleccionarEscenario();
 				interrupcion(scanner);
 				break;
+			case 101:
+				//Calcula cuantos objetos se pueden craftear con el inventario actual.
+				objePregunta = seleccionarObjetoCrafteable();
+
+				Resultado res = inventario.cantidadPosibleCraftear(objePregunta, recetario);
+				
+				System.out.println("Cantidad de " + objePregunta.getNombre() + " crafteables ahora: "
+						+ res.getCantidadCrafteable() + " en un tiempo de " + res.getTiempo() + "(min).");
+				interrupcion(scanner);
+				break;
 			case 0:
 				System.out.println("Saliendo del programa. ¡Hasta pronto!");
 				System.out.println("Guardando Inventario...");
@@ -258,6 +269,7 @@ public class Main {
 		System.out.println(
 				"99. Consulta Prolog -¿Cuáles son todos los productos que podría generar con el inventario actual? - Primer nivel.");
 		System.out.println("100. Escenarios pre-definidos.");
+		System.out.println("101. Prueba opcion 5 en desarrollo");
 		System.out.println("0. Salir");
 		System.out.println("=========================");
 	}
