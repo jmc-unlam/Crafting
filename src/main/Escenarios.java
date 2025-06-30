@@ -174,6 +174,10 @@ public class Escenarios {
 		} catch (Exception e) {
 			System.err.println("Error: " + e.getMessage());
 		}
+		
+		System.out.println("===========================");
+		System.out.println("===Mostrando arbol de hacha de piedra===");
+		sistema.mostrarArbolCrafteo(hachaDePiedra);
 	}
 
 	public static void escenarioCraftearMesaDeFundicionYSusRecetas() {

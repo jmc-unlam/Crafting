@@ -348,4 +348,41 @@ public class SistemaDeCrafteo {
 		return historial;
     };
     
+    //*****Implementacion Arbol de Crafteo*************
+    private void mostrarArbolRecursivo(Receta receta, Recetario recetario, int nivel) {
+    	
+    	StringBuilder espacio = new StringBuilder();
+        for (int i = 0; i < nivel; i++) {
+        	espacio.append("  ");
+        }
+        Objeto objeto = receta.getObjetoProducido();
+        int cantidad = receta.getCantidadProducida();
+        System.out.println(espacio + "└─ " + objeto.getNombre() + " x" + cantidad);
+        
+        for (Map.Entry<Objeto, Integer> entry : receta.getIngredientes().entrySet()) {
+            Objeto ingrediente = entry.getKey();
+            int cantidadIngrediente = entry.getValue();
+            
+            if (!ingrediente.esBasico()) {
+                Receta subReceta = recetario.buscarReceta(ingrediente);
+                mostrarArbolRecursivo(subReceta, recetario, nivel + 1);
+            } else {
+                System.out.println(espacio + "  └─ " + ingrediente.getNombre() + " x" + cantidadIngrediente);
+            }
+        }
+    }
+    
+    public void mostrarArbolCrafteo(Objeto objeto) {
+    	if (objeto == null) {
+            throw new IllegalArgumentException("No existe objeto:" + objeto);
+        }
+    	try {
+			Receta receta = recetario.buscarReceta(objeto);
+						
+			mostrarArbolRecursivo(receta, recetario, 0);
+		} catch (NoSuchElementException e) {
+			throw new IllegalArgumentException("El objeto no tiene receta:"+ objeto);
+        }
+    }
+    
 }
