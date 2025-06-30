@@ -119,7 +119,9 @@ public class SistemaDeCrafteo {
             throw new IllegalArgumentException("La cantidad a craftear debe ser positiva");
         }
     	// Verificar si es posible craftear la cantidad solicitada
-        int maxCrafteable = cantidadCrafteable(objeto);
+        Resultado res = inventario.cantidadPosibleCraftear(objeto, recetario);
+        
+        int maxCrafteable = res.getCantidadCrafteable();
         
         if (maxCrafteable < cantACraftear) {
             throw new IllegalStateException("No hay suficientes materiales para craftear " + cantACraftear + " " + objeto);
@@ -270,6 +272,7 @@ public class SistemaDeCrafteo {
         }
     	// Verificar si es posible craftear la cantidad solicitada
         int maxCrafteable = cantidadCrafteable(objeto);
+        
         if (maxCrafteable < cantACraftear) {
             throw new IllegalStateException("No hay suficientes materiales para craftear " + cantACraftear + " " + objeto);
         }

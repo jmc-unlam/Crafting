@@ -173,6 +173,7 @@ public class SistemaDeCrafteoTest {
     	// aumento la cantidad de piedra = 6
         inventario.agregarObjeto(hierro, 3); //produciria 9 oxidos
         inventario.agregarObjeto(piedra, 1);
+        
         //crafteo 4 hachas de piedra y la receta produce de a 2 asi
         //que hara 2 veces la receta
         int tiempoTotal = sistema.craftearObjeto(hachaDePiedra, 4);

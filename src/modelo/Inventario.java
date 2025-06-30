@@ -287,15 +287,12 @@ public class Inventario {
 		// pero llevarlo a la practica eso es otra cosa.
 
 		// Crear CLONE del inventario. para ir restado al Aux y ver q me queda.
-
-		// Map<Objeto, Integer> inventarioAux = new HashMap<>();
-
 		Inventario inventarioAux = new Inventario(objetos);
 
 		int cantEjecuciones = 0;
 		int tiempoAcumulado = 0;
 		int totaltiempo = 0;
-		
+
 		boolean senCorte = true;
 		// Descompongo el objeto sus ingredientes y miro si los tengo en el inventario.
 		// Si tengo todos los ingredientes. Voy restando al inventario y incremento el
@@ -309,10 +306,10 @@ public class Inventario {
 			for (Map.Entry<Objeto, Integer> entry : receta.getIngredientes().entrySet()) {
 				Objeto ingrediente = entry.getKey();
 				int cantidadNecesaria = entry.getValue();
-				
-				Resultado resIngrediente = cantidadRecursivaObjeto(inventarioAux, ingrediente,
-						cantidadNecesaria, recetario);
-				
+
+				Resultado resIngrediente = cantidadRecursivaObjeto(inventarioAux, ingrediente, cantidadNecesaria,
+						recetario);
+
 				if (resIngrediente.getCantidadCrafteable() == 0) {
 					// si la cantidad crafteada del resulta es cero, CORTA. por que signifca q ese
 					// ingrediente
@@ -320,79 +317,63 @@ public class Inventario {
 					senCorte = false;
 					break; // salgo del for - un ingrediente Intermedio no es posible de craftear
 				} else {
-					tiempoAcumulado+= resIngrediente.getTiempo(); //acumula los tiempos de los crafteos intermedios
+					tiempoAcumulado += resIngrediente.getTiempo(); // acumula los tiempos de los crafteos intermedios
 				}
-				
-				/*if (cantidadNecesaria <= inventarioAux.getCantidad(ingrediente)) {
-					inventarioAux.removerObjeto(ingrediente, cantidadNecesaria);
-				} else {
-					if (ingrediente.esBasico()) {
-						senCorte = false; // la cantidad en el inventario es menor a la necesitada.
-						break; // salgo del for
-					} else {
-						//System.out.println("Ingrediente intermedio. falta DESARROLLAR.");
-						Resultado resIngrediente = cantidadRecursivaObjeto(inventarioAux, ingrediente,
-								cantidadNecesaria, recetario);
-
-						if (resIngrediente.getCantidadCrafteable() == 0) {
-							// si la cantidad crafteada del resulta es cero, CORTA. por que signifca q ese
-							// ingrediente
-							// no se pudo crear en la cantidad necesaria.
-							senCorte = false;
-							break; // salgo del for - un ingrediente Intermedio no es posible de craftear
-						} else {
-							tiempoAcumulado+= resIngrediente.getTiempo(); //acumula los tiempos de los crafteos intermedios
-						}
-					}
-				}*/
 			}
 
-			if (senCorte) {
+			if (senCorte) { // si es true, significa q se salio exitosamente del for.
 				cantEjecuciones++;
-				totaltiempo+=tiempoAcumulado; //acumula el tiempo que tardo en craftear esta ejecucio.
+				totaltiempo += tiempoAcumulado; // acumula el tiempo que tardo en craftear esta ejecucio.
 				tiempoAcumulado = 0;
 			}
 		} while (senCorte);
 
-		return new Resultado(cantEjecuciones * receta.getCantidadProducida(), totaltiempo+receta.getTiempoBase() * cantEjecuciones);
+		return new Resultado(cantEjecuciones * receta.getCantidadProducida(),
+				totaltiempo + receta.getTiempoBase() * cantEjecuciones);
 	}
 
 	private Resultado cantidadRecursivaObjeto(Inventario invAux, Objeto objetoConsultar, int cantidadNecesariaDelObjeto,
 			Recetario recetario) {
 		int tiempoAcumulado = 0;
-		int cantidadCrafteadaTotal=0;
-		
+		int cantidadCrafteadaTotal = 0;
+
 		if (objetoConsultar.esBasico()) {// condicion de corte si es basico.
 			if (cantidadNecesariaDelObjeto <= invAux.getCantidad(objetoConsultar)) {
 				invAux.removerObjeto(objetoConsultar, cantidadNecesariaDelObjeto);
-				return new Resultado(1, 0); // devuevel 1,0. por q el objeto es basico y habia esa cantidad en el invAUX
+				return new Resultado(-1, 0); // devuevel -1,0. por q el objeto es basico y habia esa cantidad en el
+												// invAUX
 			} else {
 				return new Resultado(0, 0); // Devuelve 0,0 por q la cantidad no hay en el invAUX
 			}
 		} else {
 			if (cantidadNecesariaDelObjeto <= invAux.getCantidad(objetoConsultar)) {
-				System.out.println(cantidadNecesariaDelObjeto);
+				// Quita las cantidades del objeto intermedio del inventarioAux.
 				invAux.removerObjeto(objetoConsultar, cantidadNecesariaDelObjeto);
-				return new Resultado(1, 0); // devuevel 1,0. por q el objeto es intermedio y habia esa cantidad en el
-											// invAUX
+				return new Resultado(-1, 0); // devuevel -1,0. por q el objeto es intermedio y habia esa cantidad en el
+												// invAUX - no se crafteo nada.
 			} else {
 				// No hay o es menor a la necesitada. //calcula faltante para crear lo q
 				// necesita con el inventario. Actual.
 				int cantidadFaltante = cantidadNecesariaDelObjeto - invAux.getCantidad(objetoConsultar);
 				// no tengo la cantidad del objeto.
-				Receta receta = recetario.buscarReceta(objetoConsultar); // busco la receta para corroborar si tengo.
-				
-				//Cantidad de veces q se debe ejecutar el crafteo para lograr la cantidad necesaria.
+				// busco la receta para corroborar si tengo tengo los basicos o necesito seguir
+				// abriendo.
+				Receta receta = recetario.buscarReceta(objetoConsultar);
+
+				// Cantidad de veces q se debe ejecutar el crafteo para lograr la cantidad
+				// necesaria.
 				int vecesReceta = Math.ceilDiv(cantidadFaltante, receta.getCantidadProducida());
-				
+				Objeto ingrediente = null;
+
 				for (Map.Entry<Objeto, Integer> entry : receta.getIngredientes().entrySet()) {
-					Objeto ingrediente = entry.getKey();
-					int cantidadNecesaria = entry.getValue()*vecesReceta;
-					
+					ingrediente = entry.getKey();
+					int cantidadNecesaria = entry.getValue() * vecesReceta; // cantidad de materiales total necesario.
+
 					Resultado resCrafteo = cantidadRecursivaObjeto(invAux, ingrediente, cantidadNecesaria, recetario);
+
 					if (resCrafteo.getCantidadCrafteable() == 0) {
 						// Una receta no puede hacerce o un componente base no tiene la cantidad.
-						return new Resultado(0, 0); // no devuelve cantidad y tiempo cero.
+						return new Resultado(0, 0); // devuelve cantidad y tiempo cero.
 					} else {
 						// devuelve cantidad diferente a 0 //algo se crafteo o es basico.
 						// si es basico, no tiene tiempo.
@@ -400,9 +381,12 @@ public class Inventario {
 						tiempoAcumulado += resCrafteo.getTiempo();
 					}
 				}
-				//si sale del for, es q todos los ingredientes hay en el inventerio en forma de mat. bases.
-				tiempoAcumulado+= receta.getTiempoBase()*vecesReceta; //se le agrega el tiempo de la receta.
-				cantidadCrafteadaTotal += receta.getCantidadProducida()*vecesReceta;
+				// si sale del for, es q todos los ingredientes hay en el inventerio en forma de
+				// mat. bases.
+				tiempoAcumulado += receta.getTiempoBase() * vecesReceta; // se le agrega el tiempo de la receta.
+				cantidadCrafteadaTotal += receta.getCantidadProducida() * vecesReceta;
+				// Agrega al inventario Aux, los objetos crafteado y resta lo utilizado.
+				invAux.agregarObjeto(objetoConsultar, cantidadCrafteadaTotal - cantidadFaltante);
 			}
 		}
 
