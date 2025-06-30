@@ -13,7 +13,6 @@ import modelo.Resultado;
 import modelo.SistemaDeCrafteo;
 
 public class Main {
-
 	private static Inventario inventario;
 	private static Recetario recetario;
 	private static SistemaDeCrafteo sistema;
@@ -39,7 +38,7 @@ public class Main {
 			}
 			opcion = scanner.nextInt();
 			Map<Objeto, Integer> ingredientes;
-			
+
 			// Ejecutar acción según la opción
 			switch (opcion) {
 			case 1:
@@ -47,11 +46,7 @@ public class Main {
 				interrupcion(scanner);
 				break;
 			case 2:
-				objePregunta = seleccionarObjetoCrafteable();
-
-				System.out.println("=== Ingredientes basicos necesarios para " + objePregunta.getNombre() + " ===");
-				ingredientes = sistema.ingredientesBasicosNecesarios(objePregunta);
-				ingredientes.forEach((obj, cant) -> System.out.println("- " + obj + ": " + cant));
+				sistema.ingredientesBasicosNecesariosConTiempo(seleccionarObjetoCrafteable()).informarCantidadOpcion2();
 				interrupcion(scanner);
 				break;
 			case 3:
@@ -87,13 +82,14 @@ public class Main {
 				// Craftear una unidad de un objeto especifico.
 				try {
 					objePregunta = seleccionarObjetoCrafteable();
-					new Resultado(1,sistema.craftearObjeto(objePregunta, 1),objePregunta).informarTiempoCrafteoOpcion6();
+					new Resultado(1, sistema.craftearObjeto(objePregunta, 1), objePregunta)
+							.informarTiempoCrafteoOpcion6();
 				} catch (Exception e) {
 					System.err.println("Error: " + e.getMessage());
 				}
 				interrupcion(scanner);
 				break;
-			case 7:				
+			case 7:
 				System.out.println(sistema.getHistorialReal().toString());
 				interrupcion(scanner);
 				break;
@@ -242,7 +238,6 @@ public class Main {
 		System.out.println("0. Salir");
 		System.out.println("=========================");
 	}
-
 
 	public static void inicio() {
 		System.out.println("** Bienvenido al MedievalCraft **");
