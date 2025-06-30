@@ -261,7 +261,7 @@ public class Escenarios {
 
 	public static void ESCE04PruebaMesaDeTrabajo() {
 		System.out.println("ESCENARIO04:");
-		System.out.println("Armar multiples Mesas de trabajo, apilables una sola vez.\n");
+		System.out.println("Armar multiples Mesas de trabajo, NO apilables,  una sola opr tipo vez.\n");
 		Inventario inventario = new Inventario(new InventarioGSON(Config.ESCE04_RUTA_INICIO_INVENTARIO).cargar());
 		Recetario recetario = new Recetario(new RecetaGSON(Config.ESCE04_RUTA_INICIO_RECETARIO).cargar());
 		SistemaDeCrafteo sistema = new SistemaDeCrafteo(inventario, recetario);
@@ -269,8 +269,6 @@ public class Escenarios {
 		System.out.println(recetario);
 		
 		Objeto mesa = recetario.objetoCrafteable("Mesa de Generica");
-		
-		System.out.println(mesa);
 		inventario.cantidadPosibleCraftear(mesa, recetario).informarCantidadOpcion5();
 		
 		try {

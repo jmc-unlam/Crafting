@@ -1,9 +1,12 @@
 package modelo;
 
+import java.util.Map;
+
 public class Resultado {
 	private int cantidadCrafteable=0;
 	private int tiempo=0;
 	private Objeto objetoCrafteableUnico;
+	private Map<Objeto, Integer> ingredientes;
 	
 	public Resultado(int cantidadCrafteable, int tiempo) {
 		super();
@@ -18,12 +21,27 @@ public class Resultado {
 		this.objetoCrafteableUnico = objetoCrafteableUnico;
 	}
 	
+	public Resultado(int cantidadCrafteable, int tiempo, Objeto objetoCrafteableUnico,Map<Objeto, Integer> ingredientes) {
+		super();
+		this.cantidadCrafteable = cantidadCrafteable;
+		this.tiempo = tiempo;
+		this.objetoCrafteableUnico = objetoCrafteableUnico;
+		this.ingredientes =  ingredientes;
+	}
+	
+	
 	public int getCantidadCrafteable() {
 		return cantidadCrafteable;
 	}
 
 	public int getTiempo() {
 		return tiempo;
+	}
+	
+	public void informarCantidadOpcion1() {
+		System.out.println("=== Ingredientes necesarios para " + objetoCrafteableUnico.getNombre() + " ===");
+		System.out.println("Tiempo en Crafteo (min):"+ this.tiempo);
+		ingredientes.forEach((obj, cant) -> System.out.println("- " + obj + ": " + cant));
 	}
 	
 	public void informarCantidadOpcion5() {

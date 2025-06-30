@@ -38,16 +38,12 @@ public class Main {
 				System.out.print("Elige una opción: ");
 			}
 			opcion = scanner.nextInt();
-
+			Map<Objeto, Integer> ingredientes;
+			
 			// Ejecutar acción según la opción
 			switch (opcion) {
 			case 1:
-				objePregunta = seleccionarObjetoCrafteable();
-
-				System.out.println("=== Ingredientes necesarios para " + objePregunta.getNombre() + " ===");
-
-				Map<Objeto, Integer> ingredientes = sistema.ingredientesNecesarios(objePregunta);
-				ingredientes.forEach((obj, cant) -> System.out.println("- " + obj + ": " + cant));
+				sistema.ingredientesNecesariosConCantidad(seleccionarObjetoCrafteable()).informarCantidadOpcion1();;
 				interrupcion(scanner);
 				break;
 			case 2:
@@ -247,7 +243,6 @@ public class Main {
 		System.out.println("=========================");
 	}
 
-	
 
 	public static void inicio() {
 		System.out.println("** Bienvenido al MedievalCraft **");

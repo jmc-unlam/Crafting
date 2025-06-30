@@ -42,6 +42,19 @@ public class SistemaDeCrafteo {
         }
     }
 
+	public Resultado ingredientesNecesariosConCantidad(Objeto objeto) {
+		if (objeto == null) {
+            throw new IllegalArgumentException("No existe objeto:" + objeto);
+        }
+		try {
+			Receta receta = recetario.buscarReceta(objeto);
+			
+			return new Resultado(1,receta.getTiempoBase(),objeto,receta.getIngredientes());
+		} catch (NoSuchElementException e) {
+			throw new IllegalArgumentException("El objeto no tiene receta:"+ objeto);
+        }
+    }
+	
     public Map<Objeto, Integer> ingredientesBasicosNecesarios(Objeto objeto) {
     	if (objeto == null) {
             throw new IllegalArgumentException("No existe objeto:" + objeto);
