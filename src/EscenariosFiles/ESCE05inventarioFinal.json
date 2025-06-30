@@ -1,0 +1,44 @@
+[
+  {
+    "objeto": {
+      "tipo": "basico",
+      "nombre": "Madera"
+    },
+    "cantidad": 40
+  },
+  {
+    "objeto": {
+      "tipo": "intermedio",
+      "nombre": "lingote de hierro"
+    },
+    "cantidad": 14
+  },
+  {
+    "objeto": {
+      "tipo": "mesa de trabajo",
+      "nombre": "Mesa de Flechas"
+    },
+    "cantidad": 1
+  },
+  {
+    "objeto": {
+      "tipo": "intermedio",
+      "nombre": "Punta de Flecha"
+    },
+    "cantidad": 3
+  },
+  {
+    "objeto": {
+      "tipo": "basico",
+      "nombre": "Hierro"
+    },
+    "cantidad": 13
+  },
+  {
+    "objeto": {
+      "tipo": "basico",
+      "nombre": "ladrillo"
+    },
+    "cantidad": 30
+  }
+]

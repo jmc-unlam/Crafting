@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class Receta {
+public class Receta  implements Comparable<Receta> {
 	private Objeto objetoProducido;
 	private Map<Objeto, Integer> ingredientes;
 	private int cantidadProducida;
@@ -127,5 +127,12 @@ public class Receta {
 		Receta other = (Receta) obj;
 		return cantidadProducida == other.cantidadProducida && Objects.equals(ingredientes, other.ingredientes)
 				&& Objects.equals(objetoProducido, other.objetoProducido) && tiempoBase == other.tiempoBase;
+	}
+
+	@Override
+	public int compareTo(Receta o) {
+		// TODO Auto-generated method stub
+		
+		return 0;
 	}
 }

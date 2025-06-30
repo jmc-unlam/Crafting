@@ -39,6 +39,7 @@ public class Recetario {
     	
     	if (!recetasExistentes.contains(receta)) {
             recetasExistentes.add(receta);
+            Collections.sort(recetasExistentes);
         }
     }
 
