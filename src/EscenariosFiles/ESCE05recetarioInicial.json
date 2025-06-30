@@ -60,5 +60,15 @@
     ],
     "cantidadProducida": 1,
     "tiempoBase": 40
+  },
+  {
+	"objetoProducido": {"nombre": "lingote de hierro", "tipo": "intermedio"},
+	"ingredientes": [
+	  {
+	  	"objeto": {"nombre": "mineral de hierro", "tipo": "basico"},
+	  	"cantidad": 7}
+	],
+	"cantidadProducida": 3,
+	"tiempoBase": 10
   }
 ]

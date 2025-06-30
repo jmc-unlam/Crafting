@@ -11,7 +11,7 @@
       "tipo": "intermedio",
       "nombre": "lingote de hierro"
     },
-    "cantidad": 14
+    "cantidad": 13
   },
   {
     "objeto": {
@@ -25,14 +25,14 @@
       "tipo": "intermedio",
       "nombre": "Punta de Flecha"
     },
-    "cantidad": 3
+    "cantidad": 20
   },
   {
     "objeto": {
       "tipo": "basico",
       "nombre": "Hierro"
     },
-    "cantidad": 13
+    "cantidad": 14
   },
   {
     "objeto": {

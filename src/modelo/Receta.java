@@ -131,8 +131,12 @@ public class Receta  implements Comparable<Receta> {
 
 	@Override
 	public int compareTo(Receta o) {
-		// TODO Auto-generated method stub
 		
-		return 0;
+		int comparacio = Integer.compare(o.cantidadProducida, this.cantidadProducida); // Orden descendente
+		
+		if(comparacio!=0)
+			return comparacio;
+		else
+			return Integer.compare(this.tiempoBase, o.tiempoBase);
 	}
 }
