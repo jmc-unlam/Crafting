@@ -8,6 +8,13 @@
   },
   {
     "objeto": {
+      "tipo": "intermedio",
+      "nombre": "lingote de hierro"
+    },
+    "cantidad": 2
+  },
+  {
+    "objeto": {
       "tipo": "mesa de trabajo",
       "nombre": "Mesa de Generica"
     },
@@ -30,13 +37,6 @@
   {
     "objeto": {
       "tipo": "basico",
-      "nombre": "mineral de hierro"
-    },
-    "cantidad": 7
-  },
-  {
-    "objeto": {
-      "tipo": "basico",
       "nombre": "mineral de oro"
     },
     "cantidad": 3
@@ -47,6 +47,13 @@
       "nombre": "mineral de estano"
     },
     "cantidad": 4
+  },
+  {
+    "objeto": {
+      "tipo": "intermedio",
+      "nombre": "Punta de Flecha"
+    },
+    "cantidad": 20
   },
   {
     "objeto": {

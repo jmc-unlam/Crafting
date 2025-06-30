@@ -284,11 +284,19 @@ public class Escenarios {
 		
 		inventario.cantidadPosibleCraftear(mesa, recetario).informarCantidadOpcion5();
 		
+		Objeto objeIntermedio = recetario.objetoCrafteable("lingote de hierro");
+		new Resultado(2,sistema.craftearObjeto(objeIntermedio, 2),objeIntermedio).informarTiempoCrafteoOpcion6();
+		
+		objeIntermedio = recetario.objetoCrafteable("Punta de Flecha");
+		new Resultado(5,sistema.craftearObjeto(objeIntermedio, 5),objeIntermedio).informarTiempoCrafteoOpcion6();
+		
 		recetario.PrologGenerarRecetas();
 		inventario.prologGenerarInventario();
 		inventario.consultaDeProlog();
 		
+		System.out.println(recetario);
 		System.out.println(inventario);
+		System.out.println("COMENTARIO FINAL: Se crearon las fechas usando la mesa de flechas y el lingote de hierro para las fechas creada con la mesa General.");
 		new InventarioGSON(Config.ESCE04_RUTA_FINAL_INVENTARIO).guardar(inventario.getObjetos());
 		
 		

@@ -32,7 +32,7 @@
 	"tiempoBase": 5,
 	"mesaRequerida": {
       "tipo": "mesa de trabajo",
-      "nombre": "mesa de fundicion"
+      "nombre": "Mesa de Generica"
     }
   },
   {
@@ -43,8 +43,8 @@
 	"cantidadProducida": 1,
 	"tiempoBase": 10,
 	"mesaRequerida": {
-      "tipo": "mesa de fundicion",
-      "nombre": "mesa de fundicion"
+      "tipo": "mesa de trabajo",
+      "nombre": "Mesa de Generica"
     }
   },
   {
@@ -55,8 +55,8 @@
 	"cantidadProducida": 1,
 	"tiempoBase": 5,
 	"mesaRequerida": {
-      "tipo": "mesa de fundicion",
-      "nombre": "mesa de fundicion"
+      "tipo": "mesa de trabajo",
+      "nombre": "Mesa de Generica"
     }
   },
   {
@@ -81,7 +81,7 @@
 	"cantidadProducida": 1,
 	"tiempoBase": 20,
 	"mesaRequerida": {
-      "tipo": "mesa de fundicion",
+      "tipo": "mesa de trabajo",
       "nombre": "Mesa de Generica"
     }
   }

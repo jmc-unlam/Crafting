@@ -1,23 +1,51 @@
 [
   {
     "objeto": {
+      "tipo": "basico",
+      "nombre": "Téndon"
+    },
+    "cantidad": 2
+  },
+  {
+    "objeto": {
       "tipo": "intermedio",
-      "nombre": "hacha de piedra"
+      "nombre": "Carcaj"
     },
     "cantidad": 1
   },
   {
     "objeto": {
-      "tipo": "basico",
-      "nombre": "madera"
+      "tipo": "intermedio",
+      "nombre": "Arco compuesto"
     },
-    "cantidad": 8
+    "cantidad": 1
+  },
+  {
+    "objeto": {
+      "tipo": "intermedio",
+      "nombre": "Flechas"
+    },
+    "cantidad": 15
   },
   {
     "objeto": {
       "tipo": "basico",
-      "nombre": "piedra"
+      "nombre": "Madera"
     },
-    "cantidad": 2
+    "cantidad": 9
+  },
+  {
+    "objeto": {
+      "tipo": "basico",
+      "nombre": "Hierro"
+    },
+    "cantidad": 5
+  },
+  {
+    "objeto": {
+      "tipo": "basico",
+      "nombre": "Cuerda"
+    },
+    "cantidad": 4
   }
 ]

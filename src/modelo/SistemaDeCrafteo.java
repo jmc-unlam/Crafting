@@ -129,6 +129,7 @@ public class SistemaDeCrafteo {
         int maxCrafteable = res.getCantidadCrafteable();
         
         if (maxCrafteable < cantACraftear) {
+        	System.out.println(maxCrafteable + "-"+ cantACraftear);
             throw new IllegalStateException("No hay suficientes materiales para craftear " + cantACraftear + " " + objeto);
         }
         if (objeto.esBasico()) {

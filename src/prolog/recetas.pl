@@ -9,6 +9,7 @@ ingredientecompuesto('lingote de bronze').
 ingredientecompuesto('lingote de plata').
 ingredientecompuesto('lingote de oro').
 ingredientecompuesto('lingote de cobre').
+ingredientecompuesto('Punta de Flecha').
 
 % Ingredientes por objeto
 ingrediente('lingote de acero', 'lingote de hierro', 2).
@@ -24,3 +25,4 @@ ingrediente('lingote de bronze', 'lingote de cobre', 4).
 ingrediente('lingote de plata', 'mineral de plata', 3).
 ingrediente('lingote de oro', 'mineral de oro', 3).
 ingrediente('lingote de cobre', 'mineral de cobre', 3).
+ingrediente('Punta de Flecha', 'lingote de hierro', 1).

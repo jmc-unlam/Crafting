@@ -1,0 +1,17 @@
+[
+  {
+    "objetoProducido": {"nombre": "Punta de Flecha","tipo": "intermedio"},
+    "ingredientes": [
+      {
+		  "objeto": {"nombre": "lingote de hierro", "tipo": "intermedio" }, 
+		  "cantidad": 1 
+	  }
+    ],
+    "cantidadProducida": 20,
+    "tiempoBase": 10,
+    "mesaRequerida": {
+      "tipo": "mesa de trabajo",
+      "nombre": "Mesa de Flechas"
+    }
+  }
+]
