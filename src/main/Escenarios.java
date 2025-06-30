@@ -178,14 +178,9 @@ public class Escenarios {
 		SistemaDeCrafteo sistema = new SistemaDeCrafteo(inventario, recetario);
 		System.out.println(inventario);
 		System.out.println(recetario);
-		
-		Objeto mesa = recetario.objetoCrafteable("mesa de fundicion");
-		System.out.println(mesa);
-		
 		System.out.println("====Agrego mas materiales y recetas de fundicion====");
 		inventario.agregarObjetos(new InventarioGSON(Config.INVENTARIO_FUNDICION).cargar());
-		//recetario.agregarRecetas(new RecetaGSON(Config.RECETAS_FUNDICION).cargar()); ALORDA, evitar q se agrege 2 veces.
-		//ahora las recetas se agregan cuando se crea la mesa de fundicion en el inventario.
+		recetario.agregarRecetas(new RecetaGSON(Config.RECETAS_FUNDICION).cargar());
 		System.out.println(inventario);
 		System.out.println(recetario);
 		System.out.println("===========================");
@@ -197,13 +192,13 @@ public class Escenarios {
 		}
 		System.out.println(inventario);
 
-		//La mesa de fundicion con este cambio. se crea antes. Unica Receta , espero q no te enojes Jorge!!
-		//System.out.println("=====Crafteando mesa de fundicion======");
-		//int tiempoFundidor = sistema.craftearObjeto(new MesaDeFundicion(), 1);
-		
-		//System.out.println("Se crafteo la mesa de fundicion en: " + tiempoFundidor);
-		//System.out.println(inventario);
+		System.out.println("=====Crafteando mesa de fundicion======");
+		int tiempoFundidor = sistema.craftearObjeto(new MesaDeFundicion(), 1);
+		System.out.println("Se crafteo la mesa de fundicion en: " + tiempoFundidor);
+		System.out.println(inventario);
+		System.out.println("===========================");
 		System.out.println("======Crafteando las recetas de fundicion========");
+		System.out.println("===========================");
 
 		for (Receta r : recetario.getRecetas()) {
 			try {
@@ -215,7 +210,9 @@ public class Escenarios {
 			System.out.println(inventario);
 			System.out.println("===========================");
 		}
+		System.out.println("===========================");
 		System.out.println("======Crafteando Segunda Vuelta========");
+		System.out.println("===========================");
 		for (Receta r : recetario.getRecetas()) {
 			try {
 				System.out.println("Crafting [" + r.getObjetoProducido() + "] en "
@@ -226,9 +223,6 @@ public class Escenarios {
 			System.out.println(inventario);
 			System.out.println("===========================");
 		}
-		
-		System.out.println(recetario);
-		new InventarioGSON(Config.INVENTARIO_FUNDICION_FINAL).guardar(inventario.getObjetos());
 	}
 	
 	public static void ESCE03EquipamientoDeArquero() {
