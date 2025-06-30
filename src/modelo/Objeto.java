@@ -14,6 +14,7 @@ public abstract class Objeto {
     	String normalized = texto.toLowerCase();
         //quita todas letras que no son a-z, 0-9, espacios y la ñ
         normalized = normalized.replaceAll("[^a-zñ0-9 ]", "");
+    	
     	//quita los espacios repetidos
         normalized = normalized.replaceAll("\\s+", " ");
     	//descomposicion canonica

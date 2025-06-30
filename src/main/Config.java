@@ -19,4 +19,11 @@ public class Config {
 	public static final String INVENTARIO_FUNDIDOR = "res/fundicion/inventarioFundidor.json";
 	public static final String INVENTARIO_FUNDICION = "res/fundicion/inventarioFundicion.json";
 	public static final String RECETAS_FUNDICION = "res/fundicion/recetasFundicion.json";
+	
+	//RUTA de los archivos de los Escenarios.
+	public static final String ESCENARIOSFILES_DIR = "src/EscenariosFiles/";
+	//CASO3
+	public static final String ESCE03_RUTA_INICIO_INVENTARIO = ESCENARIOSFILES_DIR + "ESCE03inventarioInicial.json";
+	public static final String ESCE03_RUTA_INICIO_RECETARIO =  ESCENARIOSFILES_DIR + "ESCE03recetarioInicial.json";
+	
 }

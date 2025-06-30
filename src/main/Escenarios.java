@@ -170,4 +170,24 @@ public class Escenarios {
 		}
 
 	}
+	
+	public static void ESCE03EquipamientoDeArquero() {
+		System.out.println("-Este caso emula la creación de un Objeto compuesto de 3 nivels.");
+		System.out.println("-Donde estan implicadas 5 recetas, las cuales algunas comparten materiales Básico.");
+		System.out.println("\n");
+		Inventario inventario = new Inventario(new InventarioGSON(Config.ESCE03_RUTA_INICIO_INVENTARIO).cargar());
+		Recetario recetario = new Recetario(new RecetaGSON(Config.ESCE03_RUTA_INICIO_RECETARIO).cargar());
+		
+		SistemaDeCrafteo sistema = new SistemaDeCrafteo(inventario, recetario);
+		System.out.println(inventario);
+		
+		Objeto equipoDeArquero = recetario.objetoCrafteable("Equipamiento para Arquero");
+		
+		//devolver cantidad posible a craftear.
+		inventario.cantidadPosibleCraftear(equipoDeArquero, recetario).informarCantidadOpcion5();
+		
+		
+		
+		System.out.println("\n");
+	}
 }

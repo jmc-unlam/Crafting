@@ -84,21 +84,14 @@ public class Main {
 				break;
 			case 5:
 				// Calcula cuantos objetos se pueden craftear con el inventario actual.
-				objePregunta = seleccionarObjetoCrafteable();
-
-				Resultado res = inventario.cantidadPosibleCraftear(objePregunta, recetario);
-
-				System.out.println("Cantidad de " + objePregunta.getNombre() + " crafteables ahora: "
-						+ res.getCantidadCrafteable() + " en un tiempo de " + res.getTiempo() + "(min).");
+				inventario.cantidadPosibleCraftear(seleccionarObjetoCrafteable(), recetario).informarCantidadOpcion5();
 				interrupcion(scanner);
 				break;
 			case 6:
 				// Craftear una unidad de un objeto especifico.
 				try {
 					objePregunta = seleccionarObjetoCrafteable();
-					System.out.println("\n=== Intentando craftear 1 unidad de " + objePregunta);
-					System.out.println("Tiempo Total (min): " + sistema.craftearObjeto(objePregunta, 1));
-					System.out.println(objePregunta.getNombre() + " creado Existosamente.");
+					new Resultado(1,sistema.craftearObjeto(objePregunta, 1),objePregunta).informarTiempoCrafteoOpcion6();
 				} catch (Exception e) {
 					System.err.println("Error: " + e.getMessage());
 				}
@@ -258,40 +251,43 @@ public class Main {
 	private static void seleccionarEscenario() {
 		System.out.println("1. Escenarios Crear Hacha de Piedra con una receta.");
 		System.out.println("2. Escenarios Mesa de fundición.");
-
+		System.out.println("3. Escenarios Puntos 5-6-7 Equipamiento de Arquero:");
+		System.out.println("0. Volver al Menú.");
+		
 		boolean salir = true;
 		Scanner scanner = new Scanner(System.in);
 		int intescenario;
 
 		do {
 			// Leer ID del usuario
-			System.out.print("Elige el N° de escenario: ");
+			System.out.print("Elige el N° de escenario (0=volver al menú): ");
 			while (!scanner.hasNextInt()) {
 				System.out.println("N° inválido. Por favor, elige un número dentro del listado de escenarios.");
 				scanner.next(); // Limpiar entrada incorrecta
-				System.out.print("Elige el ID del objeto: ");
+				System.out.print("Elige el N° de escenario (0=volver al menú): ");
 			}
 
 			intescenario = scanner.nextInt();
 
-			if (intescenario > 0 && intescenario < 3)
+			switch (intescenario) {
+			case 1:
+				Escenarios.escenarioCraftearHachaDePiedraConUnaReceta();
+				break;
+			case 2:
+				Escenarios.escenarioCraftearMesaDeFundicionYSusRecetas();
+				break;
+			case 3:
+				Escenarios.ESCE03EquipamientoDeArquero();
+				break;
+			case 0:
 				salir = false;
-			else
+				break;
+			default:
 				System.out.println("N° inválido. Por favor, elige un número dentro del listado de escenarios.");
+				break;
+			}
 
 		} while (salir);
-
-		switch (intescenario) {
-		case 1:
-			Escenarios.escenarioCraftearHachaDePiedraConUnaReceta();
-			break;
-		case 2:
-			Escenarios.escenarioCraftearMesaDeFundicionYSusRecetas();
-			break;
-		default:
-			System.out.println("Escenario sin configurar.");
-			break;
-		}
 
 	}
 

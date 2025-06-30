@@ -329,7 +329,7 @@ public class Inventario {
 		} while (senCorte);
 
 		return new Resultado(cantEjecuciones * receta.getCantidadProducida(),
-				totaltiempo + receta.getTiempoBase() * cantEjecuciones);
+				totaltiempo + receta.getTiempoBase() * cantEjecuciones,ObjCrafteable);
 	}
 
 	private Resultado cantidadRecursivaObjeto(Inventario invAux, Objeto objetoConsultar, int cantidadNecesariaDelObjeto,
@@ -386,7 +386,9 @@ public class Inventario {
 				tiempoAcumulado += receta.getTiempoBase() * vecesReceta; // se le agrega el tiempo de la receta.
 				cantidadCrafteadaTotal += receta.getCantidadProducida() * vecesReceta;
 				// Agrega al inventario Aux, los objetos crafteado y resta lo utilizado.
-				invAux.agregarObjeto(objetoConsultar, cantidadCrafteadaTotal - cantidadFaltante);
+				if((cantidadCrafteadaTotal - cantidadFaltante) > 0)
+					//Agrega solo cuando la diferencia es positiva. No agrega CERO.
+					invAux.agregarObjeto(objetoConsultar, cantidadCrafteadaTotal - cantidadFaltante);
 			}
 		}
 
