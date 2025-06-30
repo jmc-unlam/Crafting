@@ -7,7 +7,7 @@ import java.util.List;
 import datos.json.RecetaGSON;
 import main.Config;
 
-public class MesaDeTrabajo extends Objeto { // Alorda, quite el abstract para probar algo.
+public class MesaDeTrabajo extends Objeto {
 
 	public MesaDeTrabajo(String nombre) {
 		super(nombre);
