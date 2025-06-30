@@ -234,13 +234,13 @@ public class SistemaDeCrafteoTest {
         SistemaDeCrafteo sistema = new SistemaDeCrafteo(inventario, recetario);
 
         // Elegimos la segunda receta (índice 1)
-        sistema.craftearObjetoConReceta(antorcha,1,1);
+        sistema.craftearObjetoConReceta(antorcha,1,0);
 
         // Verificar que se usó carbón vegetal y palo
         assertEquals(2, inventario.getCantidad(carbonMineral));
         
         // Elegimos la primera receta (índice 0)
-        sistema.craftearObjetoConReceta(antorcha,1,0);
+        sistema.craftearObjetoConReceta(antorcha,1,1);
         
         // Verificar que se usó carbón vegetal y palo
         assertEquals(5, inventario.getCantidad(carbonVegetal));
