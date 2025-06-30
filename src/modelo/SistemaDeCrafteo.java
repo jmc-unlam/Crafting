@@ -13,7 +13,7 @@ public class SistemaDeCrafteo {
     public SistemaDeCrafteo(Inventario inventario, Recetario recetario) {
         this.inventario = inventario;
         this.recetario = recetario;
-        this.historial = new HistorialDeCrafteo();
+        this.historial = HistorialDeCrafteo.getInstanciaUnica();
     }
 
     public List<RegistroCrafteo> getHistorial() {

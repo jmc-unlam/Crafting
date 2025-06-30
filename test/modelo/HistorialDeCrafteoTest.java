@@ -16,8 +16,8 @@ class HistorialDeCrafteoTest {
 
     @BeforeEach
     void setUp() {
-        RegistroCrafteo.reiniciarContador();
-        historial = new HistorialDeCrafteo();
+        historial = HistorialDeCrafteo.getInstanciaUnica();
+        historial.limpiarRegistros();
         madera = new ObjetoBasico("Madera");
         mesa = new ObjetoIntermedio("Mesa");
         silla = new ObjetoIntermedio("Silla");

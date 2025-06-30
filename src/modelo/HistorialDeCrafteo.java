@@ -5,10 +5,20 @@ import java.util.List;
 import java.util.Map;
 
 public class HistorialDeCrafteo {
+	
+	private static HistorialDeCrafteo instanciaUnica;
+	
     private List<RegistroCrafteo> registros;
 
-    public HistorialDeCrafteo() {
+    private HistorialDeCrafteo() {
         this.registros = new ArrayList<>();
+    }
+    
+    public static HistorialDeCrafteo getInstanciaUnica() {
+        if (instanciaUnica == null) {
+            instanciaUnica = new HistorialDeCrafteo();
+        }
+        return instanciaUnica;
     }
     
     public void agregarRegistro(Objeto objeto, int cantidad, int tiempoTotal, Map<Objeto, Integer> ingredientesUsados) {
