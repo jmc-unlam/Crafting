@@ -101,8 +101,10 @@ public class Receta {
 		sb.append("Objeto producido: ").append(objetoProducido).append("\n");
 		sb.append("Cantidad producida: ").append(cantidadProducida).append("\n");
 		sb.append("Tiempo de crafteo: ").append(tiempoBase).append("\n");
+		if ( mesaRequerida != null )  
+			sb.append("Mesa Requerida: ").append(mesaRequerida).append("\n");
 		sb.append("Ingredientes:\n");
-
+		
 		for (Map.Entry<Objeto, Integer> entry : ingredientes.entrySet()) {
 			Objeto obj = entry.getKey();
 			int cantidad = entry.getValue();
