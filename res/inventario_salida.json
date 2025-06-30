@@ -2,15 +2,50 @@
   {
     "objeto": {
       "tipo": "basico",
-      "nombre": "Madera"
+      "nombre": "Téndon"
+    },
+    "cantidad": 2
+  },
+  {
+    "objeto": {
+      "tipo": "intermedio",
+      "nombre": "Carcaj"
     },
     "cantidad": 1
   },
   {
     "objeto": {
       "tipo": "intermedio",
-      "nombre": "Equipamiento para Arquero"
+      "nombre": "Arco compuesto"
     },
-    "cantidad": 2
+    "cantidad": 1
+  },
+  {
+    "objeto": {
+      "tipo": "intermedio",
+      "nombre": "Flechas"
+    },
+    "cantidad": 15
+  },
+  {
+    "objeto": {
+      "tipo": "basico",
+      "nombre": "Madera"
+    },
+    "cantidad": 9
+  },
+  {
+    "objeto": {
+      "tipo": "basico",
+      "nombre": "Hierro"
+    },
+    "cantidad": 5
+  },
+  {
+    "objeto": {
+      "tipo": "basico",
+      "nombre": "Cuerda"
+    },
+    "cantidad": 4
   }
 ]

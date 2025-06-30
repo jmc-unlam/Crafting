@@ -60,6 +60,10 @@ public class HistorialDeCrafteo {
 
     @Override
     public String toString() {
+    	
+    	if(registros.size()==0)
+    		return "=== Historial de Crafteos Vacio ===\n";
+    	
     	StringBuilder sb = new StringBuilder();
         sb.append("=== Historial de Crafteos ===\n");
         for (RegistroCrafteo registro : registros) {

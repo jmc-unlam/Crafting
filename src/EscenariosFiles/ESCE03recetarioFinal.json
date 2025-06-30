@@ -1,0 +1,16 @@
+[
+  {
+    "objeto": {
+      "tipo": "basico",
+      "nombre": "Madera"
+    },
+    "cantidad": 1
+  },
+  {
+    "objeto": {
+      "tipo": "intermedio",
+      "nombre": "Equipamiento para Arquero"
+    },
+    "cantidad": 2
+  }
+]

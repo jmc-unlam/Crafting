@@ -324,6 +324,8 @@ public class SistemaDeCrafteo {
 
         return tiempoTotal;
     }
-    
+    public HistorialDeCrafteo getHistorialReal() {
+		return historial;
+    };
     
 }

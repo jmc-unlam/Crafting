@@ -5,6 +5,7 @@ import java.util.Map;
 
 import datos.json.InventarioGSON;
 import datos.json.RecetaGSON;
+import modelo.HistorialDeCrafteo;
 import modelo.Inventario;
 import modelo.MesaDeFundicion;
 import modelo.Objeto;
@@ -12,6 +13,7 @@ import modelo.ObjetoBasico;
 import modelo.ObjetoIntermedio;
 import modelo.Receta;
 import modelo.Recetario;
+import modelo.Resultado;
 import modelo.SistemaDeCrafteo;
 
 public class Escenarios {
@@ -172,13 +174,17 @@ public class Escenarios {
 	}
 	
 	public static void ESCE03EquipamientoDeArquero() {
-		System.out.println("-Este caso emula la creación de un Objeto compuesto de 3 nivels.");
+		System.out.println("-ESCENARIO 03.");
+		System.out.println("-Este escenario emula la creación de un Objeto compuesto de 3 nivels.");
 		System.out.println("-Donde estan implicadas 5 recetas, las cuales algunas comparten materiales Básico.");
 		System.out.println("\n");
 		Inventario inventario = new Inventario(new InventarioGSON(Config.ESCE03_RUTA_INICIO_INVENTARIO).cargar());
 		Recetario recetario = new Recetario(new RecetaGSON(Config.ESCE03_RUTA_INICIO_RECETARIO).cargar());
 		
 		SistemaDeCrafteo sistema = new SistemaDeCrafteo(inventario, recetario);
+		HistorialDeCrafteo historial = HistorialDeCrafteo.getInstanciaUnica();
+        historial.limpiarRegistros();
+        
 		System.out.println(inventario);
 		
 		Objeto equipoDeArquero = recetario.objetoCrafteable("Equipamiento para Arquero");
@@ -186,8 +192,14 @@ public class Escenarios {
 		//devolver cantidad posible a craftear.
 		inventario.cantidadPosibleCraftear(equipoDeArquero, recetario).informarCantidadOpcion5();
 		
+		try {
+			new Resultado(2,sistema.craftearObjeto(equipoDeArquero, 2),equipoDeArquero).informarTiempoCrafteoOpcion6();
+		} catch (Exception e) {
+			System.err.println("Error: " + e.getMessage());
+		}
 		
-		
-		System.out.println("\n");
+		System.out.println(sistema.getHistorialReal().toString());
+		System.out.println(inventario);
+		new InventarioGSON(Config.ESCE03_RUTA_FINAL_RECETARIO).guardar(inventario.getObjetos());
 	}
 }

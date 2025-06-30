@@ -97,9 +97,8 @@ public class Main {
 				}
 				interrupcion(scanner);
 				break;
-			case 7:
-				System.out.println("\n=== Historial de crafteo:");
-				sistema.getHistorial().forEach((registro) -> System.out.println(registro));
+			case 7:				
+				System.out.println(sistema.getHistorialReal().toString());
 				interrupcion(scanner);
 				break;
 			case 8:

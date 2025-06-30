@@ -25,5 +25,5 @@ public class Config {
 	//CASO3
 	public static final String ESCE03_RUTA_INICIO_INVENTARIO = ESCENARIOSFILES_DIR + "ESCE03inventarioInicial.json";
 	public static final String ESCE03_RUTA_INICIO_RECETARIO =  ESCENARIOSFILES_DIR + "ESCE03recetarioInicial.json";
-	
+	public static final String ESCE03_RUTA_FINAL_RECETARIO =  ESCENARIOSFILES_DIR + "ESCE03recetarioFinal.json";
 }
