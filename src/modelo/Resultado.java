@@ -3,6 +3,9 @@ package modelo;
 import java.util.Map;
 
 public class Resultado {
+	//Esta clase sirve para acumular información e informarlo por pantalla. NO, REPITO, NO PROCESA NADA.
+	//
+	
 	private int cantidadCrafteable = 0;
 	private int tiempo = 0;
 	private Objeto objetoCrafteableUnico;
@@ -39,12 +42,14 @@ public class Resultado {
 	}
 
 	public void informarCantidadOpcion1() {
+		//1. ¿Qué necesito para craftear un objeto?
 		System.out.println("=== Ingredientes necesarios para " + objetoCrafteableUnico.getNombre() + " ===");
 		System.out.println("Tiempo en Crafteo (min):" + this.tiempo);
 		ingredientes.forEach((obj, cant) -> System.out.println("- " + obj + ": " + cant));
 	}
 
 	public void informarCantidadOpcion2() {
+		//2. ¿Qué necesito para craftear un objeto desde cero?
 		System.out
 				.println("=== Ingredientes basicos necesarios para " + this.objetoCrafteableUnico.getNombre() + " ===");
 
@@ -54,6 +59,7 @@ public class Resultado {
 	}
 
 	public void informarCantidadOpcion3() {
+		//3. ¿Qué me falta para craftear un objeto?
 		System.out.println("\nIngredientes faltantes para " + objetoCrafteableUnico.getNombre() + ":");
 
 		Map<Objeto, Integer> faltantes = ingredientes;
@@ -66,6 +72,7 @@ public class Resultado {
 	}
 
 	public void informarCantidadOpcion4() {
+		//4. ¿Qué me falta para craftear un objeto desde cero?
 		System.out.println("\nNuevos ingredientes básicos faltantes para " + objetoCrafteableUnico.getNombre() + ":");
 		Map<Objeto, Integer> faltantesBasicos2 = ingredientes;
 
@@ -77,6 +84,7 @@ public class Resultado {
 	}
 
 	public void informarCantidadOpcion5() {
+		//5. ¿Cuántos puedo craftear?
 		System.out.println("Cantidad de (" + objetoCrafteableUnico.getNombre() + ") crafteables ahora: "
 				+ cantidadCrafteable + " en un tiempo de " + tiempo + "(min).");
 	}
