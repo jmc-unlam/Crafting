@@ -138,7 +138,6 @@ public class Main {
 
 			System.out.println("");
 
-			// Simular limpiar consola (en Eclipse, imprime saltos de línea)
 			System.out.flush();
 
 		} while (opcion != 0);
