@@ -11,14 +11,16 @@ name: Java CI with Maven
 on:
   push:
     branches: [ "main" ]
+    tags: ['v*'] # Solo se activa con tags que empiezan por 'v'
   pull_request:
     branches: [ "main" ]
   workflow_dispatch: {}
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
+    outputs:
+      jar_path: ${{ steps.build.outputs.jar_path }}
 
     steps:
     - uses: actions/checkout@v4
@@ -28,35 +30,41 @@ jobs:
         java-version: '21'
         distribution: 'temurin'
         cache: maven
-    - name: Build with Maven # Este paso compila el código
-      run: mvn -B compile --file pom.xml 
+		
+    - name: Build and Test
+      id: build
+      run: |
+        mvn -B verify
+        JAR_PATH=$(ls target/*-jar-with-dependencies.jar)
+        echo "jar_path=$JAR_PATH" >> $GITHUB_OUTPUT
 
-    - name: Run Maven Tests # Ejecuta solo los tests
-      run: mvn -B test --file pom.xml 
-
-    - name: Package with Maven # para crear el JAR
-      run: mvn -B package --file pom.xml
+     - name: Upload Artifact
+       uses: actions/upload-artifact@v4
+       with:
+         name: build-artifacts
+         path: |
+           target/*.jar
+           target/*-jar-with-dependencies.jar
 
   release: # Nuevo job para la release
       needs: build # Asegura que el job de build se complete primero
-      if: startsWith(github.ref, 'refs/tags/') # Solo ejecuta si el evento es un tag
+      if: startsWith(github.ref, 'refs/tags/v')  # Solo ejecutar para tags
       runs-on: ubuntu-latest
 
       steps:
-        - uses: actions/checkout@v4 # Necesario para acceder a los artifacts si el job es independiente
-        - name: Download all workflow artifacts # Si los jobs son independientes, necesitas descargar el JAR
-          uses: actions/download-artifact@v4
-          with:
-            name: your-fat-jar 
+      - name: Download Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts
 
-        - name: Create Release and Upload Artifact
-          uses: softprops/action-gh-release@v1
-          with:
-            files: |
-              target/*-jar-with-dependencies.jar
-            generate_release_notes: true
-            # La propiedad prerelease se basará en la versión de tu POM, que ya es 1.0.0-beta
-            # o puedes ajustarla según la lógica de tu tag (ej. v1.0.0-beta)
-            prerelease: ${{ contains(github.ref, 'beta') || contains(github.ref, 'alpha') }}
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            *-jar-with-dependencies.jar
+          tag_name: ${{ github.ref_name }}  # Usa el tag que disparó el workflow
+          name: Release ${{ github.ref_name }}
+          generate_release_notes: true
+          prerelease: ${{ contains(github.ref, 'beta') || contains(github.ref, 'alpha') }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
