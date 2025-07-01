@@ -29,11 +29,34 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven # Este paso compila el código
-      run: mvn -B compile --file pom.xml # Cambiado de 'package' a 'compile' para separar fases
-                                        # Esto solo compila el código fuente principal.
+      run: mvn -B compile --file pom.xml 
 
-    - name: Run Maven Tests # Nuevo paso: Ejecuta solo los tests
-      run: mvn -B test --file pom.xml # Ejecuta los tests definidos en tu pom.xml
+    - name: Run Maven Tests # Ejecuta solo los tests
+      run: mvn -B test --file pom.xml 
 
-    - name: Package with Maven # Nuevo paso: Empaqueta el proyecto después de los tests
-      run: mvn -B package --file pom.xml # Ahora sí, crea el JAR/WAR
+    - name: Package with Maven # para crear el JAR
+      run: mvn -B package --file pom.xml
+
+  release: # Nuevo job para la release
+      needs: build # Asegura que el job de build se complete primero
+      if: startsWith(github.ref, 'refs/tags/') # Solo ejecuta si el evento es un tag
+      runs-on: ubuntu-latest
+
+      steps:
+        - uses: actions/checkout@v4 # Necesario para acceder a los artifacts si el job es independiente
+        - name: Download all workflow artifacts # Si los jobs son independientes, necesitas descargar el JAR
+          uses: actions/download-artifact@v4
+          with:
+            name: your-fat-jar 
+
+        - name: Create Release and Upload Artifact
+          uses: softprops/action-gh-release@v1
+          with:
+            files: |
+              target/*-jar-with-dependencies.jar
+            generate_release_notes: true
+            # La propiedad prerelease se basará en la versión de tu POM, que ya es 1.0.0-beta
+            # o puedes ajustarla según la lógica de tu tag (ej. v1.0.0-beta)
+            prerelease: ${{ contains(github.ref, 'beta') || contains(github.ref, 'alpha') }}
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
