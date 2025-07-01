@@ -41,28 +41,30 @@ public class Main {
 
 			// Ejecutar acción según la opción
 			switch (opcion) {
-			case 1: //1. ¿Qué necesito para craftear un objeto? - Solo primer nivel.
+			case 1: // 1. ¿Qué necesito para craftear un objeto? - Solo primer nivel.
 				sistema.ingredientesNecesariosConCantidad(seleccionarObjetoCrafteable()).informarCantidadOpcion1();
 				interrupcion(scanner);
 				break;
-			case 2: //2. ¿Qué necesito para craftear un objeto desde cero?
+			case 2: // 2. ¿Qué necesito para craftear un objeto desde cero?
 				sistema.ingredientesBasicosNecesariosConTiempo(seleccionarObjetoCrafteable()).informarCantidadOpcion2();
 				interrupcion(scanner);
 				break;
-			case 3: //3. ¿Qué me falta para craftear un objeto? - Solo primer nivel.
-				sistema.ingredientesFaltantesParaCraftearConTiempo(seleccionarObjetoCrafteable()).informarCantidadOpcion3();	
+			case 3: // 3. ¿Qué me falta para craftear un objeto? - Solo primer nivel.
+				sistema.ingredientesFaltantesParaCraftearConTiempo(seleccionarObjetoCrafteable())
+						.informarCantidadOpcion3();
 				interrupcion(scanner);
 				break;
-			case 4: //4. ¿Qué me falta para craftear un objeto desde cero?
-				sistema.ingredientesBasicosFaltantesParaCraftearConTiempo(seleccionarObjetoCrafteable()).informarCantidadOpcion4();
+			case 4: // 4. ¿Qué me falta para craftear un objeto desde cero?
+				sistema.ingredientesBasicosFaltantesParaCraftearConTiempo(seleccionarObjetoCrafteable())
+						.informarCantidadOpcion4();
 				interrupcion(scanner);
 				break;
-			case 5: //5. ¿Cuántos puedo craftear?
+			case 5: // 5. ¿Cuántos puedo craftear?
 				// Calcula cuantos objetos se pueden craftear con el inventario actual.
 				inventario.cantidadPosibleCraftear(seleccionarObjetoCrafteable(), recetario).informarCantidadOpcion5();
 				interrupcion(scanner);
 				break;
-			case 6: //6. Realizar el crafteo indicado
+			case 6: // 6. Realizar el crafteo indicado
 				// Craftear una unidad de un objeto especifico.
 				try {
 					objePregunta = seleccionarObjetoCrafteable();
@@ -73,11 +75,11 @@ public class Main {
 				}
 				interrupcion(scanner);
 				break;
-			case 7: //7. Historial de crafteos
+			case 7: // 7. Historial de crafteos
 				System.out.println(sistema.getHistorialReal().toString());
 				interrupcion(scanner);
 				break;
-			case 8: //8. Recolectar Objetos Básicos.
+			case 8: // 8. Recolectar Objetos Básicos.
 				objePregunta = seleccionarObjetoFarmeable();
 				int cantidadFarmeada;
 				boolean salir = true;
@@ -102,26 +104,26 @@ public class Main {
 				System.out.println(objePregunta + "- Cantidad:" + cantidadFarmeada + ", Agregado al inventario.");
 				interrupcion(scanner);
 				break;
-			case 9: //9. Mostrar Recetario."
+			case 9: // 9. Mostrar Recetario."
 				System.out.println(recetario);
 				interrupcion(scanner);
 				break;
-			case 10: //10. Mostrar inventario.
+			case 10: // 10. Mostrar inventario.
 				System.out.println(inventario);
 				interrupcion(scanner);
 				break;
-			case 11: //11. Consulta PROLOG.
+			case 11: // 11. Consulta PROLOG.
 				System.out.println("\nProlog:");
 				recetario.PrologGenerarRecetas();
 				inventario.prologGenerarInventario();
 				inventario.consultaDeProlog();
 				interrupcion(scanner);
 				break;
-			case 12: //12. Listar Escenarios
+			case 12: // 12. Listar Escenarios
 				Escenarios.seleccionarEscenario();
 				interrupcion(scanner);
 				break;
-			case 13: //13 Extra - Arbol.
+			case 13: // 13 Extra - Arbol.
 				sistema.mostrarArbolCrafteo(seleccionarObjetoCrafteable());
 				interrupcion(scanner);
 				break;

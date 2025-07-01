@@ -174,7 +174,7 @@ public class Escenarios {
 		} catch (Exception e) {
 			System.err.println("Error: " + e.getMessage());
 		}
-		
+
 		System.out.println("===========================");
 		System.out.println("===Mostrando arbol de hacha de piedra===");
 		sistema.mostrarArbolCrafteo(hachaDePiedra);
@@ -312,35 +312,35 @@ public class Escenarios {
 		Inventario inventario = new Inventario(new InventarioGSON(Config.ESCE05_RUTA_INICIO_INVENTARIO).cargar());
 		Recetario recetario = new Recetario(new RecetaGSON(Config.ESCE05_RUTA_INICIO_RECETARIO).cargar());
 		SistemaDeCrafteo sistema = new SistemaDeCrafteo(inventario, recetario);
-		
+
 		System.out.println(inventario);
 		System.out.println(recetario);
-		
+
 		Objeto objMesa = recetario.objetoCrafteable("Mesa de Flechas");
 		new Resultado(1, sistema.craftearObjeto(objMesa, 1), objMesa).informarTiempoCrafteoOpcion6();
-		
+
 		System.out.println("\n--Cambio de inventario y Recetario al agregar la Mesa de Flechas:\n");
 		System.out.println(inventario);
 		System.out.println(recetario);
-		
+
 		System.out.println("\n--PUNTA DE FLECHA -- Mejor Receta es:");
 		Objeto objCraftear = recetario.objetoCrafteable("Punta de Flecha");
-		
+
 		sistema.ingredientesNecesariosConCantidad(objCraftear).informarCantidadOpcion1();
 		new Resultado(1, sistema.craftearObjeto(objCraftear, 1), objCraftear).informarTiempoCrafteoOpcion6();
-		
+
 		System.out.println(sistema.getHistorialReal().toString());
-		
+
 		System.out.println("Quitar la mesa del inventario:");
-		
+
 		inventario.removerObjeto(objMesa, 1);
 		recetario.removerRecetas(objMesa.listaDeRecetasPropias());
-		
+
 		System.out.println("Inventario final y Receta.");
-		
+
 		System.out.println(inventario);
 		System.out.println(recetario);
-		
+
 		new InventarioGSON(Config.ESCE05_RUTA_FINAL_INVENTARIO).guardar(inventario.getObjetos());
 	}
 
