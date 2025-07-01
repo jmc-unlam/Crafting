@@ -24,6 +24,7 @@ public class MesaDeFlechas extends MesaDeTrabajo {
 		}
 		return true;
 	}
+
 	@Override
 	public String toString() {
 		return "MesaDeFlechas: " + getNombre();

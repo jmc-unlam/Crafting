@@ -247,7 +247,7 @@ public class Inventario {
 
 		// Crear una consulta
 		Query consulta = new Query("posibleCrafteo(Objeto).");
-		
+
 		System.out.println("\n--PROLOG:");
 		System.out.println("--Objetos crafteables con el inventario actual:");
 		// Obtener resultados
@@ -276,8 +276,9 @@ public class Inventario {
 		}
 		// verificar si se puede apilar
 		if (this.getCantidad(ObjCrafteable) >= 1 && !ObjCrafteable.esApilable()) {
-			//throw new UnsupportedOperationException("No se puede crafear porque ya lo tienes, no es apilable: " + ObjCrafteable);
-			return new Resultado(0, 0,ObjCrafteable);
+			// throw new UnsupportedOperationException("No se puede crafear porque ya lo
+			// tienes, no es apilable: " + ObjCrafteable);
+			return new Resultado(0, 0, ObjCrafteable);
 		}
 
 		// Caso un. Un objeto simple , con materiales basico.
@@ -326,13 +327,13 @@ public class Inventario {
 				cantEjecuciones++;
 				totaltiempo += tiempoAcumulado; // acumula el tiempo que tardo en craftear esta ejecucio.
 				tiempoAcumulado = 0;
-				if(!ObjCrafteable.esApilable() && cantEjecuciones==1)
-					senCorte = false; //si no es apilable, cuando es uno sale.
+				if (!ObjCrafteable.esApilable() && cantEjecuciones == 1)
+					senCorte = false; // si no es apilable, cuando es uno sale.
 			}
 		} while (senCorte);
 
 		return new Resultado(cantEjecuciones * receta.getCantidadProducida(),
-				totaltiempo + receta.getTiempoBase() * cantEjecuciones,ObjCrafteable);
+				totaltiempo + receta.getTiempoBase() * cantEjecuciones, ObjCrafteable);
 	}
 
 	private Resultado cantidadRecursivaObjeto(Inventario invAux, Objeto objetoConsultar, int cantidadNecesariaDelObjeto,
@@ -389,8 +390,8 @@ public class Inventario {
 				tiempoAcumulado += receta.getTiempoBase() * vecesReceta; // se le agrega el tiempo de la receta.
 				cantidadCrafteadaTotal += receta.getCantidadProducida() * vecesReceta;
 				// Agrega al inventario Aux, los objetos crafteado y resta lo utilizado.
-				if((cantidadCrafteadaTotal - cantidadFaltante) > 0)
-					//Agrega solo cuando la diferencia es positiva. No agrega CERO.
+				if ((cantidadCrafteadaTotal - cantidadFaltante) > 0)
+					// Agrega solo cuando la diferencia es positiva. No agrega CERO.
 					invAux.agregarObjeto(objetoConsultar, cantidadCrafteadaTotal - cantidadFaltante);
 			}
 		}

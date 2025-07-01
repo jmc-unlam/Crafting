@@ -5,116 +5,116 @@ import java.util.List;
 import java.util.Map;
 
 public class HistorialDeCrafteo {
-	
+
 	private static HistorialDeCrafteo instanciaUnica;
-	
-    private List<RegistroCrafteo> registros;
 
-    private HistorialDeCrafteo() {
-        this.registros = new ArrayList<>();
-    }
-    
-    public static HistorialDeCrafteo getInstanciaUnica() {
-        if (instanciaUnica == null) {
-            instanciaUnica = new HistorialDeCrafteo();
-        }
-        return instanciaUnica;
-    }
-    
-    public void agregarRegistro(Objeto objeto, int cantidad, int tiempoTotal, Map<Objeto, Integer> ingredientesUsados) {
-        if (objeto == null) {
-            throw new IllegalArgumentException("El objeto no puede ser nulo");
-        }
-        if (cantidad <= 0) {
-            throw new IllegalArgumentException("La cantidad debe ser positiva");
-        }
-        if (tiempoTotal <= 0) {
-            throw new IllegalArgumentException("El tiempo no puede ser negativo o nulo");
-        }
-        
-        registros.add(new RegistroCrafteo(objeto, cantidad, tiempoTotal,ingredientesUsados));
-    }
-    
-    public void agregarRegistro(Objeto objeto, int cantidad, int tiempoTotal) {
-        if (objeto == null) {
-            throw new IllegalArgumentException("El objeto no puede ser nulo");
-        }
-        if (cantidad <= 0) {
-            throw new IllegalArgumentException("La cantidad debe ser positiva");
-        }
-        if (tiempoTotal <= 0) {
-            throw new IllegalArgumentException("El tiempo no puede ser negativo o nulo");
-        }
-        
-        registros.add(new RegistroCrafteo(objeto, cantidad, tiempoTotal));
-    }
+	private List<RegistroCrafteo> registros;
 
-    public void limpiarRegistros() {
-        registros.clear();
-        RegistroCrafteo.reiniciarContador(); 
-    }
+	private HistorialDeCrafteo() {
+		this.registros = new ArrayList<>();
+	}
 
-    public List<RegistroCrafteo> getRegistros() {
-        return new ArrayList<>(registros); // Devolver una copia
-    }
+	public static HistorialDeCrafteo getInstanciaUnica() {
+		if (instanciaUnica == null) {
+			instanciaUnica = new HistorialDeCrafteo();
+		}
+		return instanciaUnica;
+	}
 
-    @Override
-    public String toString() {
-    	
-    	if(registros.size()==0)
-    		return "=== Historial de Crafteos Vacio ===\n";
-    	
-    	StringBuilder sb = new StringBuilder();
-        sb.append("=== Historial de Crafteos ===\n");
-        for (RegistroCrafteo registro : registros) {
-            sb.append(registro).append("\n"); 
-        }
-        sb.append("=============================\n");
-        return sb.toString();
-    }
+	public void agregarRegistro(Objeto objeto, int cantidad, int tiempoTotal, Map<Objeto, Integer> ingredientesUsados) {
+		if (objeto == null) {
+			throw new IllegalArgumentException("El objeto no puede ser nulo");
+		}
+		if (cantidad <= 0) {
+			throw new IllegalArgumentException("La cantidad debe ser positiva");
+		}
+		if (tiempoTotal <= 0) {
+			throw new IllegalArgumentException("El tiempo no puede ser negativo o nulo");
+		}
 
-    public List<RegistroCrafteo> buscarCrafteosPorNombre(Object objeto) {
-        List<RegistroCrafteo> resultados = new ArrayList<>();
-        for (RegistroCrafteo registro : registros) {
-            if (registro.getObjetoCrafteado().equals(objeto)) {
-                resultados.add(registro);
-            }
-        }
-        return resultados;
-    }
+		registros.add(new RegistroCrafteo(objeto, cantidad, tiempoTotal, ingredientesUsados));
+	}
 
-    public RegistroCrafteo buscarPrimerCrafteo(Object objeto) {
-    	//el primero esta al ultimo de la lista
-    	RegistroCrafteo ultimo = null;
-        for (int i = registros.size() - 1; i >= 0; i--) {
-        	RegistroCrafteo registro = registros.get(i);
-            if (registro.getObjetoCrafteado().equals(objeto)) {
-                ultimo = registro;
-            }
-        }
-        return ultimo;
-    }
+	public void agregarRegistro(Objeto objeto, int cantidad, int tiempoTotal) {
+		if (objeto == null) {
+			throw new IllegalArgumentException("El objeto no puede ser nulo");
+		}
+		if (cantidad <= 0) {
+			throw new IllegalArgumentException("La cantidad debe ser positiva");
+		}
+		if (tiempoTotal <= 0) {
+			throw new IllegalArgumentException("El tiempo no puede ser negativo o nulo");
+		}
 
-    public RegistroCrafteo buscarUltimoCrafteo(Object objeto) {
-    	//el ultimo crafteo es el primero de la lista
-    	RegistroCrafteo primero = null;
-    	for (int i = 0; i < registros.size(); i++) {
-    		RegistroCrafteo registro = registros.get(i);
-            if (registro.getObjetoCrafteado().equals(objeto)) {
-            	primero = registro;
-            }
-        }
-        return primero;
-        
-    }
+		registros.add(new RegistroCrafteo(objeto, cantidad, tiempoTotal));
+	}
 
-    public int getCantidadTotalCrafteada(Object objeto) {
-        int total = 0;
-        for (RegistroCrafteo registro : registros) {
-            if (registro.getObjetoCrafteado().equals(objeto)) {
-                total += registro.getCantidadCrafteada();
-            }
-        }
-        return total;
-    }
+	public void limpiarRegistros() {
+		registros.clear();
+		RegistroCrafteo.reiniciarContador();
+	}
+
+	public List<RegistroCrafteo> getRegistros() {
+		return new ArrayList<>(registros); // Devolver una copia
+	}
+
+	@Override
+	public String toString() {
+
+		if (registros.size() == 0)
+			return "=== Historial de Crafteos Vacio ===\n";
+
+		StringBuilder sb = new StringBuilder();
+		sb.append("=== Historial de Crafteos ===\n");
+		for (RegistroCrafteo registro : registros) {
+			sb.append(registro).append("\n");
+		}
+		sb.append("=============================\n");
+		return sb.toString();
+	}
+
+	public List<RegistroCrafteo> buscarCrafteosPorNombre(Object objeto) {
+		List<RegistroCrafteo> resultados = new ArrayList<>();
+		for (RegistroCrafteo registro : registros) {
+			if (registro.getObjetoCrafteado().equals(objeto)) {
+				resultados.add(registro);
+			}
+		}
+		return resultados;
+	}
+
+	public RegistroCrafteo buscarPrimerCrafteo(Object objeto) {
+		// el primero esta al ultimo de la lista
+		RegistroCrafteo ultimo = null;
+		for (int i = registros.size() - 1; i >= 0; i--) {
+			RegistroCrafteo registro = registros.get(i);
+			if (registro.getObjetoCrafteado().equals(objeto)) {
+				ultimo = registro;
+			}
+		}
+		return ultimo;
+	}
+
+	public RegistroCrafteo buscarUltimoCrafteo(Object objeto) {
+		// el ultimo crafteo es el primero de la lista
+		RegistroCrafteo primero = null;
+		for (int i = 0; i < registros.size(); i++) {
+			RegistroCrafteo registro = registros.get(i);
+			if (registro.getObjetoCrafteado().equals(objeto)) {
+				primero = registro;
+			}
+		}
+		return primero;
+
+	}
+
+	public int getCantidadTotalCrafteada(Object objeto) {
+		int total = 0;
+		for (RegistroCrafteo registro : registros) {
+			if (registro.getObjetoCrafteado().equals(objeto)) {
+				total += registro.getCantidadCrafteada();
+			}
+		}
+		return total;
+	}
 }

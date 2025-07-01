@@ -88,12 +88,29 @@ public class SistemaDeCrafteo {
 		return inventario.getFaltantes(ingredientesNecesarios(objeto));
 	}
 
+	public Resultado ingredientesFaltantesParaCraftearConTiempo(Objeto objeto) {
+		if (objeto == null) {
+			throw new IllegalArgumentException("No existe objeto:" + objeto);
+		}
+		return new Resultado(1, recetario.buscarReceta(objeto).getTiempoBase(), objeto,
+				inventario.getFaltantes(ingredientesNecesarios(objeto)));
+	}
+
 	public Map<Objeto, Integer> ingredientesBasicosFaltantesParaCraftear(Objeto objeto) {
 		if (objeto == null) {
 			throw new IllegalArgumentException("No existe objeto:" + objeto);
 		}
 		return inventario.getFaltantesBasicos(ingredientesBasicosNecesarios(objeto), recetario);
+	}
 
+	public Resultado ingredientesBasicosFaltantesParaCraftearConTiempo(Objeto objeto) {
+		if (objeto == null) {
+			throw new IllegalArgumentException("No existe objeto:" + objeto);
+		}
+		Receta receta = recetario.buscarReceta(objeto);
+
+		return new Resultado(1, receta.calcularTiempoTotal(recetario), objeto,
+				inventario.getFaltantesBasicos(ingredientesBasicosNecesarios(objeto), recetario));
 	}
 
 	public int cantidadCrafteable(Objeto objeto) {
@@ -135,8 +152,9 @@ public class SistemaDeCrafteo {
 		cantidadTotalDisponible += numLotesCrafteables * receta.getCantidadProducida();
 
 		int vecesReceta = (numLotesCrafteables == 0) ? 1 : numLotesCrafteables;
-		//System.out.println(
-				//"La cantidad crafteable se ejecuto en: " + receta.calcularTiempoTotal(recetario) * vecesReceta);
+		// System.out.println(
+		// "La cantidad crafteable se ejecuto en: " +
+		// receta.calcularTiempoTotal(recetario) * vecesReceta);
 		return cantidadTotalDisponible;
 	}
 
@@ -156,7 +174,7 @@ public class SistemaDeCrafteo {
 		int maxCrafteable = res.getCantidadCrafteable();
 
 		if (maxCrafteable < cantACraftear) {
-			
+
 			throw new IllegalStateException(
 					"No hay suficientes materiales para craftear " + cantACraftear + " " + objeto);
 		}
@@ -372,43 +390,43 @@ public class SistemaDeCrafteo {
 	public HistorialDeCrafteo getHistorialReal() {
 		return historial;
 	};
-    
-    //*****Implementacion Arbol de Crafteo*************
-    private void mostrarArbolRecursivo(Receta receta, Recetario recetario, int nivel) {
-    	
-    	StringBuilder espacio = new StringBuilder();
-        for (int i = 0; i < nivel; i++) {
-        	espacio.append("  ");
-        }
-        Objeto objeto = receta.getObjetoProducido();
-        int cantidad = receta.getCantidadProducida();
-        System.out.println(espacio + "└─ " + objeto.getNombre() + " x" + cantidad);
-        
-        for (Map.Entry<Objeto, Integer> entry : receta.getIngredientes().entrySet()) {
-            Objeto ingrediente = entry.getKey();
-            int cantidadIngrediente = entry.getValue();
-            
-            if (!ingrediente.esBasico()) {
-                Receta subReceta = recetario.buscarReceta(ingrediente);
-                mostrarArbolRecursivo(subReceta, recetario, nivel + 1);
-            } else {
-                System.out.println(espacio + "  └─ " + ingrediente.getNombre() + " x" + cantidadIngrediente);
-            }
-        }
-    }
-    
-    public void mostrarArbolCrafteo(Objeto objeto) {
-    	if (objeto == null) {
-            throw new IllegalArgumentException("No existe objeto:" + objeto);
-        }
-    	try {
+
+	// *****Implementacion Arbol de Crafteo*************
+	private void mostrarArbolRecursivo(Receta receta, Recetario recetario, int nivel) {
+
+		StringBuilder espacio = new StringBuilder();
+		for (int i = 0; i < nivel; i++) {
+			espacio.append("  ");
+		}
+		Objeto objeto = receta.getObjetoProducido();
+		int cantidad = receta.getCantidadProducida();
+		System.out.println(espacio + "└─ " + objeto.getNombre() + " x" + cantidad);
+
+		for (Map.Entry<Objeto, Integer> entry : receta.getIngredientes().entrySet()) {
+			Objeto ingrediente = entry.getKey();
+			int cantidadIngrediente = entry.getValue();
+
+			if (!ingrediente.esBasico()) {
+				Receta subReceta = recetario.buscarReceta(ingrediente);
+				mostrarArbolRecursivo(subReceta, recetario, nivel + 1);
+			} else {
+				System.out.println(espacio + "  └─ " + ingrediente.getNombre() + " x" + cantidadIngrediente);
+			}
+		}
+	}
+
+	public void mostrarArbolCrafteo(Objeto objeto) {
+		if (objeto == null) {
+			throw new IllegalArgumentException("No existe objeto:" + objeto);
+		}
+		try {
 			Receta receta = recetario.buscarReceta(objeto);
 			System.out.println("===========================");
-			System.out.println("===Arbol de crafteo -> "+ objeto +"===");
-			
+			System.out.println("===Arbol de crafteo -> " + objeto + "===");
+
 			mostrarArbolRecursivo(receta, recetario, 0);
 		} catch (NoSuchElementException e) {
-			throw new IllegalArgumentException("El objeto no tiene receta:"+ objeto);
-        }
-    }
+			throw new IllegalArgumentException("El objeto no tiene receta:" + objeto);
+		}
+	}
 }

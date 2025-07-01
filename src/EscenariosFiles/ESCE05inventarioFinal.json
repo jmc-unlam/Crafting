@@ -15,13 +15,6 @@
   },
   {
     "objeto": {
-      "tipo": "mesa de trabajo",
-      "nombre": "Mesa de Flechas"
-    },
-    "cantidad": 1
-  },
-  {
-    "objeto": {
       "tipo": "intermedio",
       "nombre": "Punta de Flecha"
     },

@@ -41,62 +41,45 @@ public class Main {
 
 			// Ejecutar acción según la opción
 			switch (opcion) {
-			case 1:
+			case 1: // 1. ¿Qué necesito para craftear un objeto? - Solo primer nivel.
 				sistema.ingredientesNecesariosConCantidad(seleccionarObjetoCrafteable()).informarCantidadOpcion1();
 				interrupcion(scanner);
 				break;
-			case 2:
+			case 2: // 2. ¿Qué necesito para craftear un objeto desde cero?
 				sistema.ingredientesBasicosNecesariosConTiempo(seleccionarObjetoCrafteable()).informarCantidadOpcion2();
 				interrupcion(scanner);
 				break;
-			case 3:
-				objePregunta = seleccionarObjetoCrafteable();
-
-				System.out.println("\nIngredientes faltantes para " + objePregunta.getNombre() + ":");
-
-				Map<Objeto, Integer> faltantes = sistema.ingredientesFaltantesParaCraftear(objePregunta);
-				if (faltantes.isEmpty())
-					System.out.println("No faltan ingredientes directos!");
-				else
-					faltantes.forEach((obj, cant) -> System.out.println("- Faltan " + cant + " de " + obj));
+			case 3: // 3. ¿Qué me falta para craftear un objeto? - Solo primer nivel.
+				sistema.ingredientesFaltantesParaCraftearConTiempo(seleccionarObjetoCrafteable())
+						.informarCantidadOpcion3();
 				interrupcion(scanner);
 				break;
-			case 4:
-
-				objePregunta = seleccionarObjetoCrafteable();
-
-				System.out.println("\nNuevos ingredientes básicos faltantes para " + objePregunta.getNombre() + ":");
-				Map<Objeto, Integer> faltantesBasicos2 = sistema.ingredientesBasicosFaltantesParaCraftear(objePregunta);
-				if (faltantesBasicos2.isEmpty())
-					System.out.println("No faltan ingredientes básicos!");
-				else
-					faltantesBasicos2.forEach((obj, cant) -> System.out.println("- " + obj + ": " + cant));
+			case 4: // 4. ¿Qué me falta para craftear un objeto desde cero?
+				sistema.ingredientesBasicosFaltantesParaCraftearConTiempo(seleccionarObjetoCrafteable())
+						.informarCantidadOpcion4();
 				interrupcion(scanner);
 				break;
-			case 5:
+			case 5: // 5. ¿Cuántos puedo craftear?
 				// Calcula cuantos objetos se pueden craftear con el inventario actual.
 				inventario.cantidadPosibleCraftear(seleccionarObjetoCrafteable(), recetario).informarCantidadOpcion5();
 				interrupcion(scanner);
 				break;
-			case 6:
+			case 6: // 6. Realizar el crafteo indicado
 				// Craftear una unidad de un objeto especifico.
 				try {
 					objePregunta = seleccionarObjetoCrafteable();
 					new Resultado(1, sistema.craftearObjeto(objePregunta, 1), objePregunta)
 							.informarTiempoCrafteoOpcion6();
-					System.out.println("===========================");
-					System.out.println("===Arbol de crafteo -> "+objePregunta+"===");
-					sistema.mostrarArbolCrafteo(objePregunta);
 				} catch (Exception e) {
 					System.err.println("Error: " + e.getMessage());
 				}
 				interrupcion(scanner);
 				break;
-			case 7:
+			case 7: // 7. Historial de crafteos
 				System.out.println(sistema.getHistorialReal().toString());
 				interrupcion(scanner);
 				break;
-			case 8:
+			case 8: // 8. Recolectar Objetos Básicos.
 				objePregunta = seleccionarObjetoFarmeable();
 				int cantidadFarmeada;
 				boolean salir = true;
@@ -121,26 +104,26 @@ public class Main {
 				System.out.println(objePregunta + "- Cantidad:" + cantidadFarmeada + ", Agregado al inventario.");
 				interrupcion(scanner);
 				break;
-			case 9:
+			case 9: // 9. Mostrar Recetario."
 				System.out.println(recetario);
 				interrupcion(scanner);
 				break;
-			case 10:
+			case 10: // 10. Mostrar inventario.
 				System.out.println(inventario);
 				interrupcion(scanner);
 				break;
-			case 11:
+			case 11: // 11. Consulta PROLOG.
 				System.out.println("\nProlog:");
 				recetario.PrologGenerarRecetas();
 				inventario.prologGenerarInventario();
 				inventario.consultaDeProlog();
 				interrupcion(scanner);
 				break;
-			case 12:
+			case 12: // 12. Listar Escenarios
 				Escenarios.seleccionarEscenario();
 				interrupcion(scanner);
 				break;
-			case 13:
+			case 13: // 13 Extra - Arbol.
 				sistema.mostrarArbolCrafteo(seleccionarObjetoCrafteable());
 				interrupcion(scanner);
 				break;
@@ -155,7 +138,6 @@ public class Main {
 
 			System.out.println("");
 
-			// Simular limpiar consola (en Eclipse, imprime saltos de línea)
 			System.out.flush();
 
 		} while (opcion != 0);
@@ -242,7 +224,7 @@ public class Main {
 		System.out.println(
 				"11. Consulta Prolog -¿Cuáles son todos los productos que podría generar con el inventario actual? - Primer nivel.");
 		System.out.println("12. Escenarios pre-definidos.");
-		System.out.println("13. Arbol de Crafteo.");
+		System.out.println("13. Extra - Arbol de Crafteo.");
 		System.out.println("0. Salir");
 		System.out.println("=========================");
 	}
