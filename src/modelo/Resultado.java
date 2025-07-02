@@ -90,6 +90,7 @@ public class Resultado {
 	}
 
 	public void informarTiempoCrafteoOpcion6() {
+		//6. Realizar el crafteo indicado 
 		System.out.println("\n=== Intentando craftear " + cantidadCrafteable + " unidad de " + objetoCrafteableUnico);
 		System.out.println("Tiempo Total (min): " + tiempo);
 		System.out.println(objetoCrafteableUnico.getNombre() + " creado Existosamente.\n");

@@ -16,7 +16,7 @@ public class Inventario {
 	private Map<Objeto, Integer> objetos;
 
 	public Inventario() {
-		this.objetos = new HashMap<>();
+		this.objetos = new HashMap<>(); // no garantiza orden. Orden mutable si es HashMap
 	}
 
 	public Inventario(Map<Objeto, Integer> objetosIniciales) {
@@ -34,7 +34,11 @@ public class Inventario {
 			if (objetos.containsKey(objeto)) {
 				throw new IllegalArgumentException("El objeto  no es apilable:" + objeto);
 			}
+			if (cantidad != 1)
+				throw new IllegalArgumentException(
+						"El objeto  no es apilable, solo admite una cantidad de 1:" + objeto);
 		}
+
 		objetos.merge(objeto, cantidad, Integer::sum);
 	}
 
@@ -63,7 +67,7 @@ public class Inventario {
 	}
 
 	public Map<Objeto, Integer> getObjetos() {
-		return new HashMap<>(objetos);
+		return new HashMap<>(objetos); // crea una copia del original.
 	}
 
 	public Map<Objeto, Integer> getFaltantes(Map<Objeto, Integer> requeridos) {
@@ -184,8 +188,10 @@ public class Inventario {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder("=== Inventario ===\n");
+		int nroId = 1;
 		for (Map.Entry<Objeto, Integer> entry : objetos.entrySet()) {
-			sb.append(entry).append("\n");
+			sb.append("Nro-" + nroId + "-").append(entry).append("\n");
+			nroId++;
 		}
 		return sb.toString();
 	}
@@ -225,6 +231,14 @@ public class Inventario {
 		}
 	}
 
+	/**
+	 * Método para mostrar la consulta de Prolog.
+	 *
+	 * Punto del TP2:¿Cuáles son todos los productos que podría generar con el inventario actual?
+	 * IMPORTANTE: Esta version NO crea los archivos del inventario y recetario. Esos archivos, se generan
+	 * en Metodos aparte.
+	 * 
+	 * */
 	public void consultaDeProlog() {
 
 		Query queryConfig = new Query("consult('" + Config.RUTA_PROLOG_CONFIG + "').");
@@ -258,27 +272,40 @@ public class Inventario {
 		}
 	}
 
-	public Resultado cantidadPosibleCraftear(Objeto ObjCrafteable, Recetario recetario) {
+	// Métodos que devuelven el Resultado compuesto, ALTA COMPLEJIDAD. Multiples
+	// casos de corte de la recursividad.
+	//
+
+	/**Este método calcula la cantidad crafteable de un objeto en concreto usando los objetos en el inventario.
+	 *
+	 * @param objCrafteable Objeto a craftear.
+	 *  @param recetario recetario a consultar las recetas.
+	 *  
+	 * @return Resultado Clase Resultado con la información de (Cantidad producida y Tiempo)
+	 */
+	
+	public Resultado cantidadPosibleCraftear(Objeto objCrafteable, Recetario recetario) {
+		
 		// El metodo en inventario que devuelve en una Clase Resultado (Cantidad a
 		// producir + TiempoTotal)
-		if (ObjCrafteable.esBasico()) {
-			throw new UnsupportedOperationException("No se puede craftear un objeto básico: " + ObjCrafteable);
+		if (objCrafteable.esBasico()) {
+			throw new UnsupportedOperationException("No se puede craftear un objeto básico: " + objCrafteable);
 		}
 
-		Receta receta = recetario.buscarReceta(ObjCrafteable);
+		Receta receta = recetario.buscarReceta(objCrafteable);
 		if (receta == null) {
-			throw new IllegalStateException("No existe receta para craftear " + ObjCrafteable);
+			throw new IllegalStateException("No existe receta para craftear " + objCrafteable);
 		}
 		// verificar si la receta tiene mesa
 		if (!this.tieneMesa(receta.getMesaRequerida())) {
 			throw new UnsupportedOperationException(
-					"No tienes [" + receta.getMesaRequerida() + "] para craftear->" + ObjCrafteable);
+					"No tienes [" + receta.getMesaRequerida() + "] para craftear->" + objCrafteable);
 		}
 		// verificar si se puede apilar
-		if (this.getCantidad(ObjCrafteable) >= 1 && !ObjCrafteable.esApilable()) {
+		if (this.getCantidad(objCrafteable) >= 1 && !objCrafteable.esApilable()) {
 			// throw new UnsupportedOperationException("No se puede crafear porque ya lo
 			// tienes, no es apilable: " + ObjCrafteable);
-			return new Resultado(0, 0, ObjCrafteable);
+			return new Resultado(0, 0, objCrafteable);
 		}
 
 		// Caso un. Un objeto simple , con materiales basico.
@@ -327,13 +354,13 @@ public class Inventario {
 				cantEjecuciones++;
 				totaltiempo += tiempoAcumulado; // acumula el tiempo que tardo en craftear esta ejecucio.
 				tiempoAcumulado = 0;
-				if (!ObjCrafteable.esApilable() && cantEjecuciones == 1)
+				if (!objCrafteable.esApilable() && cantEjecuciones == 1)
 					senCorte = false; // si no es apilable, cuando es uno sale.
 			}
 		} while (senCorte);
 
 		return new Resultado(cantEjecuciones * receta.getCantidadProducida(),
-				totaltiempo + receta.getTiempoBase() * cantEjecuciones, ObjCrafteable);
+				totaltiempo + receta.getTiempoBase() * cantEjecuciones, objCrafteable);
 	}
 
 	private Resultado cantidadRecursivaObjeto(Inventario invAux, Objeto objetoConsultar, int cantidadNecesariaDelObjeto,
@@ -400,4 +427,38 @@ public class Inventario {
 		return new Resultado(cantidadCrafteadaTotal, tiempoAcumulado);
 	}
 
+	// Método para restar o quitar objetos del inventario según su nro en el
+	// inventario y la cantidad.
+	// Anteriormente creado en el main, sin embargo, el main debia calculas cosas q
+	// el inventario las hace internamente.
+	public boolean removerCantidadDeUnObjetoSegunNro(int opcionIDObjeto, int cantidadAVender, Recetario recetario) {
+
+		if (opcionIDObjeto > objetos.size() || opcionIDObjeto < 0 || cantidadAVender==0) {
+			System.out.println("Entrada inválida. Por favor, elige un número de la list y una cantidad igual o menor que la del inventario.");
+			return false;
+		} else {
+
+			int nroOrden = 1;
+			nroOrden = 1;
+			for (Map.Entry<Objeto, Integer> entry : objetos.entrySet()) {
+				Objeto objetoEnInventario = entry.getKey();
+				Integer cantidadEnInventario = entry.getValue();
+				if (nroOrden == opcionIDObjeto) {
+					if (cantidadEnInventario >= cantidadAVender) {
+						this.removerObjeto(objetoEnInventario, cantidadAVender);
+						recetario.removerRecetas(objetoEnInventario.listaDeRecetasPropias());
+						System.out.println(objetoEnInventario + " VENDIDA\n");
+						return true;
+					} else {
+						System.out.println("La cantidad " + cantidadAVender
+								+ " a vender es mayor a la del inventario q es . " + cantidadEnInventario + "\n");
+					}
+					return false;
+				}
+				nroOrden++;
+			}
+			return false;
+		}
+
+	}
 }

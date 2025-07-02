@@ -16,6 +16,108 @@
   {
     "objeto": {
       "tipo": "mesa de trabajo",
+      "recetasDeMesa": [
+        {
+          "objetoProducido": {
+            "tipo": "intermedio",
+            "nombre": "lingote de hierro"
+          },
+          "ingredientes": {
+            "ObjetoBásico: mineral de hierro": 7
+          },
+          "cantidadProducida": 3,
+          "tiempoBase": 10,
+          "mesaRequerida": {
+            "nombre": "Mesa de Generica"
+          }
+        },
+        {
+          "objetoProducido": {
+            "tipo": "intermedio",
+            "nombre": "lingote de cobre"
+          },
+          "ingredientes": {
+            "ObjetoBásico: mineral de cobre": 3
+          },
+          "cantidadProducida": 2,
+          "tiempoBase": 10,
+          "mesaRequerida": {
+            "nombre": "Mesa de Generica"
+          }
+        },
+        {
+          "objetoProducido": {
+            "tipo": "intermedio",
+            "nombre": "lingote de estano"
+          },
+          "ingredientes": {
+            "ObjetoBásico: mineral de estano": 4
+          },
+          "cantidadProducida": 2,
+          "tiempoBase": 5,
+          "mesaRequerida": {
+            "nombre": "Mesa de Generica"
+          }
+        },
+        {
+          "objetoProducido": {
+            "tipo": "intermedio",
+            "nombre": "lingote de plata"
+          },
+          "ingredientes": {
+            "ObjetoBásico: mineral de plata": 3
+          },
+          "cantidadProducida": 1,
+          "tiempoBase": 10,
+          "mesaRequerida": {
+            "nombre": "Mesa de Generica"
+          }
+        },
+        {
+          "objetoProducido": {
+            "tipo": "intermedio",
+            "nombre": "lingote de oro"
+          },
+          "ingredientes": {
+            "ObjetoBásico: mineral de oro": 3
+          },
+          "cantidadProducida": 1,
+          "tiempoBase": 5,
+          "mesaRequerida": {
+            "nombre": "Mesa de Generica"
+          }
+        },
+        {
+          "objetoProducido": {
+            "tipo": "intermedio",
+            "nombre": "lingote de acero"
+          },
+          "ingredientes": {
+            "ObjetoIntermedio: lingote de hierro": 2,
+            "ObjetoBásico: carbon": 8
+          },
+          "cantidadProducida": 2,
+          "tiempoBase": 15,
+          "mesaRequerida": {
+            "nombre": "Mesa de Generica"
+          }
+        },
+        {
+          "objetoProducido": {
+            "tipo": "intermedio",
+            "nombre": "lingote de bronze"
+          },
+          "ingredientes": {
+            "ObjetoIntermedio: lingote de estano": 1,
+            "ObjetoIntermedio: lingote de cobre": 4
+          },
+          "cantidadProducida": 1,
+          "tiempoBase": 20,
+          "mesaRequerida": {
+            "nombre": "Mesa de Generica"
+          }
+        }
+      ],
       "nombre": "Mesa de Generica"
     },
     "cantidad": 1
@@ -23,6 +125,22 @@
   {
     "objeto": {
       "tipo": "mesa de trabajo",
+      "recetasDeMesa": [
+        {
+          "objetoProducido": {
+            "tipo": "intermedio",
+            "nombre": "Punta de Flecha"
+          },
+          "ingredientes": {
+            "ObjetoIntermedio: lingote de hierro": 1
+          },
+          "cantidadProducida": 20,
+          "tiempoBase": 4,
+          "mesaRequerida": {
+            "nombre": "Mesa de Flechas"
+          }
+        }
+      ],
       "nombre": "Mesa de Flechas"
     },
     "cantidad": 1
