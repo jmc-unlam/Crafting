@@ -231,6 +231,14 @@ public class Inventario {
 		}
 	}
 
+	/**
+	 * Método para mostrar la consulta de Prolog.
+	 *
+	 * Punto del TP2:¿Cuáles son todos los productos que podría generar con el inventario actual?
+	 * IMPORTANTE: Esta version NO crea los archivos del inventario y recetario. Esos archivos, se generan
+	 * en Metodos aparte.
+	 * 
+	 * */
 	public void consultaDeProlog() {
 
 		Query queryConfig = new Query("consult('" + Config.RUTA_PROLOG_CONFIG + "').");
@@ -268,27 +276,36 @@ public class Inventario {
 	// casos de corte de la recursividad.
 	//
 
-	public Resultado cantidadPosibleCraftear(Objeto ObjCrafteable, Recetario recetario) {
+	/**Este método calcula la cantidad crafteable de un objeto en concreto usando los objetos en el inventario.
+	 *
+	 * @param objCrafteable Objeto a craftear.
+	 *  @param recetario recetario a consultar las recetas.
+	 *  
+	 * @return Resultado Clase Resultado con la información de (Cantidad producida y Tiempo)
+	 */
+	
+	public Resultado cantidadPosibleCraftear(Objeto objCrafteable, Recetario recetario) {
+		
 		// El metodo en inventario que devuelve en una Clase Resultado (Cantidad a
 		// producir + TiempoTotal)
-		if (ObjCrafteable.esBasico()) {
-			throw new UnsupportedOperationException("No se puede craftear un objeto básico: " + ObjCrafteable);
+		if (objCrafteable.esBasico()) {
+			throw new UnsupportedOperationException("No se puede craftear un objeto básico: " + objCrafteable);
 		}
 
-		Receta receta = recetario.buscarReceta(ObjCrafteable);
+		Receta receta = recetario.buscarReceta(objCrafteable);
 		if (receta == null) {
-			throw new IllegalStateException("No existe receta para craftear " + ObjCrafteable);
+			throw new IllegalStateException("No existe receta para craftear " + objCrafteable);
 		}
 		// verificar si la receta tiene mesa
 		if (!this.tieneMesa(receta.getMesaRequerida())) {
 			throw new UnsupportedOperationException(
-					"No tienes [" + receta.getMesaRequerida() + "] para craftear->" + ObjCrafteable);
+					"No tienes [" + receta.getMesaRequerida() + "] para craftear->" + objCrafteable);
 		}
 		// verificar si se puede apilar
-		if (this.getCantidad(ObjCrafteable) >= 1 && !ObjCrafteable.esApilable()) {
+		if (this.getCantidad(objCrafteable) >= 1 && !objCrafteable.esApilable()) {
 			// throw new UnsupportedOperationException("No se puede crafear porque ya lo
 			// tienes, no es apilable: " + ObjCrafteable);
-			return new Resultado(0, 0, ObjCrafteable);
+			return new Resultado(0, 0, objCrafteable);
 		}
 
 		// Caso un. Un objeto simple , con materiales basico.
@@ -337,13 +354,13 @@ public class Inventario {
 				cantEjecuciones++;
 				totaltiempo += tiempoAcumulado; // acumula el tiempo que tardo en craftear esta ejecucio.
 				tiempoAcumulado = 0;
-				if (!ObjCrafteable.esApilable() && cantEjecuciones == 1)
+				if (!objCrafteable.esApilable() && cantEjecuciones == 1)
 					senCorte = false; // si no es apilable, cuando es uno sale.
 			}
 		} while (senCorte);
 
 		return new Resultado(cantEjecuciones * receta.getCantidadProducida(),
-				totaltiempo + receta.getTiempoBase() * cantEjecuciones, ObjCrafteable);
+				totaltiempo + receta.getTiempoBase() * cantEjecuciones, objCrafteable);
 	}
 
 	private Resultado cantidadRecursivaObjeto(Inventario invAux, Objeto objetoConsultar, int cantidadNecesariaDelObjeto,

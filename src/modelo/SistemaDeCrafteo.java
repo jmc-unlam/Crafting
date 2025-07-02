@@ -41,6 +41,13 @@ public class SistemaDeCrafteo {
 		}
 	}
 
+	/**
+	 * Consultar los materiales de nivel 1 de un Objeto.
+	 * 
+	 * @param objeto Objeto 
+	 * @return Resultado (CantidadCraftea =1, TiempoBase de receta, Objeto a Craftear, Ingredientes de receta Nivel1
+	 */
+	
 	public Resultado ingredientesNecesariosConCantidad(Objeto objeto) {
 		if (objeto == null) {
 			throw new IllegalArgumentException("No existe objeto:" + objeto);
