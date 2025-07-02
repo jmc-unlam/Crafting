@@ -37,7 +37,6 @@ public class Main {
 				System.out.print("Elige una opción: ");
 			}
 			opcion = scanner.nextInt();
-			Map<Objeto, Integer> ingredientes;
 
 			// Ejecutar acción según la opción
 			switch (opcion) {
@@ -79,30 +78,8 @@ public class Main {
 				System.out.println(sistema.getHistorialReal().toString());
 				interrupcion(scanner);
 				break;
-			case 8: // 8. Recolectar Objetos Básicos.
-				objePregunta = seleccionarObjetoFarmeable();
-				int cantidadFarmeada;
-				boolean salir = true;
-
-				do {
-					System.out.print("Ingrese la cantidad farmeada entre 1 a 20: ");
-					while (!scanner.hasNextInt()) {
-						System.out.println("Entrada inválida. Por favor, elige un número.");
-						scanner.next(); // Limpiar entrada incorrecta
-						System.out.print("Ingrese la cantidad farmeada entre 1 a 20: ");
-					}
-					cantidadFarmeada = scanner.nextInt();
-
-					if (cantidadFarmeada > 0 && cantidadFarmeada < 21)
-						salir = false;
-					else
-						System.out.println("La cantidad debe ser entre 1 y 20, vuelva a intentar.");
-
-				} while (salir);
-
-				inventario.agregarObjeto(objePregunta, cantidadFarmeada);
-				System.out.println(objePregunta + "- Cantidad:" + cantidadFarmeada + ", Agregado al inventario.");
-				interrupcion(scanner);
+			case 8: // 8. Recolectar Objetos Básicos / Comprar Intermedios o Vender del inventario.
+				menuRecolectarVenderComprar(scanner);
 				break;
 			case 9: // 9. Mostrar Recetario."
 				System.out.println(recetario);
@@ -145,7 +122,84 @@ public class Main {
 		scanner.close();
 
 	}
+	private static void menuRecolectarVenderComprar(Scanner scanner) {
+		System.out.println("\n===== MENÚ para la modificación del inventario rapidamente =====");
+		int opcion;
+		
+		do {
+			System.out.println("1. Recolectar Objetos Básicos.");
+			System.out.println("2. Comprar Intermedios.");
+			System.out.println("3. Vender del inventario.");
+			System.out.println("0. Volver.\n");
+		
+			// Leer opción del usuario
+			System.out.print("Elige una opción: ");
+			while (!scanner.hasNextInt()) {
+				System.out.println("Entrada inválida. Por favor, elige un número entre 1 a 3.");
+				scanner.next(); // Limpiar entrada incorrecta
+				System.out.print("Elige una opción: ");
+			}
+			opcion = scanner.nextInt();
+			Objeto objePregunta;
+			
+			switch(opcion) {
+			case 1: // Recolectar objeto basico.
+				objePregunta = seleccionarObjetoFarmeable();
+				int cantidadFarmeada= ingresarCantidadPara("farmeada",scanner);
+				
+				if(cantidadFarmeada>0) {
+					inventario.agregarObjeto(objePregunta, cantidadFarmeada);
+					System.out.println(objePregunta + "- Cantidad:" + cantidadFarmeada + ", Agregado al inventario.\n");
+				}
+				break;
+			case 2: // Comprar objeto intermedio.
+				objePregunta = seleccionarObjetoCrafteable();
+				int cantidadAComprar= ingresarCantidadPara("a comprar",scanner);
+				
+				if(cantidadAComprar>0) {
+					inventario.agregarObjeto(objePregunta, cantidadAComprar);
+					System.out.println(objePregunta + "- Cantidad:" + cantidadAComprar + ", Agregado al inventario.\n");
+				}
+				
+				break;
+			case 3: // vender del inventario
+				// la idea es desde un listado de todo lo del inventario, seleccionar uno y cargar la cantidad a vender.
+				// esto ayuda a testear principalmente agregar y quitar la mesa.
+				System.out.println("###########FALTA DESARROLLAR############.\n");
+				break;
+			default:
+			
+			}
+			
+		}while(opcion != 0);
+		
+	}
+	
+	private static int ingresarCantidadPara(String accionAinformar, Scanner scanner) {
+		
+		int cantidadFarmeada;
+		boolean salir = true;
+		String mesanje = "Ingrese la cantidad " + accionAinformar + " entre 0 a 20: ";
+		
+		do {
+			System.out.print(mesanje);
+			while (!scanner.hasNextInt()) {
+				System.out.println("Entrada inválida. Por favor, elige un número.");
+				scanner.next(); // Limpiar entrada incorrecta
+				System.out.print(mesanje);
+			}
+			cantidadFarmeada = scanner.nextInt();
 
+			if (cantidadFarmeada >= 0 && cantidadFarmeada < 21)
+				salir = false;
+			else
+				System.out.println("La cantidad debe ser entre 0 y 20, vuelva a intentar.");
+
+		} while (salir);
+		
+		return cantidadFarmeada;
+	}
+	
 	private static void interrupcion(Scanner scanner) {
 		System.out.println("\nPresione Enter para continuar...");
 		scanner.nextLine(); // Espera a que el usuario presione Enter
@@ -218,7 +272,7 @@ public class Main {
 		System.out.println("5. ¿Cuántos puedo craftear?");
 		System.out.println("6. Realizar el crafteo indicado");
 		System.out.println("7. Historial de crafteos");
-		System.out.println("8. Recolectar Objetos Básicos.");
+		System.out.println("8. Recolectar Objetos Básicos / Comprar Intermedios / Vender del inventario.");
 		System.out.println("9. Mostrar Recetario.");
 		System.out.println("10. Mostrar inventario.");
 		System.out.println(
