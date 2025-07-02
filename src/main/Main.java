@@ -1,7 +1,6 @@
 package main;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 import datos.json.InventarioGSON;
@@ -91,7 +90,7 @@ public class Main {
 				break;
 			case 11: // 11. Consulta PROLOG.
 				System.out.println("\nProlog:");
-				recetario.PrologGenerarRecetas();
+				recetario.prologGenerarRecetas();
 				inventario.prologGenerarInventario();
 				inventario.consultaDeProlog();
 				interrupcion(scanner);
@@ -130,7 +129,7 @@ public class Main {
 		do {
 			System.out.println("1. Recolectar Objetos Básicos.");
 			System.out.println("2. Comprar Intermedios.");
-			System.out.println("3. Vender del inventario.");
+			System.out.println("3. Vender del inventario.\n");
 			System.out.println("0. Volver.\n");
 
 			// Leer opción del usuario
@@ -172,17 +171,10 @@ public class Main {
 				// la idea es desde un listado de todo lo del inventario, seleccionar uno y
 				// cargar la cantidad a vender.
 				// esto ayuda a testear principalmente agregar y quitar la mesa.
-				//quedaria mejor en el inventario. Pero alli no tiene un ID.
-				Map<Objeto, Integer> inventarioActual = inventario.getObjetos();
+				// quedaria mejor en el inventario. Pero alli no tiene un ID.
 				int opcionIDObjeto;
 				do {
-					int ID = 1;
-					for (Map.Entry<Objeto, Integer> entry : inventarioActual.entrySet()) {
-						Objeto objetoEnInventario = entry.getKey();
-						Integer cantidadEnInventario = entry.getValue();
-						System.out.println("N°" + ID + "-" + objetoEnInventario + "-Cantidad:" + cantidadEnInventario);
-						ID++;
-					}
+					System.out.println(inventario);
 					System.out.println("0= para salir.\n");
 
 					System.out.print("Elige una id del objeto en el inventario: ");
@@ -193,31 +185,12 @@ public class Main {
 					}
 					opcionIDObjeto = scanner.nextInt();
 					if (opcionIDObjeto != 0) {
-						if (opcionIDObjeto > inventarioActual.size() || opcionIDObjeto < 0)
-							System.out.println("Entrada inválida. Por favor, elige un número de la lista.");
-						else {
-							int cantidadAVender = ingresarCantidadPara("a vender", scanner);
+						int cantidadAVender = ingresarCantidadPara("a vender", scanner);
 
-							ID = 1;
-							for (Map.Entry<Objeto, Integer> entry : inventarioActual.entrySet()) {
-								Objeto objetoEnInventario = entry.getKey();
-								Integer cantidadEnInventario = entry.getValue();
-								if (ID == opcionIDObjeto) {
-									if (cantidadEnInventario >= cantidadAVender) {
-										
-										inventario.removerObjeto(objetoEnInventario, cantidadAVender);
-										recetario.removerRecetas(objetoEnInventario.listaDeRecetasPropias());
-										System.out.println(objetoEnInventario + " VENDIDA\n");
-									} else {
-										System.out.println("La cantidad " + cantidadAVender
-												+ " a vender es mayor a la del inventario q es . "
-												+ cantidadEnInventario + "\n");
-									}
-									opcionIDObjeto = 0;
-									break;
-								}
-								ID++;
-							}
+						if (opcionIDObjeto != 0) {
+							if (inventario.removerCantidadDeUnObjetoSegunNro(opcionIDObjeto, cantidadAVender,
+									recetario))
+								opcionIDObjeto = 0;
 						}
 					}
 
@@ -225,7 +198,7 @@ public class Main {
 
 				break;
 			default:
-
+				System.out.println("Entrada inválida. Por favor, elige un número entre 1 a 3.");
 			}
 
 		} while (opcion != 0);
@@ -248,7 +221,7 @@ public class Main {
 			}
 			cantidadFarmeada = scanner.nextInt();
 
-			if (cantidadFarmeada >= 0 && cantidadFarmeada < (maximaCantidad+1))
+			if (cantidadFarmeada >= 0 && cantidadFarmeada < (maximaCantidad + 1))
 				salir = false;
 			else
 				System.out.println("La cantidad debe ser entre 0 y " + maximaCantidad + ", vuelva a intentar.");
@@ -336,7 +309,7 @@ public class Main {
 		System.out.println(
 				"11. Consulta Prolog -¿Cuáles son todos los productos que podría generar con el inventario actual? - Primer nivel.");
 		System.out.println("12. Escenarios pre-definidos.");
-		System.out.println("13. Extra - Arbol de Crafteo.");
+		System.out.println("13. Extra - Arbol de Crafteo.\n");
 		System.out.println("0. Salir");
 		System.out.println("=========================");
 	}

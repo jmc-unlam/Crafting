@@ -117,7 +117,7 @@ public class Recetario {
 		return new HashMap<>(this.recetasPorObjeto);
 	}
 
-	public void PrologGenerarRecetas() {
+	public void prologGenerarRecetas() {
 		// Borrar Archivo con la lista de Recetas para generarlo nuevamente.
 		// Ruta relativa al archivo dentro del proyecto
 		File archivo = new File(Config.RUTA_PROLOG_RECETAS);

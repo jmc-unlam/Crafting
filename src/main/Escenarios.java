@@ -292,7 +292,7 @@ public class Escenarios {
 		objeIntermedio = recetario.objetoCrafteable("Punta de Flecha");
 		new Resultado(5, sistema.craftearObjeto(objeIntermedio, 5), objeIntermedio).informarTiempoCrafteoOpcion6();
 
-		recetario.PrologGenerarRecetas();
+		recetario.prologGenerarRecetas();
 		inventario.prologGenerarInventario();
 		inventario.consultaDeProlog();
 

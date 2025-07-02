@@ -13,10 +13,10 @@ import org.jpl7.Term;
 import main.Config;
 
 public class Inventario {
-	private Map<Objeto, Integer> objetos; 
+	private Map<Objeto, Integer> objetos;
 
 	public Inventario() {
-		this.objetos = new HashMap<>();  //no garantiza orden. Orden mutable si es HashMap
+		this.objetos = new HashMap<>(); // no garantiza orden. Orden mutable si es HashMap
 	}
 
 	public Inventario(Map<Objeto, Integer> objetosIniciales) {
@@ -67,7 +67,7 @@ public class Inventario {
 	}
 
 	public Map<Objeto, Integer> getObjetos() {
-		return new HashMap<>(objetos); //crea una copia del original.
+		return new HashMap<>(objetos); // crea una copia del original.
 	}
 
 	public Map<Objeto, Integer> getFaltantes(Map<Objeto, Integer> requeridos) {
@@ -188,8 +188,10 @@ public class Inventario {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder("=== Inventario ===\n");
+		int nroId = 1;
 		for (Map.Entry<Objeto, Integer> entry : objetos.entrySet()) {
-			sb.append(entry).append("\n");
+			sb.append("Nro-" + nroId + "-").append(entry).append("\n");
+			nroId++;
 		}
 		return sb.toString();
 	}
@@ -261,6 +263,10 @@ public class Inventario {
 
 		}
 	}
+
+	// Métodos que devuelven el Resultado compuesto, ALTA COMPLEJIDAD. Multiples
+	// casos de corte de la recursividad.
+	//
 
 	public Resultado cantidadPosibleCraftear(Objeto ObjCrafteable, Recetario recetario) {
 		// El metodo en inventario que devuelve en una Clase Resultado (Cantidad a
@@ -404,4 +410,39 @@ public class Inventario {
 		return new Resultado(cantidadCrafteadaTotal, tiempoAcumulado);
 	}
 
+	// Método para restar o quitar objetos del inventario según su nro en el
+	// inventario y la cantidad.
+	// Anteriormente creado en el main, sin embargo, el main debia calculas cosas q
+	// el inventario las hace internamente.
+	public boolean removerCantidadDeUnObjetoSegunNro(int opcionIDObjeto, int cantidadAVender, Recetario recetario) {
+
+		if (opcionIDObjeto > objetos.size() || opcionIDObjeto < 0 || cantidadAVender==0) {
+			System.out.println("Entrada inválida. Por favor, elige un número de la list y una cantidad igual o menor que la del inventario.");
+			return false;
+		} else {
+
+			int ID = 1;
+			ID = 1;
+			for (Map.Entry<Objeto, Integer> entry : objetos.entrySet()) {
+				Objeto objetoEnInventario = entry.getKey();
+				Integer cantidadEnInventario = entry.getValue();
+				if (ID == opcionIDObjeto) {
+					if (cantidadEnInventario >= cantidadAVender) {
+						this.removerObjeto(objetoEnInventario, cantidadAVender);
+						recetario.removerRecetas(objetoEnInventario.listaDeRecetasPropias());
+						System.out.println(objetoEnInventario + " VENDIDA\n");
+						return true;
+					} else {
+						System.out.println("La cantidad " + cantidadAVender
+								+ " a vender es mayor a la del inventario q es . " + cantidadEnInventario + "\n");
+					}
+					opcionIDObjeto = 0;
+					return false;
+				}
+				ID++;
+			}
+			return false;
+		}
+
+	}
 }
