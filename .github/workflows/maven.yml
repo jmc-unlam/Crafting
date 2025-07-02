@@ -38,13 +38,13 @@ jobs:
         JAR_PATH=$(ls target/*-jar-with-dependencies.jar)
         echo "jar_path=$JAR_PATH" >> $GITHUB_OUTPUT
 
-     - name: Upload Artifact
-       uses: actions/upload-artifact@v4
-       with:
-         name: build-artifacts
-         path: |
-           target/*.jar
-           target/*-jar-with-dependencies.jar
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-artifacts
+        path: |
+          target/*.jar
+          target/*-jar-with-dependencies.jar
 
   release: # Nuevo job para la release
       needs: build # Asegura que el job de build se complete primero
