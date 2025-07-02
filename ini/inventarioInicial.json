@@ -4,7 +4,14 @@
       "tipo": "basico",
       "nombre": "Madera"
     },
-    "cantidad": 9
+    "cantidad": 50
+  },
+  {
+    "objeto": {
+      "tipo": "basico",
+      "nombre": "ladrillo"
+    },
+    "cantidad": 50
   },
   {
     "objeto": {
@@ -47,5 +54,12 @@
       "nombre": "Hierro"
     },
     "cantidad": 5
+  },
+  {
+    "objeto": {
+      "tipo": "basico",
+      "nombre": "mineral de hierro"
+    },
+    "cantidad": 50
   }
 ]
