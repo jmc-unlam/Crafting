@@ -167,11 +167,8 @@ public class Main {
 					}
 				}
 				break;
-			case 3: // vender del inventario
-				// la idea es desde un listado de todo lo del inventario, seleccionar uno y
-				// cargar la cantidad a vender.
-				// esto ayuda a testear principalmente agregar y quitar la mesa.
-				// quedaria mejor en el inventario. Pero alli no tiene un ID.
+			case 3: //verder
+			
 				int opcionIDObjeto;
 				do {
 					System.out.println(inventario);
