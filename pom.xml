@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>TPCrafting</groupId>
 	<artifactId>TPCrafting</artifactId>
-	<version>1.0.0-beta</version>
+	<version>1.0.10-beta</version>
 	<name>Crafting</name>
 	<description>Sistema de Crafteo</description>
 	<properties>
