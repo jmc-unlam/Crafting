@@ -1,31 +1,10 @@
 [
   {
     "objeto": {
-      "tipo": "basico",
-      "nombre": "Madera"
+      "tipo": "mesa de trabajo",
+      "nombre": "Mesa de Flechas"
     },
-    "cantidad": 50
-  },
-  {
-    "objeto": {
-      "tipo": "basico",
-      "nombre": "ladrillo"
-    },
-    "cantidad": 50
-  },
-  {
-    "objeto": {
-      "tipo": "intermedio",
-      "nombre": "Flechas"
-    },
-    "cantidad": 15
-  },
-  {
-    "objeto": {
-      "tipo": "basico",
-      "nombre": "Cuerda"
-    },
-    "cantidad": 4
+    "cantidad": 1
   },
   {
     "objeto": {
@@ -43,10 +22,38 @@
   },
   {
     "objeto": {
+      "tipo": "basico",
+      "nombre": "Madera"
+    },
+    "cantidad": 50
+  },
+  {
+    "objeto": {
+      "tipo": "intermedio",
+      "nombre": "Flechas"
+    },
+    "cantidad": 15
+  },
+  {
+    "objeto": {
       "tipo": "intermedio",
       "nombre": "Arco compuesto"
     },
     "cantidad": 1
+  },
+  {
+    "objeto": {
+      "tipo": "basico",
+      "nombre": "mineral de hierro"
+    },
+    "cantidad": 50
+  },
+  {
+    "objeto": {
+      "tipo": "basico",
+      "nombre": "Cuerda"
+    },
+    "cantidad": 4
   },
   {
     "objeto": {
@@ -58,7 +65,7 @@
   {
     "objeto": {
       "tipo": "basico",
-      "nombre": "mineral de hierro"
+      "nombre": "ladrillo"
     },
     "cantidad": 50
   }

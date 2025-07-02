@@ -8,7 +8,7 @@ import datos.json.RecetaGSON;
 import main.Config;
 
 public class MesaDeTrabajo extends Objeto {
-	private List<Receta> recetasDeMesa;
+	//private List<Receta> recetasDeMesa;
 
 	public MesaDeTrabajo(String nombre) {
 		super(nombre);
@@ -27,16 +27,16 @@ public class MesaDeTrabajo extends Objeto {
 	@Override
 	public List<Receta> listaDeRecetasPropias() {
 
-		if (this.recetasDeMesa == null) {
+		//if (this.recetasDeMesa == null) {
 			File archivo = new File(Config.RECETAS_DE_MESAS_DIR + this.getNombre() + ".json");
 
 			if (archivo.exists()) {
-				recetasDeMesa = new RecetaGSON(archivo.getPath()).cargar();
-				return recetasDeMesa;
+				//recetasDeMesa = new RecetaGSON(archivo.getPath()).cargar();
+				return new RecetaGSON(archivo.getPath()).cargar();
 			} else
 				return Collections.emptyList();
-		} else
-			return recetasDeMesa;
+		//} else
+			//return recetasDeMesa;
 	}
 
 	@Override
