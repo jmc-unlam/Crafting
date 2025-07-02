@@ -421,12 +421,12 @@ public class Inventario {
 			return false;
 		} else {
 
-			int ID = 1;
-			ID = 1;
+			int nroOrden = 1;
+			nroOrden = 1;
 			for (Map.Entry<Objeto, Integer> entry : objetos.entrySet()) {
 				Objeto objetoEnInventario = entry.getKey();
 				Integer cantidadEnInventario = entry.getValue();
-				if (ID == opcionIDObjeto) {
+				if (nroOrden == opcionIDObjeto) {
 					if (cantidadEnInventario >= cantidadAVender) {
 						this.removerObjeto(objetoEnInventario, cantidadAVender);
 						recetario.removerRecetas(objetoEnInventario.listaDeRecetasPropias());
@@ -436,10 +436,9 @@ public class Inventario {
 						System.out.println("La cantidad " + cantidadAVender
 								+ " a vender es mayor a la del inventario q es . " + cantidadEnInventario + "\n");
 					}
-					opcionIDObjeto = 0;
 					return false;
 				}
-				ID++;
+				nroOrden++;
 			}
 			return false;
 		}

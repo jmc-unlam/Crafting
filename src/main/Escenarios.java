@@ -18,6 +18,13 @@ import modelo.Resultado;
 import modelo.SistemaDeCrafteo;
 
 public class Escenarios {
+
+	private Escenarios() {
+		throw new IllegalStateException("Utility class");
+	}
+
+	private static final String ESCENARIOS_SEPARADOR = "===========================";
+
 	public static void seleccionarEscenario() {
 		System.out.println("1. Escenarios Crear Hacha de Piedra con una receta.");
 		System.out.println("2. Escenarios Mesa de fundición.");
@@ -175,7 +182,7 @@ public class Escenarios {
 			System.err.println("Error: " + e.getMessage());
 		}
 
-		System.out.println("===========================");
+		System.out.println(ESCENARIOS_SEPARADOR);
 		System.out.println("===Mostrando arbol de hacha de piedra===");
 		sistema.mostrarArbolCrafteo(hachaDePiedra);
 	}
@@ -192,7 +199,7 @@ public class Escenarios {
 		recetario.agregarRecetas(new RecetaGSON(Config.RECETAS_FUNDICION).cargar());
 		System.out.println(inventario);
 		System.out.println(recetario);
-		System.out.println("===========================");
+		System.out.println(ESCENARIOS_SEPARADOR);
 		System.out.println("===Intento craftear recetas que usan el fundidor antes===");
 		try {
 			sistema.craftearObjeto(recetario.getRecetas().getFirst().getObjetoProducido(), 1);
@@ -205,9 +212,9 @@ public class Escenarios {
 		int tiempoFundidor = sistema.craftearObjeto(new MesaDeFundicion(), 1);
 		System.out.println("Se crafteo la mesa de fundicion en: " + tiempoFundidor);
 		System.out.println(inventario);
-		System.out.println("===========================");
+		System.out.println(ESCENARIOS_SEPARADOR);
 		System.out.println("======Crafteando las recetas de fundicion========");
-		System.out.println("===========================");
+		System.out.println(ESCENARIOS_SEPARADOR);
 
 		for (Receta r : recetario.getRecetas()) {
 			try {
@@ -217,11 +224,11 @@ public class Escenarios {
 				System.err.println(e.getMessage());
 			}
 			System.out.println(inventario);
-			System.out.println("===========================");
+			System.out.println(ESCENARIOS_SEPARADOR);
 		}
-		System.out.println("===========================");
+		System.out.println(ESCENARIOS_SEPARADOR);
 		System.out.println("======Crafteando Segunda Vuelta========");
-		System.out.println("===========================");
+		System.out.println(ESCENARIOS_SEPARADOR);
 		for (Receta r : recetario.getRecetas()) {
 			try {
 				System.out.println("Crafting [" + r.getObjetoProducido() + "] en "
@@ -230,7 +237,7 @@ public class Escenarios {
 				System.err.println(e.getMessage());
 			}
 			System.out.println(inventario);
-			System.out.println("===========================");
+			System.out.println(ESCENARIOS_SEPARADOR);
 		}
 	}
 
