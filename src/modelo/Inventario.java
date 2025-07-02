@@ -13,10 +13,10 @@ import org.jpl7.Term;
 import main.Config;
 
 public class Inventario {
-	private Map<Objeto, Integer> objetos;
+	private Map<Objeto, Integer> objetos; 
 
 	public Inventario() {
-		this.objetos = new HashMap<>();
+		this.objetos = new HashMap<>();  //no garantiza orden. Orden mutable si es HashMap
 	}
 
 	public Inventario(Map<Objeto, Integer> objetosIniciales) {
@@ -34,7 +34,11 @@ public class Inventario {
 			if (objetos.containsKey(objeto)) {
 				throw new IllegalArgumentException("El objeto  no es apilable:" + objeto);
 			}
+			if (cantidad != 1)
+				throw new IllegalArgumentException(
+						"El objeto  no es apilable, solo admite una cantidad de 1:" + objeto);
 		}
+
 		objetos.merge(objeto, cantidad, Integer::sum);
 	}
 
@@ -63,7 +67,7 @@ public class Inventario {
 	}
 
 	public Map<Objeto, Integer> getObjetos() {
-		return new HashMap<>(objetos);
+		return new HashMap<>(objetos); //crea una copia del original.
 	}
 
 	public Map<Objeto, Integer> getFaltantes(Map<Objeto, Integer> requeridos) {
