@@ -38,8 +38,23 @@ public class Inventario {
 				throw new IllegalArgumentException(
 						"El objeto  no es apilable, solo admite una cantidad de 1:" + objeto);
 		}
-
 		objetos.merge(objeto, cantidad, Integer::sum);
+	}
+	
+	public void agregarObjeto(Objeto objeto, int cantidad, Recetario recetario) {
+		if (cantidad <= 0) {
+			throw new IllegalArgumentException("La cantidad debe ser positiva");
+		}
+		if (!objeto.esApilable()) { // Aquí usamos polimorfismo con esApilable()
+			if (objetos.containsKey(objeto)) {
+				throw new IllegalArgumentException("El objeto  no es apilable:" + objeto);
+			}
+			if (cantidad != 1)
+				throw new IllegalArgumentException(
+						"El objeto  no es apilable, solo admite una cantidad de 1:" + objeto);
+		}
+		objetos.merge(objeto, cantidad, Integer::sum);
+		objeto.listaDeRecetasPropias(recetario);
 	}
 
 	public void agregarObjetos(Map<Objeto, Integer> objetos) {
@@ -47,7 +62,13 @@ public class Inventario {
 			agregarObjeto(obj.getKey(), obj.getValue());
 		}
 	}
-
+	
+	public void agregarObjetos(Map<Objeto, Integer> objetos, Recetario recetario) {
+		for (Map.Entry<Objeto, Integer> obj : objetos.entrySet()) {
+			agregarObjeto(obj.getKey(), obj.getValue(), recetario);
+		}
+	}
+	
 	public void removerObjeto(Objeto objeto, int cantidad) {
 		if (cantidad <= 0) {
 			throw new IllegalArgumentException("La cantidad a remover debe ser positiva");
@@ -61,6 +82,25 @@ public class Inventario {
 		int nuevaCantidad = cantidadActual - cantidad;
 		if (nuevaCantidad == 0) {
 			objetos.remove(objeto); // Eliminar completamente si llega a cero
+		} else {
+			objetos.put(objeto, nuevaCantidad);
+		}
+	}
+
+	public void removerObjeto(Objeto objeto, int cantidad, Recetario recetario) {
+		if (cantidad <= 0) {
+			throw new IllegalArgumentException("La cantidad a remover debe ser positiva");
+		}
+
+		int cantidadActual = objetos.getOrDefault(objeto, 0);
+		if (cantidadActual < cantidad) {
+			throw new IllegalArgumentException("No hay suficiente cantidad de [" + objeto + "]en el inventario.");
+		}
+
+		int nuevaCantidad = cantidadActual - cantidad;
+		if (nuevaCantidad == 0) {
+			objetos.remove(objeto); // Eliminar completamente si llega a cero
+			objeto.removerRecetasPropias(recetario);
 		} else {
 			objetos.put(objeto, nuevaCantidad);
 		}
@@ -446,7 +486,7 @@ public class Inventario {
 				if (nroOrden == opcionIDObjeto) {
 					if (cantidadEnInventario >= cantidadAVender) {
 						this.removerObjeto(objetoEnInventario, cantidadAVender);
-						recetario.removerRecetas(objetoEnInventario.listaDeRecetasPropias());
+						//recetario.removerRecetas(objetoEnInventario.listaDeRecetasPropias()); no es necesario
 						System.out.println(objetoEnInventario + " VENDIDA\n");
 						return true;
 					} else {
