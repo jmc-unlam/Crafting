@@ -8,6 +8,13 @@
   },
   {
     "objeto": {
+      "tipo": "mesa de flechas",
+      "nombre": "Mesa de Flechas"
+    },
+    "cantidad": 1
+  },
+  {
+    "objeto": {
       "tipo": "intermedio",
       "nombre": "Flechas"
     },

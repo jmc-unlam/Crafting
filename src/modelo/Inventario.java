@@ -26,6 +26,18 @@ public class Inventario {
 		}
 	}
 
+	/**
+	 * Constructor que cargar los Objetos en el inventario y agrega las recetas si el objeto es una mesa.
+	 * @param objetosIniciales Lista de Objetos y sus cantidades a cargar.
+	 * @param recetario  Lista de recetas a donde agregar las de las mesas.
+	 */
+	public Inventario(Map<Objeto, Integer> objetosIniciales, Recetario recetario) {
+		this.objetos = new HashMap<>();
+		for (Map.Entry<Objeto, Integer> entry : objetosIniciales.entrySet()) {
+			this.agregarObjeto(entry.getKey(), entry.getValue(),recetario);
+		}
+	}
+	
 	public void agregarObjeto(Objeto objeto, int cantidad) {
 		if (cantidad <= 0) {
 			throw new IllegalArgumentException("La cantidad debe ser positiva");
