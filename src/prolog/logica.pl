@@ -18,8 +18,16 @@ suficiente(Lista) :-
         tiene_suficiente(Ingrediente, Cantidad)   % Valida que haya suficiente
     ).
 
-posibleCrafteo(Objeto):-
+posibleCrafteo_OLD(Objeto):-
     ingredientecompuesto(Objeto),    %Es objeto compuesto.
+    listarIngredientes(Objeto,Resultado),  %listar los  ingredientes del objeto
+    suficiente(Resultado).       % compruebo si hay suficientes.
+
+%mesas en el inventario
+mesas_inv(Objeto):- no_apilable(Objeto), inventario(Objeto, _).
+
+posibleCrafteo(Objeto):-
+    ingredientecompuesto(Objeto), \+mesas_inv(Objeto),   %Es objeto compuesto.
     listarIngredientes(Objeto,Resultado),  %listar los  ingredientes del objeto
     suficiente(Resultado).       % compruebo si hay suficientes.
 

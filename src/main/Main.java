@@ -188,11 +188,10 @@ public class Main {
 					if (opcionIDObjeto != 0) {
 						int cantidadAVender = ingresarCantidadPara("a vender", scanner);
 
-						if (opcionIDObjeto != 0) {
-							if (inventario.removerCantidadDeUnObjetoSegunNro(opcionIDObjeto, cantidadAVender,
+						if (opcionIDObjeto != 0 && inventario.removerCantidadDeUnObjetoSegunNro(opcionIDObjeto, cantidadAVender,
 									recetario))
 								opcionIDObjeto = 0;
-						}
+						
 					}
 
 				} while (opcionIDObjeto != 0);

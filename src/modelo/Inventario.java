@@ -250,6 +250,9 @@ public class Inventario {
 
 	// *****Implementacion Prolog*************
 
+	/**
+	 * Genera el archivo de formato pl en la carpeta de prolog con todos los objetos y sus cantidades en el inventario.
+	 */
 	public void prologGenerarInventario() {
 		// Ruta relativa al archivo dentro del proyecto
 		File archivo = new File(Config.RUTA_PROLOG_INVENTARIO);
@@ -275,7 +278,10 @@ public class Inventario {
 				Integer cantidad = item.getValue();
 				writer.write("inventario('" + obj.getNombre() + "'," + cantidad + ").\n");
 			}
-
+			
+			//Caso particular para evitar errores en el prolog al no encontrar ningun objeto en el inventario.
+			writer.write("inventario('Objeto Default', 0).\n");
+			
 			writer.close(); // Cerrar el flujo
 
 		} catch (IOException e) {
@@ -324,18 +330,18 @@ public class Inventario {
 		}
 	}
 
-	// Métodos que devuelven el Resultado compuesto, ALTA COMPLEJIDAD. Multiples
-	// casos de corte de la recursividad.
-	//
-
 	/**Este método calcula la cantidad crafteable de un objeto en concreto usando los objetos en el inventario.
+	 *Tecnico: Este metodo usa la funciona recursiva cantidadRecursivaObjeto
+	 *Pero antes de invocarla, hace una copia del inventario actual y va descontando los materiales a utilizar
+	 *de este inventario aux. Quitando primero los Objetos Intermedios y luego si no existen los objetos que lo componen,
+	 *esto permite detectar la cantidad emulando los crafteaos usando diferentes formas.
+	 *
 	 *
 	 * @param objCrafteable Objeto a craftear.
 	 *  @param recetario recetario a consultar las recetas.
 	 *  
-	 * @return Resultado Clase Resultado con la información de (Cantidad producida y Tiempo)
+	 * @return Resultado Clase Resultado con la información de (Cantidad producida, objeto y Tiempo)
 	 */
-	
 	public Resultado cantidadPosibleCraftear(Objeto objCrafteable, Recetario recetario) {
 		
 		// El metodo en inventario que devuelve en una Clase Resultado (Cantidad a
@@ -479,10 +485,15 @@ public class Inventario {
 		return new Resultado(cantidadCrafteadaTotal, tiempoAcumulado);
 	}
 
-	// Método para restar o quitar objetos del inventario según su nro en el
-	// inventario y la cantidad.
-	// Anteriormente creado en el main, sin embargo, el main debia calculas cosas q
-	// el inventario las hace internamente.
+	/**
+	 * Método para restar o quitar objetos del inventario según su nro en el inventario y la cantidad.
+	 * Anteriormente creado en el main, sin embargo, el main debia calculas cosas q el inventario las hace internamente.
+	 * 
+	 * @param opcionIDObjeto Nro del objeto a vender.
+	 * @param cantidadAVender  Cantidad a vender.
+	 * @param recetario  usado para quitar las recetas si el objeto a vender es una mesa.
+	 * @return
+	 */
 	public boolean removerCantidadDeUnObjetoSegunNro(int opcionIDObjeto, int cantidadAVender, Recetario recetario) {
 
 		if (opcionIDObjeto > objetos.size() || opcionIDObjeto < 0 || cantidadAVender==0) {
