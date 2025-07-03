@@ -35,6 +35,7 @@ class InventarioGSONTest {
 	private static final String INVENTARIO_VACIO_SALIDA_JSON = TEST_DIR + "inventario_vacio_salida.json";
 	private static final String INVENTARIO_MIXTO_SALIDA_JSON = TEST_DIR + "inventario_mixto_salida.json";
 	private static final String INVENTARIO_CON_MESA_DE_FUNDICION = TEST_DIR + "inventario_mesa_hierro_salida.json";
+	private static final String INVENTARIO_SIN_NADA_JSON = TEST_DIR + "inventario_sin_nada.json";
 
 	@BeforeEach
 	void setUp() throws IOException {
@@ -76,6 +77,10 @@ class InventarioGSONTest {
 					+ "    \"objeto\": {\n" + "      \"nombre\": \"mesa de fundicion\",\n"
 					+ "      \"tipo\": \"mesa de fundicion\"\n" + "    },\n" + "    \"cantidad\": 1\n" + "  }\n" + "]");
 		}
+		
+		try (FileWriter writer = new FileWriter(INVENTARIO_SIN_NADA_JSON)) {
+			writer.write("");
+		}
 	}
 
 	@AfterEach
@@ -88,6 +93,7 @@ class InventarioGSONTest {
 		Files.deleteIfExists(Path.of(INVENTARIO_VACIO_SALIDA_JSON));
 		Files.deleteIfExists(Path.of(INVENTARIO_MIXTO_SALIDA_JSON));
 		Files.deleteIfExists(Path.of(INVENTARIO_CON_MESA_DE_FUNDICION));
+		Files.deleteIfExists(Path.of(INVENTARIO_SIN_NADA_JSON));
 		Files.deleteIfExists(Path.of(TEST_DIR));
 	}
 
@@ -274,5 +280,11 @@ class InventarioGSONTest {
 
 		assertTrue(leido.containsKey(mesaFundicion));
 		assertEquals(1, leido.get(mesaFundicion));
+	}
+	
+	@Test
+	void cargaInventarioSinNada() {
+		Map<Objeto, Integer> objetos = new InventarioGSON(INVENTARIO_SIN_NADA_JSON).cargar();
+		assertTrue(objetos.isEmpty());
 	}
 }

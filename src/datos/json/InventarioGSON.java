@@ -19,7 +19,7 @@ public class InventarioGSON extends ManejadorGSON<List<InventarioSerializable>> 
 
 	public Map<Objeto,Integer> cargar() {
 		super.cargarJSON();
-		System.out.println("Inventario leidas desde: " + super.getRutaArchivo());
+		System.out.println("Inventario leido desde: " + super.getRutaArchivo());
 		Map<Objeto, Integer> objetos = new HashMap<>();
 		try {
 	        for (InventarioSerializable entry : datos) {
@@ -27,7 +27,7 @@ public class InventarioGSON extends ManejadorGSON<List<InventarioSerializable>> 
 	        }
 		} catch (NullPointerException e) {
 			//si esto pasa devolvera una lista vacia.
-        	//System.err.println("Inventario esta vacio sin nada: " + rutaArchivo + ". Se carga una lista vacía.");
+        	System.err.println("Inventario leido esta sin nada: " + super.getRutaArchivo() + ". Se carga una lista vacía.");
 		}
 		
         return objetos;

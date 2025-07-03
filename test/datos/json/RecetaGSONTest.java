@@ -32,6 +32,7 @@ class RecetaGSONTest {
 	private static final String RECETA_PRODUCE_BASICO_JSON = TEST_DIR + "receta_produce_basico.json";
 	private static final String RECETA_INGREDIENTE_DESCONOCIDO_JSON = TEST_DIR + "receta_ingrediente_desconocido.json";
 	private static final String RECETAS_SALIDA_JSON = TEST_DIR + "recetas_salida.json";
+	private static final String RECETAS_SIN_NADA_JSON = TEST_DIR + "recetas_sin_nada.json";
 
 	private ObjetoBasico madera;
 	private ObjetoBasico carbon;
@@ -105,6 +106,10 @@ class RecetaGSONTest {
 					+ "          \"tipo\": \"basico\"\n" + "        },\n" + "        \"cantidad\": 1\n" + "      }\n"
 					+ "    ],\n" + "    \"cantidadProducida\": 4,\n" + "    \"tiempoBase\": 5\n" + "  }\n" + "]");
 		}
+		
+		try (FileWriter writer = new FileWriter(RECETAS_SIN_NADA_JSON)) {
+			writer.write("");
+		}
 	}
 
 	@AfterEach
@@ -115,6 +120,7 @@ class RecetaGSONTest {
 		Files.deleteIfExists(Path.of(RECETAS_SIMPLES_JSON));
 		Files.deleteIfExists(Path.of(RECETAS_COMPLEJAS_JSON));
 		Files.deleteIfExists(Path.of(RECETAS_SALIDA_JSON));
+		Files.deleteIfExists(Path.of(RECETAS_SIN_NADA_JSON));
 		Files.deleteIfExists(Path.of(TEST_DIR));
 	}
 
@@ -169,6 +175,13 @@ class RecetaGSONTest {
 	@Test
 	void cargarRecetaConArchivoInvalidoEsVacio() {
 		List<Receta> recetasLeidas = new RecetaGSON("null").cargar();
+		assertNotNull(recetasLeidas);
+		assertTrue(recetasLeidas.isEmpty());
+	}
+	
+	@Test
+	void cargarRecetasSinNada() {
+		List<Receta> recetasLeidas = new RecetaGSON(RECETAS_SIN_NADA_JSON).cargar();
 		assertNotNull(recetasLeidas);
 		assertTrue(recetasLeidas.isEmpty());
 	}
