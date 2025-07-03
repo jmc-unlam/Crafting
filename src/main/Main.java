@@ -168,8 +168,8 @@ public class Main {
 
 				if (cantidadAComprar > 0) {
 					try {
-						inventario.agregarObjeto(objePregunta, cantidadAComprar);
-						recetario.agregarRecetas(objePregunta.listaDeRecetasPropias());
+						inventario.agregarObjeto(objePregunta, cantidadAComprar,recetario);
+						//recetario.agregarRecetas(objePregunta.listaDeRecetasPropias()); no es necesario
 						System.out.println(
 								objePregunta + "- Cantidad:" + cantidadAComprar + ", Agregado al inventario.\n");
 					} catch (Exception e) {
