@@ -10,7 +10,7 @@
     "cantidadProducida": 20,
     "tiempoBase": 4,
     "mesaRequerida": {
-      "tipo": "mesa de trabajo",
+      "tipo": "mesa de flechas",
       "nombre": "Mesa de Flechas"
     }
   }

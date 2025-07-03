@@ -47,7 +47,7 @@
     "tiempoBase": 5
   },
    {
-    "objetoProducido": {"nombre": "Mesa de Flechas","tipo": "mesa de trabajo"},
+    "objetoProducido": {"nombre": "Mesa de Flechas","tipo": "mesa de flechas"},
     "ingredientes": [
       {
 		  "objeto": {"nombre": "Madera", "tipo": "basico" }, 

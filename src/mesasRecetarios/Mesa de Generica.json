@@ -7,7 +7,7 @@
 	"cantidadProducida": 3,
 	"tiempoBase": 10,
 	"mesaRequerida": {
-      "tipo": "mesa de trabajo",
+      "tipo": "mesa de generica",
       "nombre": "Mesa de Generica"
     }
   },
@@ -19,7 +19,7 @@
 	"cantidadProducida": 2,
 	"tiempoBase": 10,
 	"mesaRequerida": {
-      "tipo": "mesa de trabajo",
+      "tipo": "mesa de generica",
       "nombre": "Mesa de Generica"
     }
   },
@@ -31,7 +31,7 @@
 	"cantidadProducida": 2,
 	"tiempoBase": 5,
 	"mesaRequerida": {
-      "tipo": "mesa de trabajo",
+      "tipo": "mesa de generica",
       "nombre": "Mesa de Generica"
     }
   },
@@ -43,7 +43,7 @@
 	"cantidadProducida": 1,
 	"tiempoBase": 10,
 	"mesaRequerida": {
-      "tipo": "mesa de trabajo",
+      "tipo": "mesa de generica",
       "nombre": "Mesa de Generica"
     }
   },
@@ -55,7 +55,7 @@
 	"cantidadProducida": 1,
 	"tiempoBase": 5,
 	"mesaRequerida": {
-      "tipo": "mesa de trabajo",
+      "tipo": "mesa de generica",
       "nombre": "Mesa de Generica"
     }
   },
@@ -68,7 +68,7 @@
 	"cantidadProducida": 2,
 	"tiempoBase": 15,
 	"mesaRequerida": {
-      "tipo": "mesa de trabajo",
+      "tipo": "mesa de generica",
       "nombre": "Mesa de Generica"
     }
   },
@@ -81,7 +81,7 @@
 	"cantidadProducida": 1,
 	"tiempoBase": 20,
 	"mesaRequerida": {
-      "tipo": "mesa de trabajo",
+      "tipo": "mesa de generica",
       "nombre": "Mesa de Generica"
     }
   }

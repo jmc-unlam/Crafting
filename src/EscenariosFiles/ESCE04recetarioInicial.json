@@ -1,6 +1,6 @@
 [
   {
-    "objetoProducido": {"nombre": "Mesa de Generica","tipo": "mesa de trabajo"},
+    "objetoProducido": {"nombre": "Mesa de Generica","tipo": "mesa de generica"},
     "ingredientes": [
       {
 		  "objeto": {"nombre": "madera", "tipo": "basico" }, 
@@ -15,7 +15,7 @@
     "tiempoBase": 30
   },
   {
-    "objetoProducido": {"nombre": "Mesa de Flechas","tipo": "mesa de trabajo"},
+    "objetoProducido": {"nombre": "Mesa de Flechas","tipo": "mesa de flechas"},
     "ingredientes": [
       {
 		  "objeto": {"nombre": "madera", "tipo": "basico" }, 
