@@ -28,6 +28,7 @@ public abstract class ManejadorGSON<T> {
 	public ManejadorGSON(String rutaArchivo) {
     	this.rutaArchivo = rutaArchivo;
         this.gson = new GsonBuilder()
+        		//Esto es para des/serializar el campo Objeto [InventarioSerializable/RecetaSerializable] 
                 .registerTypeAdapterFactory(
                 		RuntimeTypeAdapterFactory.of(Objeto.class, "tipo")
                         .registerSubtype(ObjetoBasico.class, "basico")
@@ -37,13 +38,14 @@ public abstract class ManejadorGSON<T> {
     	                .registerSubtype(MesaDeFlechas.class, "mesa de flechas")
     	                .registerSubtype(MesaDeGenerica.class, "mesa de generica")
                         )
+                //Este es para des/serializar el campo MesaDeTrabajo [RecetaSerializable]
                 .registerTypeAdapterFactory(
-                	RuntimeTypeAdapterFactory.of(MesaDeTrabajo.class, "tipo")
-	                .registerSubtype(MesaDeFundicion.class, "mesa de fundicion") 
-	                .registerSubtype(MesaDePiedra.class, "mesa de piedra")
-	                .registerSubtype(MesaDeFlechas.class, "mesa de flechas")
-	                .registerSubtype(MesaDeGenerica.class, "mesa de generica")
-	            ) 
+                    	RuntimeTypeAdapterFactory.of(MesaDeTrabajo.class, "tipo")
+    	                .registerSubtype(MesaDeFundicion.class, "mesa de fundicion") 
+    	                .registerSubtype(MesaDePiedra.class, "mesa de piedra")
+    	                .registerSubtype(MesaDeFlechas.class, "mesa de flechas")
+    	                .registerSubtype(MesaDeGenerica.class, "mesa de generica")
+    	            )
                 .setPrettyPrinting()
                 .create();
     }
