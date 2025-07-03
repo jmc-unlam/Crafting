@@ -327,10 +327,11 @@ public class Main {
 	public static void inicio() {
 		System.out.println("** Bienvenido al MedievalCraft **");
 		System.out.println("-- Cargando Archivos de inicio.");
-
-		inventario = new Inventario(new InventarioGSON(Config.RUTA_INICIO_INVENTARIO).cargar()); //inventario = new Inventario(); si se quiere probar el inventario vacio.
 		
+		//Cambio de orden, primero el recetario y luego el inventario para q el mismo agregue las recetas de las mesas.
 		recetario = new Recetario(new RecetaGSON(Config.RUTA_INICIO_RECETARIO).cargar());
+		inventario = new Inventario(new InventarioGSON(Config.RUTA_INICIO_INVENTARIO).cargar(), recetario); //inventario = new Inventario(); si se quiere probar el inventario vacio.
+		
 		sistema = new SistemaDeCrafteo(inventario, recetario);
 
 		System.out.println("\n");
