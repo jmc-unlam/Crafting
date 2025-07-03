@@ -485,7 +485,7 @@ public class Inventario {
 				Integer cantidadEnInventario = entry.getValue();
 				if (nroOrden == opcionIDObjeto) {
 					if (cantidadEnInventario >= cantidadAVender) {
-						this.removerObjeto(objetoEnInventario, cantidadAVender);
+						this.removerObjeto(objetoEnInventario, cantidadAVender, recetario);
 						//recetario.removerRecetas(objetoEnInventario.listaDeRecetasPropias()); no es necesario
 						System.out.println(objetoEnInventario + " VENDIDA\n");
 						return true;
