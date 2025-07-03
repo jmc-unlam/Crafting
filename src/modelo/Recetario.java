@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +42,31 @@ public class Recetario {
 			recetasExistentes.add(receta);
 			Collections.sort(recetasExistentes);
 		}
+		Set<Objeto> visitados = new HashSet<>();
+		if ( detectarCiclo(receta.getObjetoProducido(),visitados)) {
+			removerReceta(receta);
+		}
+	}
+	
+	private boolean detectarCiclo(Objeto objeto, Set<Objeto> visitados) {
+		if (!objeto.esBasico()) {
+			if ( !visitados.add(objeto) )
+				return true;
+		}
+		Receta receta;
+		try {
+			receta = this.buscarReceta(objeto);
+		} catch (NoSuchElementException e) {
+			// No hay receta todavia entonces no hay ciclo 
+			return false;
+		}
+		for (Map.Entry<Objeto, Integer> entry : receta.getIngredientes().entrySet() ) {
+			if (!entry.getKey().esBasico()) {
+				if ( detectarCiclo(entry.getKey(),visitados) )
+					return true;
+			}
+		}
+		return false;
 	}
 
 	public void removerReceta(Receta receta) {

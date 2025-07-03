@@ -230,4 +230,33 @@ class RecetarioTest {
 		// Verificar que ambas recetas están registradas
 		assertEquals(2, recetario.buscarRecetas(antorcha).size());
 	}
+	
+	@Test
+	void agregarRecetasConCiclos() {
+		//recetaMesa -> receta mesa necesita un clavo esta definido
+		
+		//nueva receta recetaClavoConCiclo requiere mesa
+		Map<Objeto, Integer> ingredientesClavoAlt = new HashMap<>();
+		ingredientesClavoAlt.put(mesa, 7);
+		//esta receta pertenece a clavo.
+		Receta recetaClavoConCiclo = new Receta(clavo, ingredientesClavoAlt, 5, 2);
+		
+		//primero agrego la receta mesa al recetario 
+		//pertence a las recetas de mesa
+		recetario.agregarReceta(recetaMesa);
+		
+		//agrego la receta clavo que referencia a mesa
+		//pertence a las recetas de clavo
+		recetario.agregarReceta(recetaClavoConCiclo);
+		
+		//no tiene que cargarse la recete mesaCiclo de clavo
+		//solo debe haber 1 receta
+		assertEquals(1,recetario.getRecetasPorObjeto().size());
+		
+		//si no esta la recetaConCiclos de clavo preguntar por ella es null
+		assertEquals(null,recetario.getRecetasPorObjeto().get(clavo));
+		
+		//preguntar recetaMesa de mesa si existe
+		assertEquals(recetaMesa,recetario.getRecetasPorObjeto().get(mesa).getFirst());
+	}
 }
