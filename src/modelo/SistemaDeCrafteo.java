@@ -225,13 +225,13 @@ public class SistemaDeCrafteo {
 					tiempoTotal += craftearObjeto(ingrediente, cantidadFaltante);
 				}
 			}
-			inventario.removerObjeto(ingrediente, cantidadNecesaria);
+			inventario.removerObjeto(ingrediente, cantidadNecesaria,recetario);
 			ingredientesUsados.put(ingrediente, cantidadNecesaria);
 		}
 
 		// Agregar el objeto crafteado al inventario.
-		inventario.agregarObjeto(objeto, cantidadProducida);
-		recetario.agregarRecetas(objeto.listaDeRecetasPropias());
+		inventario.agregarObjeto(objeto, cantidadProducida,recetario);
+		//recetario.agregarRecetas(objeto.listaDeRecetasPropias()); no es necesario inventario va agregar las mesas 
 
 		// Registrar el crafteo en el historial.
 		historial.agregarRegistro(objeto, cantidadProducida, tiempoTotal, ingredientesUsados);
@@ -382,11 +382,11 @@ public class SistemaDeCrafteo {
 					tiempoTotal += craftearObjeto(ingrediente, cantidadFaltante);
 				}
 			}
-			inventario.removerObjeto(ingrediente, cantidadNecesaria);
+			inventario.removerObjeto(ingrediente, cantidadNecesaria, recetario);
 		}
 
 		// Agregar al inventario y registrar en historial
-		inventario.agregarObjeto(objeto, cantidadProducida);
+		inventario.agregarObjeto(objeto, cantidadProducida, recetario);
 
 		// Registrar en el historial
 		historial.agregarRegistro(objeto, cantidadProducida, tiempoTotal);
