@@ -196,7 +196,7 @@ class InventarioGSONTest {
 	}
 
 	@Test
-	void guardarYLeerInventarioConMesaDeFundicion() {
+	void guardarYLeerInventarioConMesaDeFundicionSinRecetasIncluidas() {
 		// Crear objetos
 		ObjetoBasico madera = new ObjetoBasico("Madera");
 		ObjetoIntermedio palo = new ObjetoIntermedio("Palo");
@@ -231,5 +231,48 @@ class InventarioGSONTest {
 
 		assertTrue(leido.containsKey(new MesaDeFundicion()));
 		assertEquals(1, leido.get(new MesaDeFundicion()));
+	}
+	
+	@Test
+	void guardarYLeerInventarioConMesaDeFundicionConRecetasIncluidas() {
+		// Crear objetos
+		ObjetoBasico madera = new ObjetoBasico("Madera");
+		ObjetoIntermedio palo = new ObjetoIntermedio("Palo");
+
+		// Crear mesa de fundicion
+		MesaDeFundicion mesaFundicion = new MesaDeFundicion();
+
+		// Crear receta que requiere fundicion
+		Map<Objeto, Integer> ingredientes = new HashMap<>();
+		ingredientes.put(madera, 2);
+		Receta recetaDePaloRequiereFundicion = new Receta(palo, ingredientes, 4, 10, mesaFundicion);
+
+		// Crear inventario y recetario
+		Recetario recetario = new Recetario();
+		Inventario inventario = new Inventario();
+		
+		//usa agregar de inventario obsoleto [deprecated]
+		inventario.agregarObjeto(madera, 10);
+		//usa el agregar nuevo
+		inventario.agregarObjeto(mesaFundicion, 1, recetario);
+		//si el archivo de recetas existe se cargaron las 7 recetas de funducion
+		assertEquals(7,recetario.getRecetas().size());
+		//agrego una receta mas manualmente de funficion
+		recetario.agregarReceta(recetaDePaloRequiereFundicion);
+		assertEquals(8,recetario.getRecetas().size());
+
+		//en inventario solo hay 2 cosas madera y la mesa de fundicion
+		new InventarioGSON(INVENTARIO_MIXTO_SALIDA_JSON).guardar(inventario.getObjetos());
+		Map<Objeto, Integer> leido = new InventarioGSON(INVENTARIO_MIXTO_SALIDA_JSON).cargar();
+
+		assertNotNull(leido);
+		assertEquals(2, leido.size());
+
+		// Comprobamos si tenemos la mesa y mesa
+		assertTrue(leido.containsKey(madera));
+		assertEquals(10, leido.get(madera));
+
+		assertTrue(leido.containsKey(mesaFundicion));
+		assertEquals(1, leido.get(mesaFundicion));
 	}
 }
