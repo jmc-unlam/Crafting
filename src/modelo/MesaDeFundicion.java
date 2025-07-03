@@ -24,9 +24,4 @@ public class MesaDeFundicion extends MesaDeTrabajo {
 		}
 		return true;
 	}
-
-	@Override
-	public String toString() {
-		return "MesaDeFundicion: " + getNombre();
-	}
 }

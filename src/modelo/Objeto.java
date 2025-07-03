@@ -46,8 +46,10 @@ public abstract class Objeto {
 
 	public abstract boolean esApilable();
 
-	public List<Receta> listaDeRecetasPropias() {
-		return Collections.emptyList();
+	public void listaDeRecetasPropias(Recetario r) {
+	}
+	
+	public void removerRecetasPropias(Recetario r) {
 	}
 
 	@Override

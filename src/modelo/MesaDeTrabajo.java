@@ -7,8 +7,8 @@ import java.util.List;
 import datos.json.RecetaGSON;
 import main.Config;
 
-public class MesaDeTrabajo extends Objeto {
-	private List<Receta> recetasDeMesa;
+public abstract class MesaDeTrabajo extends Objeto {
+	//private List<Receta> recetasDeMesa;
 
 	public MesaDeTrabajo(String nombre) {
 		super(nombre);
@@ -24,19 +24,19 @@ public class MesaDeTrabajo extends Objeto {
 		return false;
 	}
 
+	//esto debe ser llamado cada vez que el inventario agrega una mesa
 	@Override
-	public List<Receta> listaDeRecetasPropias() {
-
-		if (this.recetasDeMesa == null) {
-			File archivo = new File(Config.RECETAS_DE_MESAS_DIR + this.getNombre() + ".json");
-
-			if (archivo.exists()) {
-				recetasDeMesa = new RecetaGSON(archivo.getPath()).cargar();
-				return recetasDeMesa;
-			} else
-				return Collections.emptyList();
-		} else
-			return recetasDeMesa;
+	public void listaDeRecetasPropias(Recetario recetario) {
+		String rutaRecetasDeMesa = Config.RECETAS_DE_MESAS_DIR + this.getNombre() + ".json";
+		recetario.agregarRecetas(new RecetaGSON(rutaRecetasDeMesa).cargar());
+	}
+	
+	//esto debe ser llamado cada vez que el recetario remueve una mesa
+	@Override
+	public void removerRecetasPropias(Recetario recetario) {
+		String rutaRecetasDeMesa = Config.RECETAS_DE_MESAS_DIR + this.getNombre() + ".json";
+		List<Receta> recetasDeMesa = new RecetaGSON(rutaRecetasDeMesa).cargar();
+		recetario.removerRecetas(recetasDeMesa);
 	}
 
 	@Override
