@@ -19,10 +19,15 @@ public class RecetaGSON extends ManejadorGSON<List<RecetaSerializable>> {
 		super.cargarJSON();
 		System.out.println("Receta leidas desde: " + super.getRutaArchivo());
 		List<Receta> recetas = new ArrayList<>();
-        for (RecetaSerializable recetaJson : datos) {
-        	Receta recetaConvertida = recetaJson.toReceta();
-            recetas.add(recetaConvertida);
-        }
+		try {
+	        for (RecetaSerializable recetaJson : datos) {
+	        	Receta recetaConvertida = recetaJson.toReceta();
+	            recetas.add(recetaConvertida);
+	        }
+		} catch (NullPointerException e) {
+			//si esto pasa devolvera una lista vacia.
+        	System.err.println("Recetas leidas no tiene nada: " + super.getRutaArchivo() + ". Se carga una lista vacía.");
+		}
 		return recetas;
 	}
 	

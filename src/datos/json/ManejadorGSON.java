@@ -62,6 +62,10 @@ public abstract class ManejadorGSON<T> {
         	//si esto pasa devolvera una lista vacia.
             //System.err.println("Archivo de recetas no encontrado o error de lectura: " + rutaArchivo + ". Se carga una lista vacía.");
         }
+        catch (NullPointerException e) {
+        	//si esto pasa devolvera una lista vacia.
+        	//System.err.println("Archivo esta vacio sin nada: " + rutaArchivo + ". Se carga una lista vacía.");
+        }
         return this.datos;
     }
     
