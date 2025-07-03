@@ -344,8 +344,9 @@ public class Escenarios {
 
 		System.out.println("Quitar la mesa del inventario:");
 
-		inventario.removerObjeto(objMesa, 1);
-		recetario.removerRecetas(objMesa.listaDeRecetasPropias());
+		//usa el nuevo remover 
+		inventario.removerObjeto(objMesa, 1,recetario);
+		//recetario.removerRecetas(objMesa.listaDeRecetasPropias()); no es necesario
 
 		System.out.println("Inventario final y Receta.");
 
