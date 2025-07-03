@@ -6,6 +6,7 @@ import com.google.gson.typeadapters.RuntimeTypeAdapterFactory; // Importar la cl
 
 import modelo.MesaDeFlechas;
 import modelo.MesaDeFundicion;
+import modelo.MesaDeGenerica;
 import modelo.MesaDePiedra;
 import modelo.MesaDeTrabajo;
 import modelo.Objeto;
@@ -31,17 +32,18 @@ public abstract class ManejadorGSON<T> {
                 		RuntimeTypeAdapterFactory.of(Objeto.class, "tipo")
                         .registerSubtype(ObjetoBasico.class, "basico")
                         .registerSubtype(ObjetoIntermedio.class, "intermedio")
-                        .registerSubtype(MesaDeFundicion.class, "mesa de fundicion") //para serializar mesas de trabajo concretas
+                        .registerSubtype(MesaDeFundicion.class, "mesa de fundicion")
     	                .registerSubtype(MesaDePiedra.class, "mesa de piedra")
     	                .registerSubtype(MesaDeFlechas.class, "mesa de flechas")
-    	                .registerSubtype(MesaDeTrabajo.class, "mesa de trabajo") //agregado por ALORDA PRUEBA. necesario para pasar de json a Objeto Receta.
+    	                .registerSubtype(MesaDeGenerica.class, "mesa de generica")
                         )
-                /*.registerTypeAdapterFactory(
+                .registerTypeAdapterFactory(
                 	RuntimeTypeAdapterFactory.of(MesaDeTrabajo.class, "tipo")
-	                .registerSubtype(MesaDeFundicion.class, "mesa de fundicion") //para serializar mesas de trabajo concretas
+	                .registerSubtype(MesaDeFundicion.class, "mesa de fundicion") 
 	                .registerSubtype(MesaDePiedra.class, "mesa de piedra")
 	                .registerSubtype(MesaDeFlechas.class, "mesa de flechas")
-	            )*/ //ALORDA - cambio 2 :quite estas lineas. no dejaban enviar al Json de inventario cuando agregue la mesa de trabajo.
+	                .registerSubtype(MesaDeGenerica.class, "mesa de generica")
+	            ) 
                 .setPrettyPrinting()
                 .create();
     }
