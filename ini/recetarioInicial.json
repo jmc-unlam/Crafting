@@ -159,5 +159,24 @@
     ],
     "cantidadProducida": 1,
     "tiempoBase": 10
+  },
+  {
+    "objetoProducido": {"nombre": "Equipamiento Completo","tipo": "intermedio"},
+    "ingredientes": [
+      {
+		  "objeto": {"nombre": "Equipamiento para Arquero", "tipo": "intermedio" }, 
+		  "cantidad": 1 
+	  },
+      {
+		  "objeto": {"nombre": "Hacha de Piedra", "tipo": "intermedio" }, 
+		  "cantidad": 2
+	  },
+      {
+		  "objeto": {"nombre": "Antorcha", "tipo": "intermedio" }, 
+		  "cantidad": 3
+	  }
+    ],
+    "cantidadProducida": 1,
+    "tiempoBase": 10
   }
 ]

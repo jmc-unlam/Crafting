@@ -361,8 +361,7 @@ public class Inventario {
 		}
 		// verificar si se puede apilar
 		if (this.getCantidad(objCrafteable) >= 1 && !objCrafteable.esApilable()) {
-			// throw new UnsupportedOperationException("No se puede crafear porque ya lo
-			// tienes, no es apilable: " + ObjCrafteable);
+			// "No se puede crafear porque ya lo tienes, no es apilable
 			return new Resultado(0, 0, objCrafteable);
 		}
 

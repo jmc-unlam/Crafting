@@ -58,13 +58,13 @@ public class Escenarios {
 				Escenarios.escenarioCraftearMesaDeFundicionYSusRecetas();
 				break;
 			case 3:
-				Escenarios.ESCE03EquipamientoDeArquero();
+				Escenarios.esce03EquipamientoDeArquero();
 				break;
 			case 4:
-				Escenarios.ESCE04PruebaMesaDeTrabajo();
+				Escenarios.esce04PruebaMesaDeTrabajo();
 				break;
 			case 5:
-				Escenarios.ESCE05RecetasMultiplesCon();
+				Escenarios.esce05RecetasMultiplesCon();
 				break;
 			case 0:
 				salir = false;
@@ -245,7 +245,7 @@ public class Escenarios {
 		}
 	}
 
-	public static void ESCE03EquipamientoDeArquero() {
+	public static void esce03EquipamientoDeArquero() {
 		System.out.println("-ESCENARIO 03.");
 		System.out.println("-Este escenario emula la creación de un Objeto compuesto de 3 nivels.");
 		System.out.println("-Donde estan implicadas 5 recetas, las cuales algunas comparten materiales Básico.");
@@ -274,7 +274,7 @@ public class Escenarios {
 		new InventarioGSON(Config.ESCE03_RUTA_FINAL_INVENTARIO).guardar(inventario.getObjetos());
 	}
 
-	public static void ESCE04PruebaMesaDeTrabajo() {
+	public static void esce04PruebaMesaDeTrabajo() {
 		System.out.println("ESCENARIO04:");
 		System.out.println("Armar multiples Mesas de trabajo, NO apilables,  una sola por tipo vez.\n");
 		Inventario inventario = new Inventario(new InventarioGSON(Config.ESCE04_RUTA_INICIO_INVENTARIO).cargar());
@@ -315,7 +315,7 @@ public class Escenarios {
 
 	}
 
-	public static void ESCE05RecetasMultiplesCon() {
+	public static void esce05RecetasMultiplesCon() {
 		System.out.println("ESCENARIO05:");
 		System.out.println("Construir una mesa de flechas, la cual incorpora una receta nueva para la ");
 		System.out.println("la creación de las puntas de flecha más, generando mas eficiencia al craftearlas.");

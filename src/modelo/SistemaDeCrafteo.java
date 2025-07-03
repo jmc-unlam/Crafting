@@ -159,9 +159,8 @@ public class SistemaDeCrafteo {
 		cantidadTotalDisponible += numLotesCrafteables * receta.getCantidadProducida();
 
 		int vecesReceta = (numLotesCrafteables == 0) ? 1 : numLotesCrafteables;
-		// System.out.println(
+
 		// "La cantidad crafteable se ejecuto en: " +
-		// receta.calcularTiempoTotal(recetario) * vecesReceta);
 		return cantidadTotalDisponible;
 	}
 

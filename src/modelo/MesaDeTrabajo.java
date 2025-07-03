@@ -8,7 +8,6 @@ import datos.json.RecetaGSON;
 import main.Config;
 
 public abstract class MesaDeTrabajo extends Objeto {
-	//private List<Receta> recetasDeMesa;
 
 	public MesaDeTrabajo(String nombre) {
 		super(nombre);
