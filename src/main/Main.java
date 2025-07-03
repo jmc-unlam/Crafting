@@ -178,24 +178,7 @@ public class Main {
 				}
 				break;
 			case 3: // verder
-
-				int opcionIDObjeto;
-				do {
-					System.out.println(inventario);
-					System.out.println("0= para salir.\n");
-
-					opcionIDObjeto = devolverOpcion(scanner, "Elige una id del objeto en el inventario: ");
-					if (opcionIDObjeto != 0) {
-						int cantidadAVender = ingresarCantidadPara("a vender", scanner);
-
-						if (opcionIDObjeto != 0 && inventario.removerCantidadDeUnObjetoSegunNro(opcionIDObjeto, cantidadAVender,
-									recetario))
-								opcionIDObjeto = 0;
-						
-					}
-
-				} while (opcionIDObjeto != 0);
-
+				ventaDeInventario(scanner);
 				break;
 			case 4:
 				System.out.println(inventario);
@@ -208,7 +191,32 @@ public class Main {
 		} while (opcion != 0);
 
 	}
+	
+	/**
+	 * Venta de objetos dentro del inventario. Muestra el inventario y pide ingresar el Nro de Objeto
+	 * y la cantidad a vender. Internamente el inventario controla las cantidades.
+	 * @param scanner
+	 */
+	private static void ventaDeInventario(Scanner scanner) {
+		int opcionIDObjeto;
+		do {
+			System.out.println(inventario);
+			System.out.println("0= para salir.\n");
 
+			opcionIDObjeto = devolverOpcion(scanner, "Elige una id del objeto en el inventario: ");
+			if (opcionIDObjeto != 0) {
+				int cantidadAVender = ingresarCantidadPara("a vender", scanner);
+
+				if (inventario.removerCantidadDeUnObjetoSegunNro(opcionIDObjeto, cantidadAVender,
+							recetario))
+						opcionIDObjeto = 0;
+				
+			}
+
+		} while (opcionIDObjeto != 0);
+
+	}
+	
 	/**Pide por teclado el ingreso de un valor entre 0 y 50, usado para ingresas cantidades de
 	 * farmeo, compra y venta. El valor 0 es admitible por q se usa como opción en los menús 
 	 * 
