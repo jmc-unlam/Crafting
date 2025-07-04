@@ -131,12 +131,13 @@ public class Receta implements Comparable<Receta> {
      * @param recetario Recetario que proporciona acceso a las recetas de los ingredientes.
      * @return Mapa de ingredientes básicos (Objeto -> Cantidad).
      */
-	public Map<Objeto, Integer> getIngredientesBasicos(Recetario recetario) {
+	public Map<Objeto, Integer> getIngredientesBasicos(Recetario recetario, int cantidadAnterior) {
 		Map<Objeto, Integer> basicos = new HashMap<>();
+		int vecesReceta = Math.ceilDiv(cantidadAnterior,this.getCantidadProducida());
 
 		for (Map.Entry<Objeto, Integer> elemento : this.ingredientes.entrySet()) {
 			Objeto ingrediente = elemento.getKey();
-			int cantidadRequerida = elemento.getValue();
+			int cantidadRequerida = elemento.getValue() * vecesReceta;;
 
 			if (ingrediente.esBasico()) {
 				// Si es básico, lo agregamos directamente
@@ -144,16 +145,11 @@ public class Receta implements Comparable<Receta> {
 			} else {
 				// Si es intermedio, buscamos su receta y descomponemos recursivamente
 				Receta subReceta = recetario.buscarReceta(ingrediente);
-				Map<Objeto, Integer> subIngredientesBasicos = subReceta.getIngredientesBasicos(recetario);
-
-				int vecesReceta = cantidadRequerida / subReceta.getCantidadProducida();
-				if (cantidadRequerida % subReceta.getCantidadProducida() != 0) {
-					vecesReceta = Math.ceilDiv(cantidadRequerida, subReceta.getCantidadProducida());
-				}
+				Map<Objeto, Integer> subIngredientesBasicos = subReceta.getIngredientesBasicos(recetario,cantidadRequerida);
 
 				// Multiplicamos por la cantidad requerida y fusionamos
 				for (Map.Entry<Objeto, Integer> subElemento : subIngredientesBasicos.entrySet()) {
-					basicos.merge(subElemento.getKey(), subElemento.getValue() * vecesReceta, Integer::sum);
+					basicos.merge(subElemento.getKey(), subElemento.getValue(), Integer::sum);
 				}
 			}
 		}

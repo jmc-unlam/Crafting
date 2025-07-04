@@ -89,7 +89,7 @@ class RecetaTest {
 	@Test
 	void getIngredientesBasicosParaRecetaSimple() {
 		// aqui no usa la maqueta recetario porque son ingredientes basicos
-		Map<Objeto, Integer> basicos = recetaClavo.getIngredientesBasicos(recetario);
+		Map<Objeto, Integer> basicos = recetaClavo.getIngredientesBasicos(recetario,recetaClavo.getCantidadProducida());
 
 		assertEquals(1, basicos.size());
 		assertEquals(1, basicos.get(hierro));
@@ -98,7 +98,7 @@ class RecetaTest {
 	@Test
 	void getIngredientesBasicosParaRecetaCompuesta() {
 		when(recetario.buscarReceta(clavo)).thenReturn(recetaClavo);
-		Map<Objeto, Integer> basicos = recetaMesa.getIngredientesBasicos(recetario);
+		Map<Objeto, Integer> basicos = recetaMesa.getIngredientesBasicos(recetario,recetaMesa.getCantidadProducida());
 
 		assertEquals(2, basicos.size());
 		assertEquals(4, basicos.get(madera));
@@ -110,7 +110,7 @@ class RecetaTest {
 		when(recetario.buscarReceta(clavo)).thenReturn(null);
 
 		assertThrows(NullPointerException.class, () -> {
-			recetaMesa.getIngredientesBasicos(recetario);
+			recetaMesa.getIngredientesBasicos(recetario,0);
 		});
 
 		assertThrows(NullPointerException.class, () -> {
