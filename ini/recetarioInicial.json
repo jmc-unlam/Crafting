@@ -30,11 +30,7 @@
 	  {"objeto": {"nombre": "mineral de hierro", "tipo": "basico"}, "cantidad": 7}
 	],
 	"cantidadProducida": 3,
-	"tiempoBase": 10,
-	"mesaRequerida": {
-      "tipo": "mesa de fundicion",
-      "nombre": "mesa de fundicion"
-    }
+	"tiempoBase": 10
   },
   {
     "objetoProducido": {"nombre": "Antorcha","tipo": "intermedio"},
