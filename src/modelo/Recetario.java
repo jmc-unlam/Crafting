@@ -16,22 +16,45 @@ import java.util.Set;
 
 import main.Config;
 
+/**
+ * Clase central que gestiona las recetas en el sistema, actuando como cliente del patrón Composite.
+ * Almacena las relaciones entre objetos y sus recetas, y coordina operaciones recursivas 
+ * como la validación de ciclos o el cálculo de ingredientes necesarios.
+ * 
+ * @author Grupo Gamma
+ * @version 1.0
+ */
 public class Recetario {
 	private Map<Objeto, List<Receta>> recetasPorObjeto;
 
+	/**
+     * Constructor que inicializa un recetario vacío.
+     */
 	public Recetario() {
 		this.recetasPorObjeto = new HashMap<>();
 	}
 
+	/**
+     * Constructor que inicializa el recetario con una lista de recetas.
+     * 
+     * @param recetasIniciales Lista de recetas iniciales.
+     */
 	public Recetario(List<Receta> recetasIniciales) {
 		this.recetasPorObjeto = new HashMap<>();
 		if (recetasIniciales != null) {
 			for (Receta receta : recetasIniciales) {
-				this.agregarReceta(receta); // Usa el nuevo método que admite múltiples recetas
+				this.agregarReceta(receta); 
 			}
 		}
 	}
 
+	/**
+     * Agrega una receta al recetario. Si el objeto producido ya tiene recetas,
+     * se añade esta como alternativa. 
+     * 
+     * @param receta Receta a agregar.
+     * @throws IllegalArgumentException Si la receta genera un ciclo.
+     */
 	public void agregarReceta(Receta receta) {
 		if (receta == null) {
 			throw new IllegalArgumentException("La receta no puede ser nula");
@@ -49,6 +72,13 @@ public class Recetario {
 		}
 	}
 
+	/**
+     * Detecta ciclos en la estructura de recetas para evitar dependencias infinitas.
+     * 
+     * @param objeto Objeto a verificar.
+     * @param visitados Conjunto de objetos ya revisados.
+     * @return true si se detecta un ciclo, false en caso contrario.
+     */
 	private boolean detectarCiclo(Objeto objeto, Set<Objeto> visitados) {
 		if (!objeto.esBasico()) {
 			if (!visitados.add(objeto))
@@ -70,6 +100,12 @@ public class Recetario {
 		return false;
 	}
 
+	/**
+     * Remueve una receta específica del recetario.
+     * 
+     * @param receta Receta a remover.
+     * @throws IllegalArgumentException Si la receta no existe.
+     */
 	public void removerReceta(Receta receta) {
 		if (receta == null) {
 			throw new IllegalArgumentException("La receta no puede ser nula");
@@ -84,6 +120,11 @@ public class Recetario {
 		}
 	}
 
+	/**
+     * Devuelve una lista con todas las recetas almacenadas.
+     * 
+     * @return Lista de recetas.
+     */
 	public List<Receta> getRecetas() {
 		List<Receta> todas = new ArrayList<>();
 		for (List<Receta> lista : recetasPorObjeto.values()) {
@@ -101,6 +142,13 @@ public class Recetario {
 		return sb.toString();
 	}
 
+	/**
+     * Busca una receta asociada a un objeto específico.
+     * 
+     * @param objetoDeseado Objeto del que se busca la receta.
+     * @return La primera receta disponible para el objeto.
+     * @throws NoSuchElementException Si no hay recetas para el objeto.
+     */
 	public Receta buscarReceta(Objeto objetoDeseado) {
 		List<Receta> recetas = recetasPorObjeto.get(objetoDeseado);
 		if (recetas == null || recetas.isEmpty()) {
@@ -110,6 +158,13 @@ public class Recetario {
 		return recetas.get(0); // Devolver la primera receta disponible
 	}
 
+	/**
+     * Busca todas las recetas asociadas a un objeto específico.
+     * 
+     * @param objetoDeseado Objeto del que se buscan las recetas.
+     * @return Lista de recetas disponibles para el objeto.
+     * @throws NoSuchElementException Si no hay recetas para el objeto.
+     */
 	public List<Receta> buscarRecetas(Objeto objetoDeseado) {
 		List<Receta> recetas = recetasPorObjeto.get(objetoDeseado);
 		if (recetas == null || recetas.isEmpty()) {
@@ -118,6 +173,12 @@ public class Recetario {
 		return new ArrayList<>(recetas);
 	}
 
+	/**
+     * Busca los ingredientes de la primer receta asociado al objeto
+     * 
+     * @param objeto Objeto del que se buscan las recetas.
+     * @return Mapa de ingredientes y sus cantidades o Mapa vacio si no tiene recetas asociadas
+     */
 	public Map<Objeto, Integer> buscarIngredientes(Objeto objeto) {
 		List<Receta> recetas = recetasPorObjeto.get(objeto);
 		if (recetas == null || recetas.isEmpty()) {
@@ -258,6 +319,11 @@ public class Recetario {
 			System.out.println("No hay objetos en la lista.\n");
 	}
 	
+	/**
+     * Devuelve una lista de objetos básicos utilizados como ingredientes en recetas.
+     * 
+     * @return Lista de objetos básicos (ingredientes).
+     */
 	public List<Objeto> listaObjetosRecolectables() {
 		// Devuelve la lista de Objetos Basicos.
 		Set<Objeto> listaObjetosOri = new LinkedHashSet<Objeto>();

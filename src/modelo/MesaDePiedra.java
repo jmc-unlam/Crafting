@@ -1,5 +1,12 @@
 package modelo;
 
+/**
+ * Implementación concreta de una mesa de piedra.
+ * Extiende {@link MesaDeTrabajo} y define funcionalidades específicas para fundir materiales.
+ * 
+ * @author Grupo Gamma
+ * @version 1.0
+ */
 public class MesaDePiedra extends MesaDeTrabajo {
 
 	public MesaDePiedra() {

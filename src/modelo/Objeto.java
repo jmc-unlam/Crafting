@@ -1,13 +1,26 @@
 package modelo;
 
 import java.text.Normalizer;
-import java.util.Collections;
-import java.util.List;
 import java.util.Objects;
 
+/**
+ * Clase base abstracta que representa un objeto en el sistema de crafteo.
+ * Actúa como el componente en el patrón Composite, permitiendo tratar objetos individuales
+ * y compuestos de manera uniforme.
+ * 
+ * @author Grupo Gamma
+ * @version 1.0
+ */
 public abstract class Objeto {
+	
 	private String nombre;
 
+	/**
+     * Devuelve el nombre normalizado del objeto.
+     * 
+     * @return Nombre del objeto.
+     * @throws IllegalArgumentException Si el nombre esta vacio. 
+     */
 	private String normalizar(String texto) {
 		if (texto == null || texto.isEmpty()) {
 			throw new IllegalArgumentException("El nombre esta vacio");
@@ -34,21 +47,54 @@ public abstract class Objeto {
 		return normalized;
 	}
 
+	/**
+     * Constructor que normaliza el nombre del objeto.
+     * 
+     * @param nombre Nombre original del objeto (puede contener caracteres especiales).
+     * @throws IllegalArgumentException Si el nombre está vacío.
+     */
 	public Objeto(String nombre) {
 		this.nombre = normalizar(nombre);
 	}
 
+	/**
+     * Devuelve el nombre normalizado del objeto.
+     * 
+     * @return Nombre del objeto.
+     */
 	public String getNombre() {
 		return nombre;
 	}
 
+	/**
+     * Determina si el objeto es básico (no crafteable).
+     * 
+     * @return true si es básico, false si es compuesto o una mesa de trabajo.
+     */
 	public abstract boolean esBasico();
 
+	/**
+     * Determina si el objeto es apilable (puede tener múltiples unidades en el inventario).
+     * 
+     * @return true si es apilable, false si no lo es (ej.: mesas de trabajo).
+     */
 	public abstract boolean esApilable();
 
+	/**
+     * Agrega recetas asociadas a este objeto al recetario (por defecto no hace nada).
+     * Se reescribe en clases concretas como {@link MesaDeTrabajo}.
+     * 
+     * @param r Recetario donde se agregarán las recetas.
+     */
 	public void listaDeRecetasPropias(Recetario r) {
 	}
 	
+	/**
+     * Remueve recetas asociadas a este objeto del recetario (por defecto no hace nada).
+     * Se reescribe en clases concretas como {@link MesaDeTrabajo}.
+     * 
+     * @param r Recetario donde se removerán las recetas.
+     */
 	public void removerRecetasPropias(Recetario r) {
 	}
 
