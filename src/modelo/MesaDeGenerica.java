@@ -10,7 +10,7 @@ package modelo;
 public class MesaDeGenerica extends MesaDeTrabajo {
 
 	public MesaDeGenerica(String nombre) {
-		super("Mesa de Generica");
+		super("Mesa Generica");
 	}
 
 	@Override

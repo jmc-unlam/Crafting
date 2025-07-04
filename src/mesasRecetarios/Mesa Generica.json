@@ -8,7 +8,7 @@
 	"tiempoBase": 10,
 	"mesaRequerida": {
       "tipo": "mesa de generica",
-      "nombre": "Mesa de Generica"
+      "nombre": "Mesa Generica"
     }
   },
   {
@@ -20,7 +20,7 @@
 	"tiempoBase": 10,
 	"mesaRequerida": {
       "tipo": "mesa de generica",
-      "nombre": "Mesa de Generica"
+      "nombre": "Mesa Generica"
     }
   },
   {
@@ -32,7 +32,7 @@
 	"tiempoBase": 5,
 	"mesaRequerida": {
       "tipo": "mesa de generica",
-      "nombre": "Mesa de Generica"
+      "nombre": "Mesa Generica"
     }
   },
   {
@@ -44,7 +44,7 @@
 	"tiempoBase": 10,
 	"mesaRequerida": {
       "tipo": "mesa de generica",
-      "nombre": "Mesa de Generica"
+      "nombre": "Mesa Generica"
     }
   },
   {
@@ -56,7 +56,7 @@
 	"tiempoBase": 5,
 	"mesaRequerida": {
       "tipo": "mesa de generica",
-      "nombre": "Mesa de Generica"
+      "nombre": "Mesa Generica"
     }
   },
   {
@@ -69,7 +69,7 @@
 	"tiempoBase": 15,
 	"mesaRequerida": {
       "tipo": "mesa de generica",
-      "nombre": "Mesa de Generica"
+      "nombre": "Mesa Generica"
     }
   },
   {
@@ -82,7 +82,7 @@
 	"tiempoBase": 20,
 	"mesaRequerida": {
       "tipo": "mesa de generica",
-      "nombre": "Mesa de Generica"
+      "nombre": "Mesa Generica"
     }
   }
 ]

@@ -87,7 +87,7 @@ public class Main {
 				interrupcion(scanner);
 				break;
 			case 12: // 12. Listar Escenarios
-				Escenarios.seleccionarEscenario();
+				Escenarios.seleccionarEscenario(scanner);
 				interrupcion(scanner);
 				break;
 			case 13: // 13 Extra - Arbol.
@@ -131,13 +131,14 @@ public class Main {
 	}
 
 	/**
-	 * Menú para la Recolección , Venta o Comprar, que cambia la cantidad dentro del inventario.
-	 * Este menú brinda las opciones para alterar el inventario desde los objetos y sin necesidad
-	 * de craftear, ingresando por teclado el objeto y la cantidad según cada opción.
+	 * Menú para la Recolección , Venta o Comprar, que cambia la cantidad dentro del
+	 * inventario. Este menú brinda las opciones para alterar el inventario desde
+	 * los objetos y sin necesidad de craftear, ingresando por teclado el objeto y
+	 * la cantidad según cada opción.
 	 * 
 	 * @param scanner del menú principal
 	 */
-	
+
 	private static void menuRecolectarVenderComprar(Scanner scanner) {
 		System.out.println("\n===== MENÚ para la modificación del inventario rapidamente =====");
 		int opcion;
@@ -168,8 +169,9 @@ public class Main {
 
 				if (cantidadAComprar > 0) {
 					try {
-						inventario.agregarObjeto(objePregunta, cantidadAComprar,recetario);
-						//recetario.agregarRecetas(objePregunta.listaDeRecetasPropias()); no es necesario
+						inventario.agregarObjeto(objePregunta, cantidadAComprar, recetario);
+						// recetario.agregarRecetas(objePregunta.listaDeRecetasPropias()); no es
+						// necesario
 						System.out.println(
 								objePregunta + "- Cantidad:" + cantidadAComprar + ", Agregado al inventario.\n");
 					} catch (Exception e) {
@@ -177,25 +179,8 @@ public class Main {
 					}
 				}
 				break;
-			case 3: // verder
-
-				int opcionIDObjeto;
-				do {
-					System.out.println(inventario);
-					System.out.println("0= para salir.\n");
-
-					opcionIDObjeto = devolverOpcion(scanner, "Elige una id del objeto en el inventario: ");
-					if (opcionIDObjeto != 0) {
-						int cantidadAVender = ingresarCantidadPara("a vender", scanner);
-
-						if (opcionIDObjeto != 0 && inventario.removerCantidadDeUnObjetoSegunNro(opcionIDObjeto, cantidadAVender,
-									recetario))
-								opcionIDObjeto = 0;
-						
-					}
-
-				} while (opcionIDObjeto != 0);
-
+			case 3: // verde
+				ventaDeInventario(scanner);
 				break;
 			case 4:
 				System.out.println(inventario);
@@ -209,11 +194,40 @@ public class Main {
 
 	}
 
-	/**Pide por teclado el ingreso de un valor entre 0 y 50, usado para ingresas cantidades de
-	 * farmeo, compra y venta. El valor 0 es admitible por q se usa como opción en los menús 
+	/**
+	 * Venta de objetos dentro del inventario. Muestra el inventario y pide ingresar
+	 * el Nro de Objeto y la cantidad a vender. Internamente el inventario controla
+	 * las cantidades.
 	 * 
-	 * @param accionAinformar Texto donde completa la frase *"Ingrese la cantidad " + accionAinformar + " entre 0 a 50:* "
-	 * @param scanner del Menú principal.
+	 * @param scanner
+	 */
+	private static void ventaDeInventario(Scanner scanner) {
+		int opcionIDObjeto;
+		do {
+			System.out.println(inventario);
+			System.out.println("0= para salir.\n");
+
+			opcionIDObjeto = devolverOpcion(scanner, "Elige una id del objeto en el inventario: ");
+			if (opcionIDObjeto != 0) {
+				int cantidadAVender = ingresarCantidadPara("a vender", scanner);
+
+				if (inventario.removerCantidadDeUnObjetoSegunNro(opcionIDObjeto, cantidadAVender, recetario))
+					opcionIDObjeto = 0;
+
+			}
+
+		} while (opcionIDObjeto != 0);
+
+	}
+
+	/**
+	 * Pide por teclado el ingreso de un valor entre 0 y 50, usado para ingresas
+	 * cantidades de farmeo, compra y venta. El valor 0 es admitible por q se usa
+	 * como opción en los menús
+	 * 
+	 * @param accionAinformar Texto donde completa la frase *"Ingrese la cantidad "
+	 *                        + accionAinformar + " entre 0 a 50:* "
+	 * @param scanner         del Menú principal.
 	 * @return
 	 */
 	private static int ingresarCantidadPara(String accionAinformar, Scanner scanner) {
@@ -236,7 +250,9 @@ public class Main {
 		return cantidadFarmeada;
 	}
 
-	/**interrupción creada usando el scanner. Su incorporación evita el despliege del menú luego de realizar una opción. 
+	/**
+	 * interrupción creada usando el scanner. Su incorporación evita el despliege
+	 * del menú luego de realizar una opción.
 	 * 
 	 * @param scanner del Menu principal.
 	 */
@@ -246,8 +262,10 @@ public class Main {
 		scanner.nextLine();
 	}
 
-	/**Muestra el listado de objetos Recolectables. Del cual se necesta ingresar un nro para seleccionarlo y devolver.
-	 * Este metodo usa la info. cargada en el recetario. Filtrando solo los objetos básicos.
+	/**
+	 * Muestra el listado de objetos Recolectables. Del cual se necesta ingresar un
+	 * nro para seleccionarlo y devolver. Este metodo usa la info. cargada en el
+	 * recetario. Filtrando solo los objetos básicos.
 	 * 
 	 * @return Objeto Seleccionado del listado.
 	 */
@@ -271,8 +289,10 @@ public class Main {
 		return listaCrafteable.get(idObjeto - 1);
 	}
 
-	/**Muestra el listado de objetos Intermedios. Del cual se necesta ingresar un nro para seleccionarlo y devolver.
-	 * Este metodo usa la info. cargada en el recetario. Filtrando solo los objetos Intermedios.
+	/**
+	 * Muestra el listado de objetos Intermedios. Del cual se necesta ingresar un
+	 * nro para seleccionarlo y devolver. Este metodo usa la info. cargada en el
+	 * recetario. Filtrando solo los objetos Intermedios.
 	 * 
 	 * @return Objeto Seleccionado del listado.
 	 */
@@ -284,7 +304,7 @@ public class Main {
 		Scanner scanner = new Scanner(System.in);
 
 		do {
-			idObjeto = devolverOpcion(scanner,"Elige el ID del objeto: ");
+			idObjeto = devolverOpcion(scanner, "Elige el ID del objeto: ");
 
 			if (idObjeto > 0 && idObjeto < (listaCrafteable.size() + 1))
 				salir = false;
@@ -326,11 +346,19 @@ public class Main {
 	public static void inicio() {
 		System.out.println("** Bienvenido al MedievalCraft **");
 		System.out.println("-- Cargando Archivos de inicio.");
-		
-		//Cambio de orden, primero el recetario y luego el inventario para q el mismo agregue las recetas de las mesas.
+
+		// Cambio de orden, primero el recetario y luego el inventario para q el mismo
+		// agregue las recetas de las mesas.
 		recetario = new Recetario(new RecetaGSON(Config.RUTA_INICIO_RECETARIO).cargar());
-		inventario = new Inventario(new InventarioGSON(Config.RUTA_INICIO_INVENTARIO).cargar(), recetario); //inventario = new Inventario(); si se quiere probar el inventario vacio.
-		
+		inventario = new Inventario(new InventarioGSON(Config.RUTA_INICIO_INVENTARIO).cargar(), recetario); // inventario
+																											// = new
+																											// Inventario();
+																											// si se
+																											// quiere
+																											// probar el
+																											// inventario
+																											// vacio.
+
 		sistema = new SistemaDeCrafteo(inventario, recetario);
 
 		System.out.println("\n");

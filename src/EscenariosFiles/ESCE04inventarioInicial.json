@@ -1,11 +1,11 @@
 [
   {
     "objeto": { "nombre": "madera", "tipo": "basico" },
-    "cantidad": 20
+    "cantidad": 1000
   },
   {
     "objeto": { "nombre": "ladrillo", "tipo": "basico" },
-    "cantidad": 40
+    "cantidad": 1000
   },
   {
     "objeto": { "nombre": "carbon", "tipo": "basico" },

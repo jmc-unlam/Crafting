@@ -2,6 +2,7 @@
 % Lista de Objetos Crafteables 
 ingredientecompuesto('lingote de hierro').
 ingredientecompuesto('Mesa de Flechas').
+ingredientecompuesto('Equipamiento Completo').
 ingredientecompuesto('Palo').
 ingredientecompuesto('Carcaj').
 ingredientecompuesto('Hacha de Piedra').
@@ -16,6 +17,9 @@ ingredientecompuesto('Equipamiento para Arquero').
 ingrediente('lingote de hierro', 'mineral de hierro', 7).
 ingrediente('Mesa de Flechas', 'Madera', 10).
 ingrediente('Mesa de Flechas', 'ladrillo', 20).
+ingrediente('Equipamiento Completo', 'Hacha de Piedra', 2).
+ingrediente('Equipamiento Completo', 'Antorcha', 3).
+ingrediente('Equipamiento Completo', 'Equipamiento para Arquero', 1).
 ingrediente('Palo', 'Madera', 2).
 ingrediente('Carcaj', 'Madera', 2).
 ingrediente('Carcaj', 'Cuerda', 3).

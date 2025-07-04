@@ -15,17 +15,17 @@
   },
   {
     "objeto": {
-      "tipo": "mesa de generica",
-      "nombre": "Mesa de Generica"
+      "tipo": "mesa de flechas",
+      "nombre": "Mesa de Flechas"
     },
     "cantidad": 1
   },
   {
     "objeto": {
-      "tipo": "mesa de flechas",
-      "nombre": "Mesa de Flechas"
+      "tipo": "basico",
+      "nombre": "madera"
     },
-    "cantidad": 1
+    "cantidad": 980
   },
   {
     "objeto": {
@@ -57,9 +57,23 @@
   },
   {
     "objeto": {
+      "tipo": "mesa de generica",
+      "nombre": "Mesa Generica"
+    },
+    "cantidad": 1
+  },
+  {
+    "objeto": {
       "tipo": "basico",
       "nombre": "mineral de cobre"
     },
     "cantidad": 3
+  },
+  {
+    "objeto": {
+      "tipo": "basico",
+      "nombre": "ladrillo"
+    },
+    "cantidad": 960
   }
 ]

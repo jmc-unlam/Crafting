@@ -449,13 +449,17 @@ public class Inventario {
 	 * @param recetario Recetario que proporciona acceso a las recetas necesarias.
 	 * @throws UnsupportedOperationException Si es un objeto basico.
 	 * @throws IllegalArgumentException Si no tiene receta asociada.
-	 * @throws UnsupportedOperationException Si no tiene la mesa necesaria.
+	 * @throws UnsupportedOperationException Si no tiene la mesa necesaria / El objeto es nulo.
 	 * @return Resultado Clase Resultado con la información de (Cantidad producida, objeto y Tiempo)
 	 */
 	public Resultado cantidadPosibleCraftear(Objeto objCrafteable, Recetario recetario) {
-		
 		// El metodo en inventario que devuelve en una Clase Resultado (Cantidad a
-		// producir + TiempoTotal)
+				// producir + TiempoTotal)
+		
+		if(objCrafteable == null) {
+			throw new UnsupportedOperationException("El objeto es nulo. Comprueba si el nombre es válido.");
+		}
+		
 		if (objCrafteable.esBasico()) {
 			throw new UnsupportedOperationException("No se puede craftear un objeto básico: " + objCrafteable);
 		}
