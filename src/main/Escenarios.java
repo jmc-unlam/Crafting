@@ -172,7 +172,7 @@ public class Escenarios {
 			System.out.println("Tiempo Total: " + sistema.craftearObjeto(hachaDePiedra, 1));
 
 			System.out.println("\n=== Historial de crfateo:");
-			sistema.getHistorial().forEach((registro) -> System.out.println(registro));
+			sistema.getHistorial().getRegistros().forEach((registro) -> System.out.println(registro));
 
 			System.out.println("\n=== Inventario final:");
 			inventario.getObjetos().forEach((obj, cant) -> System.out.println("- " + obj + ": " + cant));
@@ -269,7 +269,7 @@ public class Escenarios {
 			System.err.println("Error: " + e.getMessage());
 		}
 
-		System.out.println(sistema.getHistorialReal().toString());
+		System.out.println(sistema.getHistorial().toString());
 		System.out.println(inventario);
 		new InventarioGSON(Config.ESCE03_RUTA_FINAL_INVENTARIO).guardar(inventario.getObjetos());
 	}
@@ -340,7 +340,7 @@ public class Escenarios {
 		sistema.ingredientesNecesariosConCantidad(objCraftear).informarCantidadOpcion1();
 		new Resultado(1, sistema.craftearObjeto(objCraftear, 1), objCraftear).informarTiempoCrafteoOpcion6();
 
-		System.out.println(sistema.getHistorialReal().toString());
+		System.out.println(sistema.getHistorial().toString());
 
 		System.out.println("Quitar la mesa del inventario:");
 
