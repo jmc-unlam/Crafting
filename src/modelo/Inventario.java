@@ -530,6 +530,85 @@ public class Inventario {
 		return new Resultado(cantEjecuciones * receta.getCantidadProducida(),
 				totaltiempo + receta.getTiempoBase() * cantEjecuciones, objCrafteable);
 	}
+	
+public Resultado cantidadPosibleCraftear(Objeto objCrafteable, Recetario recetario, int indiceReceta) {
+		
+		// El metodo en inventario que devuelve en una Clase Resultado (Cantidad a
+		// producir + TiempoTotal)
+		if (objCrafteable.esBasico()) {
+			throw new UnsupportedOperationException("No se puede craftear un objeto básico: " + objCrafteable);
+		}
+
+		List<Receta> recetas = recetario.buscarRecetas(objCrafteable);
+		if (recetas == null) {
+			throw new IllegalStateException("No existe receta para craftear " + objCrafteable);
+		}
+		// verificar si la receta tiene mesa
+		if (!this.tieneMesa(recetas.get(indiceReceta).getMesaRequerida())) {
+			throw new UnsupportedOperationException(
+					"No tienes [" + recetas.get(indiceReceta).getMesaRequerida() + "] para craftear->" + objCrafteable);
+		}
+		// verificar si se puede apilar
+		if (this.getCantidad(objCrafteable) >= 1 && !objCrafteable.esApilable()) {
+			// throw new UnsupportedOperationException("No se puede crafear porque ya lo
+			// tienes, no es apilable: " + ObjCrafteable);
+			return new Resultado(0, 0, objCrafteable);
+		}
+
+		// Caso un. Un objeto simple , con materiales basico.
+		// La division puede ser viable, sin embargo se piede información con los
+		// Objetos Intermedios.
+		// La solucion de francisco me parece correcta. ir con un contador multiplicando
+		// las veces que se craftea de a 1.
+		// pero llevarlo a la practica eso es otra cosa.
+
+		// Crear CLONE del inventario. para ir restado al Aux y ver q me queda.
+		Inventario inventarioAux = new Inventario(objetos);
+
+		int cantEjecuciones = 0;
+		int tiempoAcumulado = 0;
+		int totaltiempo = 0;
+
+		boolean senCorte = true;
+		// Descompongo el objeto sus ingredientes y miro si los tengo en el inventario.
+		// Si tengo todos los ingredientes. Voy restando al inventario y incremento el
+		// contador de Lotes.
+		// Si no tengo todos los ingredientes basicos o me falta alguno para poder hacer
+		// el crafteo .
+
+		do {
+			// si tengo todos los materiales para cratear. cantEjecuciones++ y salgo
+			// Si encuentro un material Basico que me falta en cantidad. salgo
+			for (Map.Entry<Objeto, Integer> entry : recetas.get(indiceReceta).getIngredientes().entrySet()) {
+				Objeto ingrediente = entry.getKey();
+				int cantidadNecesaria = entry.getValue();
+
+				Resultado resIngrediente = cantidadRecursivaObjeto(inventarioAux, ingrediente, cantidadNecesaria,
+						recetario);
+
+				if (resIngrediente.getCantidadCrafteable() == 0) {
+					// si la cantidad crafteada del resulta es cero, CORTA. por que signifca q ese
+					// ingrediente
+					// no se pudo crear en la cantidad necesaria.
+					senCorte = false;
+					break; // salgo del for - un ingrediente Intermedio no es posible de craftear
+				} else {
+					tiempoAcumulado += resIngrediente.getTiempo(); // acumula los tiempos de los crafteos intermedios
+				}
+			}
+
+			if (senCorte) { // si es true, significa q se salio exitosamente del for.
+				cantEjecuciones++;
+				totaltiempo += tiempoAcumulado; // acumula el tiempo que tardo en craftear esta ejecucio.
+				tiempoAcumulado = 0;
+				if (!objCrafteable.esApilable() && cantEjecuciones == 1)
+					senCorte = false; // si no es apilable, cuando es uno sale.
+			}
+		} while (senCorte);
+
+		return new Resultado(cantEjecuciones * recetas.get(indiceReceta).getCantidadProducida(),
+				totaltiempo + recetas.get(indiceReceta).getTiempoBase() * cantEjecuciones, objCrafteable);
+	}
 
 	/**
      *Método auxiliar recursivo que ayuda a calcular cuánto de un ingrediente es realmente utilizable.
