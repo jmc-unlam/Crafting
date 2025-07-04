@@ -120,18 +120,18 @@ public class Escenarios {
 
 		// funcionalidades del sistema
 		System.out.println("=== Ingredientes necesarios para Hacha de Piedra ===");
-		Map<Objeto, Integer> ingredientes = sistema.ingredientesNecesarios(hachaDePiedra);
+		Map<Objeto, Integer> ingredientes = sistema.ingredientesNecesariosConCantidad(hachaDePiedra).getIngredientes();
 		ingredientes.forEach((obj, cant) -> System.out.println("- " + obj + ": " + cant));
 
 		System.out.println("=== Ingredientes basicos necesarios para Hacha de Piedra ===");
-		ingredientes = sistema.ingredientesBasicosNecesarios(hachaDePiedra);
+		ingredientes = sistema.ingredientesBasicosNecesariosConTiempo(hachaDePiedra).getIngredientes();
 		ingredientes.forEach((obj, cant) -> System.out.println("- " + obj + ": " + cant));
 
 		System.out.println("\n=== Pruebas de faltantes ===");
 
 		// 1. Prueba ingredientesFaltantesParaCraftear
 		System.out.println("\nIngredientes faltantes para Hacha de Piedra:");
-		Map<Objeto, Integer> faltantes = sistema.ingredientesFaltantesParaCraftear(hachaDePiedra);
+		Map<Objeto, Integer> faltantes = sistema.ingredientesFaltantesParaCraftearConTiempo(hachaDePiedra).getIngredientes();
 		if (faltantes.isEmpty())
 			System.out.println("No faltan ingredientes directos!");
 		else
@@ -139,7 +139,7 @@ public class Escenarios {
 
 		// 2. Prueba ingredientesBasicosFaltantesParaCraftear
 		System.out.println("\nIngredientes básicos faltantes para Hacha de Piedra:");
-		Map<Objeto, Integer> faltantesBasicos = sistema.ingredientesBasicosFaltantesParaCraftear(hachaDePiedra);
+		Map<Objeto, Integer> faltantesBasicos = sistema.ingredientesBasicosFaltantesParaCraftearConTiempo(hachaDePiedra).getIngredientes();
 		if (faltantesBasicos.isEmpty())
 			System.out.println("No faltan ingredientes básicos!");
 		else
@@ -148,8 +148,8 @@ public class Escenarios {
 
 		// 3. Prueba cantidadCrafteable
 		System.out.println("\n=== Prueba de cantidad crafteable ===");
-		System.out.println("Hachas de piedra crafteables: " + sistema.cantidadCrafteable(hachaDePiedra));
-		System.out.println("Óxido crafteable: " + sistema.cantidadCrafteable(oxido));
+		System.out.println("Hachas de piedra crafteables: " + sistema.cantidadCrafteableConTiempo(hachaDePiedra).getCantidadCrafteable());
+		System.out.println("Óxido crafteable: " + sistema.cantidadCrafteableConTiempo(oxido).getCantidadCrafteable());
 
 		// 4. Prueba después de agregar más recursos
 		System.out.println("\n[Agregando 10 hierros más al inventario...]");
@@ -157,11 +157,11 @@ public class Escenarios {
 		System.out.println(inventario);
 
 		System.out.println("\nNuevos valores después de agregar recursos:");
-		System.out.println("Hachas de piedra crafteables ahora: " + sistema.cantidadCrafteable(hachaDePiedra));
-		System.out.println("Óxido crafteable ahora: " + sistema.cantidadCrafteable(oxido));
+		System.out.println("Hachas de piedra crafteables ahora: " + sistema.cantidadCrafteableConTiempo(hachaDePiedra).getCantidadCrafteable());
+		System.out.println("Óxido crafteable ahora: " + sistema.cantidadCrafteableConTiempo(oxido).getCantidadCrafteable());
 
 		System.out.println("\nNuevos ingredientes básicos faltantes para Hacha de Piedra:");
-		Map<Objeto, Integer> faltantesBasicos2 = sistema.ingredientesBasicosFaltantesParaCraftear(hachaDePiedra);
+		Map<Objeto, Integer> faltantesBasicos2 = sistema.ingredientesBasicosFaltantesParaCraftearConTiempo(hachaDePiedra).getIngredientes();
 		if (faltantesBasicos2.isEmpty())
 			System.out.println("No faltan ingredientes básicos!");
 		else

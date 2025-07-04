@@ -72,7 +72,7 @@ public class SistemaDeCrafteoTest {
 
 	@Test
 	void ingredientesNecesarios() {
-		Map<Objeto, Integer> ingredientes = sistema.ingredientesNecesarios(hachaDePiedra);
+		Map<Objeto, Integer> ingredientes = sistema.ingredientesNecesariosConCantidad(hachaDePiedra).getIngredientes();
 		assertEquals(3, ingredientes.size());
 		assertEquals(3, ingredientes.get(piedra));
 		assertEquals(2, ingredientes.get(madera));
@@ -81,7 +81,7 @@ public class SistemaDeCrafteoTest {
 
 	@Test
 	void ingredientesBasicosNecesarios() {
-		Map<Objeto, Integer> basicos = sistema.ingredientesBasicosNecesarios(hachaDePiedra);
+		Map<Objeto, Integer> basicos = sistema.ingredientesBasicosNecesariosConTiempo(hachaDePiedra).getIngredientes();
 		assertEquals(3, basicos.size());
 
 		// Verificar cantidades de ingredientes básicos (piedra, madera, hierro)
@@ -95,7 +95,7 @@ public class SistemaDeCrafteoTest {
 
 	@Test
 	void ingredientesFaltantesParaCraftear() {
-		Map<Objeto, Integer> faltantes = sistema.ingredientesFaltantesParaCraftear(hachaDePiedra);
+		Map<Objeto, Integer> faltantes = sistema.ingredientesFaltantesParaCraftearConTiempo(hachaDePiedra).getIngredientes();
 		assertTrue(faltantes.containsKey(oxido));
 		assertEquals(2, faltantes.get(oxido));
 		assertFalse(faltantes.containsKey(piedra));
@@ -103,7 +103,7 @@ public class SistemaDeCrafteoTest {
 
 	@Test
 	void ingredientesBasicosFaltantesParaCraftear() {
-		Map<Objeto, Integer> faltantes = sistema.ingredientesBasicosFaltantesParaCraftear(hachaDePiedra);
+		Map<Objeto, Integer> faltantes = sistema.ingredientesBasicosFaltantesParaCraftearConTiempo(hachaDePiedra).getIngredientes();
 		assertTrue(faltantes.containsKey(hierro));
 		assertEquals(3, faltantes.get(hierro)); // Necesita 7, tiene 4
 	}
@@ -111,13 +111,13 @@ public class SistemaDeCrafteoTest {
 	@Test
 	void cantidadCrafteablePorLote() {
 		// falta oxido para craftear hacha de piedra
-		assertEquals(0, sistema.cantidadCrafteable(hachaDePiedra));
-		assertEquals(0, sistema.cantidadCrafteable(oxido));
+		assertEquals(0, sistema.cantidadCrafteableConTiempo(hachaDePiedra).getCantidadCrafteable());
+		assertEquals(0, sistema.cantidadCrafteableConTiempo(oxido).getCantidadCrafteable());
 
 		// Agregar más hierro el cual puede crear oxido
 		inventario.agregarObjeto(hierro, 10);
-		assertEquals(2, sistema.cantidadCrafteable(hachaDePiedra));
-		assertEquals(18, sistema.cantidadCrafteable(oxido));
+		assertEquals(2, sistema.cantidadCrafteableConTiempo(hachaDePiedra).getCantidadCrafteable());
+		assertEquals(18, sistema.cantidadCrafteableConTiempo(oxido).getCantidadCrafteable());
 	}
 
 	@Test
@@ -251,7 +251,7 @@ public class SistemaDeCrafteoTest {
 
 	@Test
 	void ingredientesDirectosHachaDePiedra() {
-		Map<Objeto, Integer> ingredientes = sistema.ingredientesNecesarios(hachaDePiedra);
+		Map<Objeto, Integer> ingredientes = sistema.ingredientesNecesariosConCantidad(hachaDePiedra).getIngredientes();
 
 		assertNotNull(ingredientes, "El mapa de ingredientes no debería ser nulo");
 		assertEquals(3, ingredientes.size(), "Debería haber 3 tipos de ingredientes directos para Hacha de Piedra");
@@ -264,7 +264,7 @@ public class SistemaDeCrafteoTest {
 
 	@Test
 	void ingredientesDirectosOxido() {
-		Map<Objeto, Integer> ingredientes = sistema.ingredientesNecesarios(oxido);
+		Map<Objeto, Integer> ingredientes = sistema.ingredientesNecesariosConCantidad(oxido).getIngredientes();
 
 		assertNotNull(ingredientes, "El mapa de ingredientes no debería ser nulo");
 		assertEquals(1, ingredientes.size(), "Debería haber 1 tipo de ingrediente directo para Oxido");
@@ -275,7 +275,7 @@ public class SistemaDeCrafteoTest {
 
 	@Test
 	void ingredientesBasicosHachaDePiedra() {
-		Map<Objeto, Integer> ingredientesBasicos = sistema.ingredientesBasicosNecesarios(hachaDePiedra);
+		Map<Objeto, Integer> ingredientesBasicos = sistema.ingredientesBasicosNecesariosConTiempo(hachaDePiedra).getIngredientes();
 
 		assertNotNull(ingredientesBasicos, "El mapa de ingredientes básicos no debería ser nulo");
 		assertEquals(3, ingredientesBasicos.size(),
@@ -295,12 +295,12 @@ public class SistemaDeCrafteoTest {
 		ObjetoIntermedio objetoSinReceta = new ObjetoIntermedio("Objeto Desconocido");
 		// IllegalArgumentException para un objeto sin receta
 		assertThrows(IllegalArgumentException.class, () -> {
-			sistema.ingredientesNecesarios(objetoSinReceta);
+			sistema.ingredientesNecesariosConCantidad(objetoSinReceta).getIngredientes();
 		});
 
 		// IllegalArgumentException para un objeto sin receta al buscar básico
 		assertThrows(IllegalArgumentException.class, () -> {
-			sistema.ingredientesBasicosNecesarios(objetoSinReceta);
+			sistema.ingredientesBasicosNecesariosConTiempo(objetoSinReceta).getIngredientes();
 		});
 	}
 
@@ -309,7 +309,7 @@ public class SistemaDeCrafteoTest {
 		// IllegalArgumentException si se busca ingredientes básicos de un objeto básico
 		// sin receta.
 		assertThrows(IllegalArgumentException.class, () -> {
-			sistema.ingredientesBasicosNecesarios(madera);
+			sistema.ingredientesBasicosNecesariosConTiempo(madera).getIngredientes();
 		});
 	}
 

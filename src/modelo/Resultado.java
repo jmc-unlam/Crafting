@@ -78,6 +78,11 @@ public class Resultado {
 		return tiempo;
 	}
 
+	public Map<Objeto, Integer> getIngredientes() {
+		return ingredientes;
+	}
+
+
 	/**
 	 * 1. ¿Qué necesito para craftear un objeto?
 	 * 
