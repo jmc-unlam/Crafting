@@ -9,10 +9,7 @@ import java.util.NoSuchElementException;
  * Clase central que orquesta el sistema de crafteo, coordinando el inventario y el recetario.
  * Proporciona funcionalidades clave como calcular ingredientes necesarios, validar faltantes,
  * determinar cuántos objetos pueden fabricarse y ejecutar crafteos con registro histórico.
- * 
- * Implementa los principios de programación orientada a objetos y sigue el patrón Singleton
- * para el historial de crafteos. Es extensible y permite agregar nuevas recetas sin modificar código existente.
- * 
+ *  
  * Funcionalidades principales:
  * 
  * Determinar ingredientes necesarios para un objeto (primer nivel).
@@ -38,6 +35,12 @@ public class SistemaDeCrafteo {
      * @param recetario Recetario que contiene todas las recetas disponibles.
      */
 	public SistemaDeCrafteo(Inventario inventario, Recetario recetario) {
+		if (inventario == null) {
+			throw new IllegalArgumentException("No existe Inventario");
+		}
+		if (recetario == null) {
+			throw new IllegalArgumentException("No existe Recetaraio");
+		}
 		this.inventario = inventario;
 		this.recetario = recetario;
 		this.historial = HistorialDeCrafteo.getInstanciaUnica();
@@ -46,30 +49,11 @@ public class SistemaDeCrafteo {
 	/**
      * Devuelve el historial de crafteos realizado.
      * 
-     * @return Lista de registros de crafteo.
+     * @return Devuelve la instancia única del historial de crafteo.
      */
 	public HistorialDeCrafteo getHistorial() {
 		return historial;
 	};
-
-	/**
-     * Devuelve una copia del inventario actual.
-     * 
-     * @return Mapa de objetos y sus cantidades disponibles.
-     */
-	public Map<Objeto, Integer> getInventario() {
-		return inventario.getObjetos();
-	};
-
-	/**
-     * Devuelve una lista de todas las recetas registradas.
-     * 
-     * @return Lista de recetas disponibles en el sistema.
-     */
-	public List<Receta> getRecetario() {
-		return recetario.getRecetas();
-	};
-
 
 	/**
      * Devuelve los ingredientes directos necesarios para craftear un objeto específico.
