@@ -5,29 +5,80 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
+/**
+ * Clase central que orquesta el sistema de crafteo, coordinando el inventario y el recetario.
+ * Proporciona funcionalidades clave como calcular ingredientes necesarios, validar faltantes,
+ * determinar cuántos objetos pueden fabricarse y ejecutar crafteos con registro histórico.
+ * 
+ * Implementa los principios de programación orientada a objetos y sigue el patrón Singleton
+ * para el historial de crafteos. Es extensible y permite agregar nuevas recetas sin modificar código existente.</p>
+ * 
+ * Funcionalidades principales:
+ * 
+ * Determinar ingredientes necesarios para un objeto (primer nivel).
+ * Calcular ingredientes básicos necesarios desde cero.
+ * Identificar faltantes en el inventario (tanto de primer nivel como básicos).
+ * Calcular cuántas unidades pueden craftearse dado el inventario actual.
+ * Realizar crafteos y actualizar el inventario.
+ * Registrar tiempos totales y mantener un historial de acciones.
+ * 
+ * @author Grupo Gamma
+ * @version 1.0
+ */
 public class SistemaDeCrafteo {
 	private Inventario inventario;
 	private Recetario recetario;
 	private HistorialDeCrafteo historial;
 
+	/**
+     * Constructor que inicializa el sistema con un inventario y recetario específicos.
+     * Usa el historial de crafteos singleton para registrar acciones realizadas.
+     * 
+     * @param inventario Inventario del jugador donde se almacenarán los objetos.
+     * @param recetario Recetario que contiene todas las recetas disponibles.
+     */
 	public SistemaDeCrafteo(Inventario inventario, Recetario recetario) {
 		this.inventario = inventario;
 		this.recetario = recetario;
 		this.historial = HistorialDeCrafteo.getInstanciaUnica();
 	}
 
-	public List<RegistroCrafteo> getHistorial() {
-		return historial.getRegistros();
+	/**
+     * Devuelve el historial de crafteos realizado.
+     * 
+     * @return Lista de registros de crafteo.
+     */
+	public HistorialDeCrafteo getHistorial() {
+		return historial;
 	};
 
+	/**
+     * Devuelve una copia del inventario actual.
+     * 
+     * @return Mapa de objetos y sus cantidades disponibles.
+     */
 	public Map<Objeto, Integer> getInventario() {
 		return inventario.getObjetos();
 	};
 
+	/**
+     * Devuelve una lista de todas las recetas registradas.
+     * 
+     * @return Lista de recetas disponibles en el sistema.
+     */
 	public List<Receta> getRecetario() {
 		return recetario.getRecetas();
 	};
 
+	/**
+     * Devuelve los ingredientes directos necesarios para craftear un objeto específico.
+     * Segun la primer receta
+     * Este método solo considera el primer nivel de la receta, sin descomponer ingredientes intermedios.
+     * 
+     * @param objeto Objeto crafteable del que se requieren los ingredientes.
+     * @return Mapa de ingredientes y sus cantidades necesarias.
+     * @throws IllegalArgumentException Si el objeto es nulo o no tiene receta.
+     */
 	public Map<Objeto, Integer> ingredientesNecesarios(Objeto objeto) {
 		if (objeto == null) {
 			throw new IllegalArgumentException("No existe objeto:" + objeto);
@@ -61,6 +112,15 @@ public class SistemaDeCrafteo {
 		}
 	}
 
+	/**
+     * Devuelve los ingredientes básicos necesarios para craftear un objeto desde cero.
+     * Segun la primer receta.
+     * Este método descompone recursivamente todos los ingredientes intermedios hasta llegar a objetos básicos.
+     * 
+     * @param objeto Objeto crafteable del que se requieren los ingredientes básicos.
+     * @return Mapa de ingredientes básicos y sus cantidades totales necesarias.
+     * @throws IllegalArgumentException Si el objeto es nulo o no tiene receta.
+     */
 	public Map<Objeto, Integer> ingredientesBasicosNecesarios(Objeto objeto) {
 		if (objeto == null) {
 			throw new IllegalArgumentException("No existe objeto:" + objeto);
@@ -88,6 +148,15 @@ public class SistemaDeCrafteo {
 		}
 	}
 
+	/**
+     * Devuelve los ingredientes que faltan para craftear un objeto (solo primer nivel).
+     * Segun la primer receta.
+     * Verifica si el inventario tiene suficientes ingredientes directos para fabricar el objeto.
+     * 
+     * @param objeto Objeto crafteable a evaluar.
+     * @return Mapa de ingredientes faltantes y sus cantidades necesarias.
+     * @throws IllegalArgumentException Si el objeto es nulo o no tiene receta.
+     */
 	public Map<Objeto, Integer> ingredientesFaltantesParaCraftear(Objeto objeto) {
 		if (objeto == null) {
 			throw new IllegalArgumentException("No existe objeto:" + objeto);
@@ -103,6 +172,15 @@ public class SistemaDeCrafteo {
 				inventario.getFaltantes(ingredientesNecesarios(objeto)));
 	}
 
+	/**
+     * Devuelve los ingredientes básicos que faltan para craftear un objeto desde cero.
+     * Segun la primer receta.
+     * Evalúa todos los niveles de la cadena de crafteo hasta los ingredientes básicos.
+     * 
+     * @param objeto Objeto crafteable a evaluar.
+     * @return Mapa de ingredientes básicos faltantes y sus cantidades necesarias.
+     * @throws IllegalArgumentException Si el objeto es nulo o no tiene receta.
+     */
 	public Map<Objeto, Integer> ingredientesBasicosFaltantesParaCraftear(Objeto objeto) {
 		if (objeto == null) {
 			throw new IllegalArgumentException("No existe objeto:" + objeto);
@@ -120,51 +198,45 @@ public class SistemaDeCrafteo {
 				inventario.getFaltantesBasicos(ingredientesBasicosNecesarios(objeto), recetario));
 	}
 
+	/**
+     * Calcula cuántas unidades de un objeto pueden craftearse con el inventario actual.
+     * Segun la primer receta.
+     * Considera tanto ingredientes directos como la posibilidad de fabricar ingredientes intermedios.
+     * 
+     * @param objeto Objeto crafteable a evaluar.
+     * @return Cantidad máxima de objetos que pueden fabricarse.
+     * @throws IllegalArgumentException Si el objeto es básico o no tiene receta.
+     * @throws UnsupportedOperationException Si no tiene la mesa necesaria.
+     */
 	public int cantidadCrafteable(Objeto objeto) {
 		if (objeto == null) {
 			throw new IllegalArgumentException("No existe objeto:" + objeto);
 		}
-		if (objeto.esBasico()) {
-			throw new UnsupportedOperationException("No se puede craftear un objeto básico: " + objeto);
+		int maxCrafteable = 0;
+		try {
+			maxCrafteable = inventario.cantidadPosibleCraftear(objeto, recetario).getCantidadCrafteable();
+		} catch (UnsupportedOperationException e) {
+			throw e;
+		}
+		catch (IllegalStateException e) {
+			throw e;
 		}
 
-		// busca la receta del objeto.(usa la primera)
-		Receta receta = recetario.buscarReceta(objeto);
-
-		if (receta == null) {
-			throw new IllegalStateException("No existe receta para craftear " + objeto);
-		}
-
-		if (!inventario.tieneMesa(receta.getMesaRequerida())) {
-			throw new UnsupportedOperationException(
-					"No tienes [" + receta.getMesaRequerida() + "] para craftear->" + objeto);
-		}
-
-		int cantidadTotalDisponible = 0; // cantidad disponible de
-		int numLotesCrafteables = Integer.MAX_VALUE;
-
-		// Recorre los ingredientes de la primera receta. Del Objeto inicial a Craftear.
-		for (Map.Entry<Objeto, Integer> entry : receta.getIngredientes().entrySet()) {
-			Objeto ingrediente = entry.getKey();
-			int cantidadNecesariaDelIngrediente = entry.getValue();
-			int cantidadDisponibleDelIngrediente = inventario.getCantidadBasico(ingrediente, recetario);
-
-			int lotesPosibles = Math.floorDiv(cantidadDisponibleDelIngrediente, cantidadNecesariaDelIngrediente);
-
-			// Nos quedamos con el mínimo, ya que estamos limitados por el ingrediente más
-			// escaso
-			numLotesCrafteables = Math.min(numLotesCrafteables, lotesPosibles);
-		}
-
-		cantidadTotalDisponible += numLotesCrafteables * receta.getCantidadProducida();
-
-		int vecesReceta = (numLotesCrafteables == 0) ? 1 : numLotesCrafteables;
-		// System.out.println(
-		// "La cantidad crafteable se ejecuto en: " +
-		// receta.calcularTiempoTotal(recetario) * vecesReceta);
-		return cantidadTotalDisponible;
+		return maxCrafteable;
 	}
 
+	/**
+     * Realiza el crafteo de un objeto y actualiza el inventario.
+     * Segun la primer receta.
+     * Modifica el inventario al consumir ingredientes y añadir el objeto creado.
+     * Registra el crafteo en el historial con detalles de ingredientes y tiempo.
+     * 
+     * @param objeto Objeto crafteable a fabricar.
+     * @param cantidadDeseada Cantidad deseada del objeto.
+     * @return Tiempo total invertido en el crafteo.
+     * @throws IllegalStateException Si no hay suficientes ingredientes o no existe receta.
+     * @throws UnsupportedOperationException Si el objeto es básico o falta la mesa requerida.
+     */
 	public int craftearObjeto(Objeto objeto, int cantACraftear) {
 		if (cantACraftear <= 0) {
 			throw new IllegalArgumentException("La cantidad a craftear debe ser positiva");
@@ -241,6 +313,16 @@ public class SistemaDeCrafteo {
 
 	// *****Implementacion Recetas Alternativas*************
 
+	/**
+     * Devuelve los ingredientes directos necesarios para craftear un objeto específico.
+     * Segun la receta que se siga
+     * Este método solo considera el primer nivel de la receta, sin descomponer ingredientes intermedios.
+     * 
+     * @param objeto Objeto crafteable del que se requieren los ingredientes.
+     * @param indiceReceta El indice de la receta asociada al objeto
+     * @return Mapa de ingredientes y sus cantidades necesarias.
+     * @throws IllegalArgumentException Si el objeto es nulo o no tiene receta.
+     */
 	public Map<Objeto, Integer> ingredientesNecesarios(Objeto objeto, int indiceReceta) {
 		if (objeto == null || indiceReceta < 0) {
 			throw new IllegalArgumentException("No existe objeto:" + objeto);
@@ -256,6 +338,16 @@ public class SistemaDeCrafteo {
 		}
 	}
 
+	/**
+     * Devuelve los ingredientes básicos necesarios para craftear un objeto desde cero.
+     * Segun la receta que se siga
+     * Este método descompone recursivamente todos los ingredientes intermedios hasta llegar a objetos básicos.
+     * 
+     * @param objeto Objeto crafteable del que se requieren los ingredientes básicos.
+     * @param indiceReceta El indice de la receta asociada al objeto
+     * @return Mapa de ingredientes básicos y sus cantidades totales necesarias.
+     * @throws IllegalArgumentException Si el objeto es nulo o no tiene receta.
+     */
 	public Map<Objeto, Integer> ingredientesBasicosNecesarios(Objeto objeto, int indiceReceta) {
 		if (objeto == null) {
 			throw new IllegalArgumentException("No existe objeto:" + objeto);
@@ -270,7 +362,34 @@ public class SistemaDeCrafteo {
 			throw new IllegalArgumentException("El objeto no tiene recetas:" + objeto);
 		}
 	}
+	
+	/**
+     * Devuelve los ingredientes que faltan para craftear un objeto (solo primer nivel).
+     * Segun la receta que se siga
+     * Verifica si el inventario tiene suficientes ingredientes directos para fabricar el objeto.
+     * 
+     * @param objeto Objeto crafteable a evaluar.
+     * @param indiceReceta El indice de la receta asociada al objeto
+     * @return Mapa de ingredientes faltantes y sus cantidades necesarias.
+     * @throws IllegalArgumentException Si el objeto es nulo o no tiene receta.
+     */
+	public Map<Objeto, Integer> ingredientesFaltantesParaCraftear(Objeto objeto, int indiceReceta) {
+		if (objeto == null) {
+			throw new IllegalArgumentException("No existe objeto:" + objeto);
+		}
+		return inventario.getFaltantes(ingredientesNecesarios(objeto,indiceReceta));
+	}
 
+	/**
+     * Devuelve los ingredientes básicos que faltan para craftear un objeto desde cero.
+     * Segun la receta que se siga
+     * Evalúa todos los niveles de la cadena de crafteo hasta los ingredientes básicos.
+     * 
+     * @param objeto Objeto crafteable a evaluar.
+     * @param indiceReceta El indice de la receta asociada al objeto
+     * @return Mapa de ingredientes básicos faltantes y sus cantidades necesarias.
+     * @throws IllegalArgumentException Si el objeto es nulo o no tiene receta.
+     */
 	public Map<Objeto, Integer> ingredientesBasicosFaltantesParaCraftear(Objeto objeto, int indiceReceta) {
 		if (objeto == null) {
 			throw new IllegalArgumentException("No existe objeto:" + objeto);
@@ -283,6 +402,17 @@ public class SistemaDeCrafteo {
 
 	}
 
+	/**
+     * Calcula cuántas unidades de un objeto pueden craftearse con el inventario actual.
+     * Segun la receta que se siga
+     * Considera tanto ingredientes directos como la posibilidad de fabricar ingredientes intermedios.
+     * 
+     * @param objeto Objeto crafteable a evaluar.
+     * @param indiceReceta El indice de la receta asociada al objeto
+     * @return Cantidad máxima de objetos que pueden fabricarse.
+     * @throws IllegalArgumentException Si el objeto es básico o no tiene receta.
+     * @throws UnsupportedOperationException Si no tiene la mesa necesaria.
+     */
 	public int cantidadCrafteable(Objeto objeto, int indiceReceta) {
 		if (objeto == null) {
 			throw new IllegalArgumentException("No existe objeto:" + objeto);
@@ -329,6 +459,19 @@ public class SistemaDeCrafteo {
 
 	}
 
+	/**
+     * Realiza el crafteo de un objeto y actualiza el inventario.
+     * Segun la receta que se siga
+     * Modifica el inventario al consumir ingredientes y añadir el objeto creado.
+     * Registra el crafteo en el historial con detalles de ingredientes y tiempo.
+     * 
+     * @param objeto Objeto crafteable a fabricar.
+     * @param cantidadDeseada Cantidad deseada del objeto.
+     * @param indiceReceta El indice de la receta asociada al objeto
+     * @return Tiempo total invertido en el crafteo.
+     * @throws IllegalStateException Si no hay suficientes ingredientes o no existe receta.
+     * @throws UnsupportedOperationException Si el objeto es básico o falta la mesa requerida.
+     */
 	public int craftearObjetoConReceta(Objeto objeto, int cantACraftear, int indiceReceta) {
 		if (cantACraftear <= 0) {
 			throw new IllegalArgumentException("La cantidad a craftear debe ser positiva");
@@ -394,10 +537,6 @@ public class SistemaDeCrafteo {
 		return tiempoTotal;
 	}
 
-	public HistorialDeCrafteo getHistorialReal() {
-		return historial;
-	};
-
 	// *****Implementacion Arbol de Crafteo*************
 	private void mostrarArbolRecursivo(Receta receta, Recetario recetario, int nivel, 
 			int cantidadNecesaria, int cantidadProducida) {
@@ -424,6 +563,16 @@ public class SistemaDeCrafteo {
 		}
 	}
 
+	/**
+     * Muestra el árbol de crafteo para un objeto específico.
+     * 
+     * Representa visualmente la cadena de recetas necesarias para fabricar el objeto,
+     * incluyendo ingredientes intermedios y básicos.
+     * 
+     * @param objeto Objeto crafteable a mostrar.
+     * @param nivel Profundidad actual en la recursión (para indentación visual).
+     * @throws IllegalArgumentException Si el objeto es básico o no tiene receta.
+     */
 	public void mostrarArbolCrafteo(Objeto objeto) {
 		if (objeto == null) {
 			throw new IllegalArgumentException("No existe objeto:" + objeto);
