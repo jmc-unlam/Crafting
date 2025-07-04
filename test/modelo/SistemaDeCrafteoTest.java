@@ -195,7 +195,7 @@ public class SistemaDeCrafteoTest {
 
 		// Verificando historial hubieron 2 crafteos
 		// el primero para el oxido y el ultimo para la piedra 2 veces
-		List<RegistroCrafteo> historial = sistema.getHistorial();
+		List<RegistroCrafteo> historial = sistema.getHistorial().getRegistros();
 		assertFalse(historial.isEmpty());
 		assertEquals(2, historial.size());
 
