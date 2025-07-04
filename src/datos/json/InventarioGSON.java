@@ -30,7 +30,7 @@ public class InventarioGSON extends ManejadorGSON<List<InventarioSerializable>> 
 	}
 
 	/**
-     * Carga el inventario desde el archivo JSON y lo convierte a un Map<Objeto, Integer>.
+     * Carga el inventario desde el archivo JSON y lo convierte a un Map de Objeto con cantidad.
      * Si falla el archivo, devuelve un mapa vacío. 
      * 
      * @return Mapa de objetos y sus cantidades.
@@ -52,14 +52,14 @@ public class InventarioGSON extends ManejadorGSON<List<InventarioSerializable>> 
 	}
 	
 	/**
-     * Guarda un inventario (Map<Objeto, Integer>) en el archivo JSON.
+     * Guarda un inventario en el archivo JSON.
      * 
      * @param datosAGuardar Mapa de objetos y sus cantidades.
      */
-	public void guardar (Map<Objeto,Integer> datosAGurdar) {
+	public void guardar (Map<Objeto,Integer> datosAGuardar) {
 		
 		List<InventarioSerializable> objetosJSON = new ArrayList<>();
-		for (Map.Entry<Objeto, Integer> obj : datosAGurdar.entrySet()) {
+		for (Map.Entry<Objeto, Integer> obj : datosAGuardar.entrySet()) {
 			objetosJSON.add(new InventarioSerializable(obj.getKey(),obj.getValue()));
 		}
 		super.guardarJSON(objetosJSON);

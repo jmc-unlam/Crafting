@@ -11,7 +11,7 @@ import java.util.NoSuchElementException;
  * determinar cuántos objetos pueden fabricarse y ejecutar crafteos con registro histórico.
  * 
  * Implementa los principios de programación orientada a objetos y sigue el patrón Singleton
- * para el historial de crafteos. Es extensible y permite agregar nuevas recetas sin modificar código existente.</p>
+ * para el historial de crafteos. Es extensible y permite agregar nuevas recetas sin modificar código existente.
  * 
  * Funcionalidades principales:
  * 
@@ -232,7 +232,7 @@ public class SistemaDeCrafteo {
      * Registra el crafteo en el historial con detalles de ingredientes y tiempo.
      * 
      * @param objeto Objeto crafteable a fabricar.
-     * @param cantidadDeseada Cantidad deseada del objeto.
+     * @param cantACraftear Cantidad deseada del objeto.
      * @return Tiempo total invertido en el crafteo.
      * @throws IllegalStateException Si no hay suficientes ingredientes o no existe receta.
      * @throws UnsupportedOperationException Si el objeto es básico o falta la mesa requerida.
@@ -466,7 +466,7 @@ public class SistemaDeCrafteo {
      * Registra el crafteo en el historial con detalles de ingredientes y tiempo.
      * 
      * @param objeto Objeto crafteable a fabricar.
-     * @param cantidadDeseada Cantidad deseada del objeto.
+     * @param cantACraftear Cantidad deseada del objeto.
      * @param indiceReceta El indice de la receta asociada al objeto
      * @return Tiempo total invertido en el crafteo.
      * @throws IllegalStateException Si no hay suficientes ingredientes o no existe receta.
@@ -570,7 +570,6 @@ public class SistemaDeCrafteo {
      * incluyendo ingredientes intermedios y básicos.
      * 
      * @param objeto Objeto crafteable a mostrar.
-     * @param nivel Profundidad actual en la recursión (para indentación visual).
      * @throws IllegalArgumentException Si el objeto es básico o no tiene receta.
      */
 	public void mostrarArbolCrafteo(Objeto objeto) {

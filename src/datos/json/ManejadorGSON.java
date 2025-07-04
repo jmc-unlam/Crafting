@@ -25,7 +25,7 @@ import java.lang.reflect.Type;
  * 
  * @author Jorge
  * @version 1.0
- * @param <T> Tipo de datos a serializar (ej.: List<InventarioSerializable>).
+ * @param <T> Tipo de datos a serializar.
  */
 public abstract class ManejadorGSON<T> {
 	private final String rutaArchivo;
@@ -91,7 +91,7 @@ public abstract class ManejadorGSON<T> {
     /**
      * Guarda datos en un archivo JSON.
      * 
-     * @param datos Datos a guardar.
+     * @param datosAGuardar datos Datos a guardar.
      */
     public void guardarJSON(T datosAGuardar) {
         try (FileWriter writer = new FileWriter(rutaArchivo)) {
