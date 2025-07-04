@@ -65,7 +65,7 @@ public class Main {
 				interrupcion(scanner);
 				break;
 			case 7: // 7. Historial de crafteos
-				System.out.println(sistema.getHistorialReal().toString());
+				System.out.println(sistema.getHistorial().toString());
 				interrupcion(scanner);
 				break;
 			case 8: // 8. Recolectar Objetos Básicos / Comprar Intermedios o Vender del inventario.
