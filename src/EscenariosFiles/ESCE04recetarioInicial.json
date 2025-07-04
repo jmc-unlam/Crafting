@@ -1,6 +1,6 @@
 [
   {
-    "objetoProducido": {"nombre": "Mesa de Generica","tipo": "mesa de generica"},
+    "objetoProducido": {"nombre": "Mesa Generica","tipo": "mesa de generica"},
     "ingredientes": [
       {
 		  "objeto": {"nombre": "madera", "tipo": "basico" }, 
