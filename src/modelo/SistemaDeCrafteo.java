@@ -244,17 +244,22 @@ public class SistemaDeCrafteo {
 	}
 	
 	// *****Implementacion Arbol de Crafteo*************
-	private void mostrarArbolRecursivo(Receta receta, Recetario recetario, int nivel, 
+	private int mostrarArbolRecursivo(Receta receta, Recetario recetario, int nivel, 
 			int cantidadNecesaria, int cantidadProducida) {
 
 		StringBuilder espacio = new StringBuilder();
 		for (int i = 0; i < nivel; i++) {
 			espacio.append("  ");
 		}
+		int vecesReceta = Math.ceilDiv(cantidadNecesaria, receta.getCantidadProducida());
 		Objeto objeto = receta.getObjetoProducido();
 		cantidadProducida = receta.getCantidadProducida();
+		int tiempoBase = receta.getTiempoBase();
 		
-		System.out.println(espacio + "└─ "+cantidadNecesaria+"x[" + objeto.getNombre() + " x"+cantidadProducida+"]");
+		System.out.println(
+				espacio + "└─ "+cantidadNecesaria+"x[" + objeto.getNombre() + " x"+cantidadProducida+" t="+tiempoBase+"x"+vecesReceta+"veces]");
+		
+		tiempoBase = receta.getTiempoBase()*vecesReceta;
 
 		for (Map.Entry<Objeto, Integer> entry : receta.getIngredientes().entrySet()) {
 			Objeto ingrediente = entry.getKey();
@@ -262,11 +267,13 @@ public class SistemaDeCrafteo {
 
 			if (!ingrediente.esBasico()) {
 				Receta subReceta = recetario.buscarReceta(ingrediente);
-				mostrarArbolRecursivo(subReceta, recetario, nivel + 1,cantidadIngrediente,cantidadProducida);
+				tiempoBase += mostrarArbolRecursivo(subReceta, recetario, nivel + 1,cantidadIngrediente,cantidadProducida);
 			} else {
 				System.out.println(espacio + "  └─ "+cantidadIngrediente+"x(" + ingrediente.getNombre()+")");
 			}
 		}
+		
+		return tiempoBase;
 	}
 
 	/**
@@ -291,7 +298,9 @@ public class SistemaDeCrafteo {
 			
 
 			int cantidad = receta.getCantidadProducida();
-			mostrarArbolRecursivo(receta, recetario, 0, cantidad,cantidad);
+			int tiempoTotal = mostrarArbolRecursivo(receta, recetario, 0, cantidad,cantidad);
+			
+			System.out.println("===Arbol de crafteo Tardo: (" + tiempoTotal + ") min");
 		} catch (NoSuchElementException e) {
 			throw new IllegalArgumentException("El objeto no tiene receta:" + objeto);
 		}
