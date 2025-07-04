@@ -4,6 +4,14 @@ import com.google.gson.annotations.SerializedName;
 
 import modelo.Objeto;
 
+/**
+ * Clase Data Transfer Object (DTO) que representa un objeto y su cantidad en el inventario.
+ * Se utiliza para la serialización/deserialización con GSON, 
+ * garantizando que el modelo no tenga dependencia directa con la capa de persistencia.
+ * 
+ * @author Jorge
+ * @version 1.0
+ */
 public class InventarioSerializable {
 	@SerializedName("objeto")
     private Objeto objeto;

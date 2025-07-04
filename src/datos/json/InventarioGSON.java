@@ -9,14 +9,32 @@ import com.google.gson.reflect.TypeToken;
 
 import modelo.Objeto;
 
+/**
+ * Manejador específico para la serialización del inventario usando GSON.
+ * Carga y guarda datos en formato JSON, convirtiendo entre objetos del modelo y estructuras serializables.
+ * 
+ * @author Jorge
+ * @version 1.0
+ */
 public class InventarioGSON extends ManejadorGSON<List<InventarioSerializable>> {
 
+	/**
+     * Constructor que inicializa el manejador con la ruta del archivo.
+     * 
+     * @param rutaArchivo Ruta del archivo JSON.
+     */
 	public InventarioGSON(String rutaArchivo) {
 		super(rutaArchivo);
 		datos = new ArrayList<>();
 		listType =  new TypeToken<List<InventarioSerializable>>() {}.getType();
 	}
 
+	/**
+     * Carga el inventario desde el archivo JSON y lo convierte a un Map<Objeto, Integer>.
+     * Si falla el archivo, devuelve un mapa vacío. 
+     * 
+     * @return Mapa de objetos y sus cantidades.
+     */
 	public Map<Objeto,Integer> cargar() {
 		super.cargarJSON();
 		System.out.println("Inventario leido desde: " + super.getRutaArchivo());
@@ -33,6 +51,11 @@ public class InventarioGSON extends ManejadorGSON<List<InventarioSerializable>> 
         return objetos;
 	}
 	
+	/**
+     * Guarda un inventario (Map<Objeto, Integer>) en el archivo JSON.
+     * 
+     * @param datosAGuardar Mapa de objetos y sus cantidades.
+     */
 	public void guardar (Map<Objeto,Integer> datosAGurdar) {
 		
 		List<InventarioSerializable> objetosJSON = new ArrayList<>();

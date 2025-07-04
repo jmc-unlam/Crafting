@@ -19,12 +19,26 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
 
+/**
+ * Clase genérica para manejar la serialización y deserialización con GSON.
+ * Permite cargar y guardar colecciones de datos sin acoplar el modelo a la capa de persistencia.
+ * 
+ * @author Jorge
+ * @version 1.0
+ * @param <T> Tipo de datos a serializar (ej.: List<InventarioSerializable>).
+ */
 public abstract class ManejadorGSON<T> {
 	private final String rutaArchivo;
 	protected Gson gson;
 	protected T datos;
 	protected Type listType;
 
+	/**
+     * Constructor que inicializa el manejador con la ruta del archivo.
+     * Registra las clases que son utilizadas en la des/serializacion
+     * 
+     * @param rutaArchivo Ruta del archivo JSON a usar.
+     */
 	public ManejadorGSON(String rutaArchivo) {
     	this.rutaArchivo = rutaArchivo;
         this.gson = new GsonBuilder()
@@ -50,6 +64,11 @@ public abstract class ManejadorGSON<T> {
                 .create();
     }
     
+	/**
+     * Carga datos desde un archivo JSON.
+     * 
+     * @return Colección de datos cargada.
+     */
     public T cargarJSON() {
         try (FileReader reader = new FileReader(rutaArchivo)) {
         	File file = new File(rutaArchivo);
@@ -69,6 +88,11 @@ public abstract class ManejadorGSON<T> {
         return this.datos;
     }
     
+    /**
+     * Guarda datos en un archivo JSON.
+     * 
+     * @param datos Datos a guardar.
+     */
     public void guardarJSON(T datosAGuardar) {
         try (FileWriter writer = new FileWriter(rutaArchivo)) {
             gson.toJson(datosAGuardar, writer);
@@ -78,6 +102,11 @@ public abstract class ManejadorGSON<T> {
         }
     }
 
+    /**
+     * Devuelve la ruta del archivo usado para persistencia.
+     * 
+     * @return Ruta del archivo.
+     */
 	public String getRutaArchivo() {
 		return new String(rutaArchivo);
 	}

@@ -9,6 +9,13 @@ import modelo.MesaDeTrabajo;
 import modelo.Objeto;
 import modelo.Receta;
 
+/**
+ * Clase Data Transfer Object (DTO) que representa una receta para la serialización.
+ * Se usa para convertir recetas del modelo a una estructura serializable y viceversa.
+ * 
+ * @author Jorge
+ * @version 1.0
+ */
 public class RecetaSerializable {
 
 	private Objeto objetoProducido;
