@@ -180,19 +180,31 @@ public class SistemaDeCrafteo {
 		if (cantACraftear <= 0) {
 			throw new IllegalArgumentException("La cantidad a craftear debe ser positiva");
 		}
+		
+		// verificar si se puede apilar y q este en el inventario.
+		if (inventario.getCantidad(objeto) >= 1 && !objeto.esApilable()) {
+			throw new UnsupportedOperationException(
+					"No se puede crafear porque ya lo tienes, no es apilable: " + objeto);
+		}
+		
+		//Si no es apilable y la cantidad es mayor a 1. Solo debe seguir si es 1.
 		if (!objeto.esApilable() && cantACraftear > 1) {
 			throw new UnsupportedOperationException("No se puede crafear la cantidad de " + cantACraftear
 					+ " , no es apilable solo admite 1 unidad: " + objeto);
 		}
+		
+		if (objeto.esBasico()) {
+			throw new UnsupportedOperationException("No se puede craftear un objeto básico: " + objeto);
+		}
+		
 		// Verificar si es posible craftear la cantidad solicitada
 		int maxCrafteable = inventario.cantidadPosibleCraftear(objeto, recetario).getCantidadCrafteable();
+		
 		if (maxCrafteable < cantACraftear) {
 			throw new IllegalStateException(
 					"No hay suficientes materiales para craftear " + cantACraftear + " " + objeto);
 		}
-		if (objeto.esBasico()) {
-			throw new UnsupportedOperationException("No se puede craftear un objeto básico: " + objeto);
-		}
+		
 		Receta receta = recetario.buscarReceta(objeto);
 		if (receta == null) {
 			throw new IllegalStateException("No existe receta para craftear " + objeto);
@@ -202,11 +214,7 @@ public class SistemaDeCrafteo {
 			throw new UnsupportedOperationException(
 					"No tienes [" + receta.getMesaRequerida() + "] para craftear->" + objeto);
 		}
-		// verificar si se puede apilar y q este en el inventario.
-		if (inventario.getCantidad(objeto) >= 1 && !objeto.esApilable()) {
-			throw new UnsupportedOperationException(
-					"No se puede crafear porque ya lo tienes, no es apilable: " + objeto);
-		}
+		
 
 		// cuantos lotes de la receta necesitamos ejecutar.
 		int vecesReceta = Math.ceilDiv(cantACraftear, receta.getCantidadProducida());
