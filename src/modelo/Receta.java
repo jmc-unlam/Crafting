@@ -103,7 +103,7 @@ public class Receta implements Comparable<Receta> {
 		tiempoTotal *= vecesReceta;
 		for (Map.Entry<Objeto, Integer> entry : ingredientes.entrySet()) {
 			Objeto ingrediente = entry.getKey();
-			int cantidadIngrediente = entry.getValue();
+			int cantidadIngrediente = entry.getValue()*vecesReceta;
 			if (!ingrediente.esBasico()) {
 				Receta recetaIngrediente = recetario.buscarReceta(ingrediente);
 

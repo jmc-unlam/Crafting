@@ -245,31 +245,32 @@ public class SistemaDeCrafteo {
 	
 	// *****Implementacion Arbol de Crafteo*************
 	private int mostrarArbolRecursivo(Receta receta, Recetario recetario, int nivel, 
-			int cantidadNecesaria, int cantidadProducida) {
+			int cantidadNecesaria) {
 
 		StringBuilder espacio = new StringBuilder();
 		for (int i = 0; i < nivel; i++) {
 			espacio.append("  ");
 		}
-		int vecesReceta = Math.ceilDiv(cantidadNecesaria, receta.getCantidadProducida());
 		Objeto objeto = receta.getObjetoProducido();
-		cantidadProducida = receta.getCantidadProducida();
+		int cantidadProducida = receta.getCantidadProducida();
 		int tiempoBase = receta.getTiempoBase();
+		int vecesReceta = Math.ceilDiv(cantidadNecesaria, cantidadProducida);
 		
 		System.out.println(
-				espacio + "└─ "+cantidadNecesaria+"x[" + objeto.getNombre() + " x"+cantidadProducida+" t="+tiempoBase+"x"+vecesReceta+"veces]");
+				espacio + "└─ "+cantidadNecesaria+"x[" + objeto.getNombre() + " x"+cantidadProducida+" t="+tiempoBase+"]x"+vecesReceta+" veces");
+		
 		
 		tiempoBase = receta.getTiempoBase()*vecesReceta;
 
 		for (Map.Entry<Objeto, Integer> entry : receta.getIngredientes().entrySet()) {
 			Objeto ingrediente = entry.getKey();
-			int cantidadIngrediente = entry.getValue();
-
+			int cantidadIngrediente = entry.getValue()*vecesReceta;
+			
 			if (!ingrediente.esBasico()) {
 				Receta subReceta = recetario.buscarReceta(ingrediente);
-				tiempoBase += mostrarArbolRecursivo(subReceta, recetario, nivel + 1,cantidadIngrediente,cantidadProducida);
+				tiempoBase += mostrarArbolRecursivo(subReceta, recetario, nivel + 1,cantidadIngrediente);
 			} else {
-				System.out.println(espacio + "  └─ "+cantidadIngrediente+"x(" + ingrediente.getNombre()+")");
+				System.out.println(espacio + "  └─ "+cantidadIngrediente+"x(" + ingrediente.getNombre()+")x"+vecesReceta+" veces");
 			}
 		}
 		
@@ -298,7 +299,7 @@ public class SistemaDeCrafteo {
 			
 
 			int cantidad = receta.getCantidadProducida();
-			int tiempoTotal = mostrarArbolRecursivo(receta, recetario, 0, cantidad,cantidad);
+			int tiempoTotal = mostrarArbolRecursivo(receta, recetario, 0, cantidad);
 			
 			System.out.println("===Arbol de crafteo Tardo: (" + tiempoTotal + ") min");
 		} catch (NoSuchElementException e) {
