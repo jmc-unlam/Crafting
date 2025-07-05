@@ -96,20 +96,18 @@ public class Receta implements Comparable<Receta> {
      * @param recetario Recetario que proporciona acceso a las recetas de los ingredientes.
      * @return Tiempo total acumulado.
      */
-	public int calcularTiempoTotal(Recetario recetario) {
+	public int calcularTiempoTotal(Recetario recetario, int cantidadNecesaria) {
 		int tiempoTotal = tiempoBase;
+		int vecesReceta = Math.ceilDiv(cantidadNecesaria, this.getCantidadProducida());
+		
+		tiempoTotal *= vecesReceta;
 		for (Map.Entry<Objeto, Integer> entry : ingredientes.entrySet()) {
 			Objeto ingrediente = entry.getKey();
 			int cantidadIngrediente = entry.getValue();
 			if (!ingrediente.esBasico()) {
 				Receta recetaIngrediente = recetario.buscarReceta(ingrediente);
 
-				int vecesReceta = cantidadIngrediente / recetaIngrediente.getCantidadProducida();
-				if (cantidadIngrediente % recetaIngrediente.getCantidadProducida() != 0) {
-					vecesReceta = Math.ceilDiv(cantidadIngrediente, recetaIngrediente.getCantidadProducida());
-				}
-
-				tiempoTotal += vecesReceta * recetaIngrediente.calcularTiempoTotal(recetario);
+				tiempoTotal += recetaIngrediente.calcularTiempoTotal(recetario,cantidadIngrediente);
 			}
 		}
 		return tiempoTotal;

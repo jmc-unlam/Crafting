@@ -95,7 +95,7 @@ public class SistemaDeCrafteo {
 		try {
 			Receta receta = recetario.buscarReceta(objeto);
 
-			return new Resultado(1, receta.calcularTiempoTotal(recetario), objeto,
+			return new Resultado(1, receta.calcularTiempoTotal(recetario,receta.getCantidadProducida()), objeto,
 					receta.getIngredientesBasicos(recetario,receta.getCantidadProducida()));
 		} catch (NoSuchElementException e) {
 			throw new IllegalArgumentException("El objeto no tiene receta:" + objeto);
@@ -134,7 +134,7 @@ public class SistemaDeCrafteo {
 		}
 		Receta receta = recetario.buscarReceta(objeto);
 
-		return new Resultado(1, receta.calcularTiempoTotal(recetario), objeto,
+		return new Resultado(1, receta.calcularTiempoTotal(recetario,receta.getCantidadProducida()), objeto,
 				inventario.getFaltantesBasicos(ingredientesBasicosNecesariosConTiempo(objeto).getIngredientes(), recetario));
 	}
 	

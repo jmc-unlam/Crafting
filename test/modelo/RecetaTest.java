@@ -75,7 +75,7 @@ class RecetaTest {
 
 	@Test
 	void calcularTiempoTotalParaRecetaSimple() {
-		assertEquals(2, recetaClavo.calcularTiempoTotal(recetario));
+		assertEquals(2, recetaClavo.calcularTiempoTotal(recetario,recetaClavo.getCantidadProducida()));
 	}
 
 	@Test
@@ -83,7 +83,7 @@ class RecetaTest {
 		when(recetario.buscarReceta(clavo)).thenReturn(recetaClavo);
 		// Mesa: 10 (tiempo base) + 10 clavos * (2 tiempo cada clavo / 5 clavos por
 		// receta)
-		assertEquals(14, recetaMesa.calcularTiempoTotal(recetario));
+		assertEquals(14, recetaMesa.calcularTiempoTotal(recetario,recetaMesa.getCantidadProducida()));
 	}
 
 	@Test
@@ -114,7 +114,7 @@ class RecetaTest {
 		});
 
 		assertThrows(NullPointerException.class, () -> {
-			recetaMesa.calcularTiempoTotal(recetario);
+			recetaMesa.calcularTiempoTotal(recetario,recetaMesa.getCantidadProducida());
 		});
 	}
 }
