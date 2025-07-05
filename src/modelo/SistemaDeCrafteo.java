@@ -264,11 +264,11 @@ public class SistemaDeCrafteo {
 
 		for (Map.Entry<Objeto, Integer> entry : receta.getIngredientes().entrySet()) {
 			Objeto ingrediente = entry.getKey();
-			int cantidadIngrediente = entry.getValue()*vecesReceta;
+			int cantidadIngrediente = entry.getValue();
 			
 			if (!ingrediente.esBasico()) {
 				Receta subReceta = recetario.buscarReceta(ingrediente);
-				tiempoBase += mostrarArbolRecursivo(subReceta, recetario, nivel + 1,cantidadIngrediente);
+				tiempoBase += mostrarArbolRecursivo(subReceta, recetario, nivel + 1,cantidadIngrediente*vecesReceta);
 			} else {
 				System.out.println(espacio + "  └─ "+cantidadIngrediente+"x(" + ingrediente.getNombre()+")x"+vecesReceta+" veces");
 			}
