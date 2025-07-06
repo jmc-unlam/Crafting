@@ -1,6 +1,7 @@
 package main;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -10,6 +11,7 @@ import datos.json.RecetaGSON;
 import modelo.HistorialDeCrafteo;
 import modelo.Inventario;
 import modelo.MesaDeFundicion;
+import modelo.MesaDePiedra;
 import modelo.Objeto;
 import modelo.ObjetoBasico;
 import modelo.ObjetoIntermedio;
@@ -310,6 +312,27 @@ public class Escenarios {
 			System.out.println(inventario);
 			System.out.println(ESCENARIOS_SEPARADOR);
 		}
+	}
+	
+	public static void escenarioMesaDePiedraTieneCiclos(Scanner scanner) { 
+		scanner.nextLine(); 
+		System.out.println("======Preparo para Craftear La Mesa De Piedra========");
+		Inventario inventario = new Inventario(new InventarioGSON(Config.INVENTARIO_PIEDRA).cargar());
+		Recetario recetario = new Recetario(new RecetaGSON(Config.RECETA_MESAPIEDRA).cargar());
+		SistemaDeCrafteo sistema = new SistemaDeCrafteo(inventario, recetario);
+		System.out.println(inventario);
+		System.out.println(recetario);
+		interrupcionAnimadaConBarras(scanner);
+		System.out.println("======Las recetas de la mesa de piedra antes de crear========");
+		List<Receta> recetasDePiedra = new RecetaGSON(Config.RECETAS_DEPIEDRA).cargar();
+		System.out.println(recetasDePiedra);
+		System.out.println("======Crafteo La Mesa De Piedra========");
+		sistema.craftearObjeto(new MesaDePiedra(), 1);
+		System.out.println("======Las Recetas que se cargan al ser producido========");
+		System.out.println(recetario);
+		System.out.println("======Crafteo algo========");
+		
+		
 	}
 
 	public static void esce03EquipamientoDeArquero(Scanner scanner) {
