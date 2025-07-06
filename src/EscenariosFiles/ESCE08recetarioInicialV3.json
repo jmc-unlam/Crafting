@@ -4,21 +4,6 @@
       {
 		  "objeto": {"nombre": "Madera", "tipo": "basico" }, 
 		  "cantidad": 2 
-	  },
-	  {
-		  "objeto": {"nombre": "BUCLE", "tipo": "intermedio" }, 
-		  "cantidad": 1 
-	  }
-    ],
-    "cantidadProducida": 10,
-    "tiempoBase": 10
-  },
-  {
-    "objetoProducido": {"nombre": "BUCLE","tipo": "intermedio"},
-    "ingredientes": [
-      {
-		  "objeto": {"nombre": "Palo", "tipo": "intermedio" }, 
-		  "cantidad": 2 
 	  }
     ],
     "cantidadProducida": 10,
@@ -176,18 +161,18 @@
     "ingredientes": [
       {
 		  "objeto": {"nombre": "Equipamiento para Arquero", "tipo": "intermedio" }, 
-		  "cantidad": 1 
+		  "cantidad": 3 
 	  },
       {
 		  "objeto": {"nombre": "Hacha de Piedra", "tipo": "intermedio" }, 
-		  "cantidad": 2
+		  "cantidad": 6
 	  },
       {
 		  "objeto": {"nombre": "Antorcha", "tipo": "intermedio" }, 
-		  "cantidad": 3
+		  "cantidad": 9
 	  }
     ],
-    "cantidadProducida": 1,
-    "tiempoBase": 10
+    "cantidadProducida": 3,
+    "tiempoBase": 30
   }
 ]

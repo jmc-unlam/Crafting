@@ -47,4 +47,14 @@ public class Config {
 	public static final String INVENTARIO_PIEDRA = "res/piedra/inventario_piedra.json";
 	public static final String RECETA_MESAPIEDRA = "res/piedra/receta_mesapiedra.json";
 	public static final String RECETAS_DEPIEDRA = "src/mesasRecetarios/mesa de piedra.json";
+	
+	// Escenario 07.
+	public static final String ESCE07_RUTA_INICIO_INVENTARIO = ESCENARIOSFILES_DIR + "ESCE07inventarioInicial.json";
+	public static final String ESCE07_RUTA_INICIO_RECETARIO = ESCENARIOSFILES_DIR + "ESCE07recetarioInicial.json";
+	
+	// Escenario 08.
+	public static final String ESCE08_RUTA_INICIO_INVENTARIO = ESCENARIOSFILES_DIR + "ESCE08inventarioInicial.json";
+	public static final String ESCE08_RUTA_INICIO_RECETARIO = ESCENARIOSFILES_DIR + "ESCE08recetarioInicial.json";
+	public static final String ESCE08_RUTA_INICIO_RECETARIOV2 = ESCENARIOSFILES_DIR + "ESCE08recetarioInicialV2.json";
+	public static final String ESCE08_RUTA_INICIO_RECETARIOV3 = ESCENARIOSFILES_DIR + "ESCE08recetarioInicialV3.json";
 }

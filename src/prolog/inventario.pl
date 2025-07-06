@@ -1,5 +1,6 @@
 % Objetos en el inventario
 inventario('Téndon',2).
+inventario('Mesa de Flechas',1).
 inventario('Carcaj',1).
 inventario('Arco compuesto',1).
 inventario('Flechas',15).

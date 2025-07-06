@@ -89,17 +89,21 @@ public class SistemaDeCrafteo {
      * @throws IllegalArgumentException Si el objeto es nulo o no tiene receta.
      */
 	public Resultado ingredientesBasicosNecesariosConTiempo(Objeto objeto) {
+		Receta receta;
+		
 		if (objeto == null) {
 			throw new IllegalArgumentException("No existe objeto:" + objeto);
 		}
 		try {
-			Receta receta = recetario.buscarReceta(objeto);
+			receta = recetario.buscarReceta(objeto);
 
-			return new Resultado(1, receta.calcularTiempoTotal(recetario,receta.getCantidadProducida()), objeto,
-					receta.getIngredientesBasicos(recetario,receta.getCantidadProducida()));
 		} catch (NoSuchElementException e) {
 			throw new IllegalArgumentException("El objeto no tiene receta:" + objeto);
 		}
+		
+		return new Resultado(1, receta.calcularTiempoTotal(recetario,receta.getCantidadProducida()), objeto,
+				receta.getIngredientesBasicos(recetario,receta.getCantidadProducida()));
+		
 	}
 
 	/**
@@ -298,21 +302,24 @@ public class SistemaDeCrafteo {
 		if (objeto == null) {
 			throw new IllegalArgumentException("No existe objeto:" + objeto);
 		}
+		Receta receta;
 		try {
-			Receta receta = recetario.buscarReceta(objeto);
-			System.out.println("===========================");
-			System.out.println("===Arbol de crafteo -> " + objeto + "===");
-			System.out.println(" [] = Intermedios / () Basicos / #<- Necesario / #-> producido.");
-			System.out.println("===========================");
-			
-
-			int cantidad = receta.getCantidadProducida();
-			int tiempoTotal = mostrarArbolRecursivo(receta, recetario, 0, cantidad);
-			
-			System.out.println("===Arbol de crafteo Tardo: (" + tiempoTotal + ") min");
+			receta = recetario.buscarReceta(objeto);
 		} catch (NoSuchElementException e) {
 			throw new IllegalArgumentException("El objeto no tiene receta:" + objeto);
 		}
+		
+		System.out.println("===========================");
+		System.out.println("===Arbol de crafteo -> " + objeto + "===");
+		System.out.println(" [] = Intermedios / () Basicos / #<- Necesario / #-> producido.");
+		System.out.println("===========================");
+		
+
+		int cantidad = receta.getCantidadProducida();
+		int tiempoTotal = mostrarArbolRecursivo(receta, recetario, 0, cantidad);
+		
+		System.out.println("===Arbol de crafteo Tardo: (" + tiempoTotal + ") min");
+		
 	}
 
 	// *****Implementacion Recetas Alternativas*************

@@ -1,0 +1,30 @@
+[
+  {
+    "objeto": {
+      "tipo": "basico",
+      "nombre": "Madera"
+    },
+    "cantidad": 50
+  },
+  {
+    "objeto": {
+      "tipo": "basico",
+      "nombre": "ladrillo"
+    },
+    "cantidad":50
+  },
+  {
+    "objeto": {
+      "tipo": "basico",
+      "nombre": "Hierro"
+    },
+    "cantidad": 14
+  },
+  {
+    "objeto": {
+      "tipo": "intermedio",
+      "nombre": "lingote de hierro"
+    },
+    "cantidad": 14
+  }
+]

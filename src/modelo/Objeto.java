@@ -11,7 +11,7 @@ import java.util.Objects;
  * @author Grupo Gamma
  * @version 1.0
  */
-public abstract class Objeto {
+public abstract class Objeto implements Comparable<Objeto> {
 	
 	private String nombre;
 
@@ -113,5 +113,11 @@ public abstract class Objeto {
 		}
 		Objeto other = (Objeto) obj;
 		return Objects.equals(nombre, other.nombre);
+	}
+	
+	@Override
+	public int compareTo(Objeto o) {
+
+		return this.nombre.compareTo(o.nombre);
 	}
 }

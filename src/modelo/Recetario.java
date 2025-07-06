@@ -294,8 +294,10 @@ public class Recetario {
 			listaObjetos.add(objetosCrafteable);
 		}
 
+		Collections.sort(listaObjetos);
+		
 		this.mostrarListaObjetos(listaObjetos, "--Lista de Objetos a Craftear.");
-
+		
 		return listaObjetos;
 	}
 
@@ -345,6 +347,8 @@ public class Recetario {
 		}
 
 		List<Objeto> listaObjetos = new ArrayList<>(listaObjetosOri);
+		
+		Collections.sort(listaObjetos);
 		
 		this.mostrarListaObjetos(listaObjetos, "--Lista de Objetos a Farmeables.");
 

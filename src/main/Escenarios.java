@@ -69,6 +69,9 @@ public class Escenarios {
 		System.out.println("3. Escenarios Puntos 5-6-7 Equipamiento de Arquero:");
 		System.out.println("4. Escenarios Prueba de craftear 2 mesas de trabajo diferente:");
 		System.out.println("5. Escenarios Mesa de trabajo agregando recetas múltiples:");
+		System.out.println("6. ");
+		System.out.println("7. Escenarios Mesa de trabajo agregando recetas múltiples:");
+		System.out.println("8. Cantidades necesarias de un objeto completo con dif. cantidades:");
 		System.out.println("0. Volver al Menú.\n");
 
 		boolean salir = true;
@@ -103,6 +106,14 @@ public class Escenarios {
 				break;
 			case 5:
 				Escenarios.esce05RecetasMultiplesCon(scanner);
+				break;
+			case 6:
+				break;
+			case 7:
+				Escenarios.esce07RecetaBUCLE(scanner);
+				break;
+			case 8:
+				Escenarios.esce08EquipoCompleto(scanner);
 				break;
 			case 0:
 				salir = false;
@@ -488,6 +499,77 @@ public class Escenarios {
 		new InventarioGSON(Config.ESCE05_RUTA_FINAL_INVENTARIO).guardar(inventario.getObjetos());
 
 		System.out.println("\n\nFIN del Escenario 05.\n\n");
+	}
+	
+	/**
+	 * Escenario para probar las recetas sin fin.
+	 * @param scanner
+	 */
+	public static void esce07RecetaBUCLE(Scanner scanner) {
+		System.out.println("ESCENARIO07:");
+		System.out.println("Se intenta importar un conjunto de rectas con una ciclo sin fin en una de ellas:");
+		Recetario recetario = new Recetario(new RecetaGSON(Config.ESCE07_RUTA_INICIO_RECETARIO).cargar());
+		
+		System.out.println(recetario);
+		System.out.println("\n\nSe intenta seleccionar de las recetas el objeto con el ciclo.:");
+		recetario.objetoCrafteable("Objeto Bucle");
+		System.out.println("\n\nFIN 07.:");
+		interrupcion(scanner);
+	}
+	
+	/**
+	 * Escenario Incremental para mostrar los insumos y tiempos al incrementar
+	 *  la cantidad inicial para hacer el equipo completo.
+	 * 
+	 * @param scanner
+	 */
+	public static void esce08EquipoCompleto(Scanner scanner) {
+		System.out.println("ESCENARIO08:");
+		System.out.println("Escenario Incremental para mostrar los insumos y tiempos al incrementar");
+		System.out.println(" la cantidad inicial para hacer el equipo completo usando 3 recetas diferentes q emulan ir incrementando su cantidad en +1.");
+		
+		Recetario recetario = new Recetario(new RecetaGSON(Config.ESCE08_RUTA_INICIO_RECETARIO).cargar());
+		Inventario inventario = new Inventario(new InventarioGSON(Config.ESCE08_RUTA_INICIO_INVENTARIO).cargar(),recetario);
+		
+		SistemaDeCrafteo sistema = new SistemaDeCrafteo(inventario, recetario);
+		
+		Objeto objConsultar = recetario.objetoCrafteable("Equipamiento Completo");
+		
+		
+		System.out.println("\n**** Cantidad y Tiempo de un crafteo.\n");
+		sistema.ingredientesBasicosNecesariosConTiempo(objConsultar).informarCantidadOpcion2();
+		interrupcion(scanner);
+		
+		Recetario recetario2 = new Recetario(new RecetaGSON(Config.ESCE08_RUTA_INICIO_RECETARIOV2).cargar());
+		inventario = new Inventario(new InventarioGSON(Config.ESCE08_RUTA_INICIO_INVENTARIO).cargar(),recetario2);
+		sistema = new SistemaDeCrafteo(inventario, recetario2);
+		
+		System.out.println("\n**** Cantidad y Tiempo de DOS crafteos.\n");
+		
+		sistema.ingredientesBasicosNecesariosConTiempo(objConsultar).informarCantidadOpcion2();
+		interrupcion(scanner);
+		
+		Recetario recetario3 = new Recetario(new RecetaGSON(Config.ESCE08_RUTA_INICIO_RECETARIOV3).cargar());
+		inventario = new Inventario(new InventarioGSON(Config.ESCE08_RUTA_INICIO_INVENTARIO).cargar(),recetario3);
+		sistema = new SistemaDeCrafteo(inventario, recetario3);
+		
+		System.out.println("\n**** Cantidad y Tiempo de TRES crafteos.\n");
+		
+		sistema.ingredientesBasicosNecesariosConTiempo(objConsultar).informarCantidadOpcion2();
+		
+		System.out.println("\n**** Crear el Equipamiento Completo.\n");
+		interrupcion(scanner);
+		
+		new Resultado(1, sistema.craftearObjeto(objConsultar, 1), objConsultar)
+		.informarTiempoCrafteoOpcion6();
+		
+		System.out.println("\n**** Mostrar el historial de crafteo.\n");
+		interrupcion(scanner);
+		
+		System.out.println(sistema.getHistorial().toString());
+		
+		System.out.println("\n**** FIN DEL ESCENARIO 08.\n");
+		interrupcion(scanner);
 	}
 
 }

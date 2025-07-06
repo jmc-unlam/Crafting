@@ -21,6 +21,7 @@ ingrediente('Equipamiento Completo', 'Hacha de Piedra', 2).
 ingrediente('Equipamiento Completo', 'Antorcha', 3).
 ingrediente('Equipamiento Completo', 'Equipamiento para Arquero', 1).
 ingrediente('Palo', 'Madera', 2).
+ingrediente('Palo', 'BUCLE', 1).
 ingrediente('Carcaj', 'Madera', 2).
 ingrediente('Carcaj', 'Cuerda', 3).
 ingrediente('Hacha de Piedra', 'Madera', 2).
@@ -34,7 +35,7 @@ ingrediente('Flechas', 'Punta de Flecha', 3).
 ingrediente('Oxido', 'Hierro', 7).
 ingrediente('Antorcha', 'Carbon', 1).
 ingrediente('Antorcha', 'Palo', 1).
-ingrediente('Punta de Flecha', 'Hierro', 1).
+ingrediente('Punta de Flecha', 'lingote de hierro', 1).
 ingrediente('Equipamiento para Arquero', 'Flechas', 15).
 ingrediente('Equipamiento para Arquero', 'Arco compuesto', 1).
 ingrediente('Equipamiento para Arquero', 'Carcaj', 1).
