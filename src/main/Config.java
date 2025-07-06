@@ -42,4 +42,9 @@ public class Config {
 	public static final String ESCE05_RUTA_INICIO_INVENTARIO = ESCENARIOSFILES_DIR + "ESCE05inventarioInicial.json";
 	public static final String ESCE05_RUTA_INICIO_RECETARIO = ESCENARIOSFILES_DIR + "ESCE05recetarioInicial.json";
 	public static final String ESCE05_RUTA_FINAL_INVENTARIO = ESCENARIOSFILES_DIR + "ESCE05inventarioFinal.json";
+	
+	// Escenario 06
+	public static final String INVENTARIO_PIEDRA = "res/piedra/inventario_piedra.json";
+	public static final String RECETA_MESAPIEDRA = "res/piedra/receta_mesapiedra.json";
+	public static final String RECETAS_DEPIEDRA = "src/mesasRecetarios/mesa de piedra.json";
 }
