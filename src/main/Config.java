@@ -42,4 +42,8 @@ public class Config {
 	public static final String ESCE05_RUTA_INICIO_INVENTARIO = ESCENARIOSFILES_DIR + "ESCE05inventarioInicial.json";
 	public static final String ESCE05_RUTA_INICIO_RECETARIO = ESCENARIOSFILES_DIR + "ESCE05recetarioInicial.json";
 	public static final String ESCE05_RUTA_FINAL_INVENTARIO = ESCENARIOSFILES_DIR + "ESCE05inventarioFinal.json";
+	
+	// Escenario 07.
+	public static final String ESCE07_RUTA_INICIO_INVENTARIO = ESCENARIOSFILES_DIR + "ESCE07inventarioInicial.json";
+	public static final String ESCE07_RUTA_INICIO_RECETARIO = ESCENARIOSFILES_DIR + "ESCE07recetarioInicial.json";
 }

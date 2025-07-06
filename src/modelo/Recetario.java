@@ -69,6 +69,7 @@ public class Recetario {
 		Set<Objeto> visitados = new HashSet<>();
 		if (detectarCiclo(receta.getObjetoProducido(), visitados)) {
 			removerReceta(receta);
+			System.err.println("La receta que produce -> "+receta.getObjetoProducido()+" no fue agregada porque tiene ciclos");
 		}
 	}
 

@@ -67,6 +67,8 @@ public class Escenarios {
 		System.out.println("3. Escenarios Puntos 5-6-7 Equipamiento de Arquero:");
 		System.out.println("4. Escenarios Prueba de craftear 2 mesas de trabajo diferente:");
 		System.out.println("5. Escenarios Mesa de trabajo agregando recetas múltiples:");
+		System.out.println("6. ");
+		System.out.println("7. Escenarios Mesa de trabajo agregando recetas múltiples:");
 		System.out.println("0. Volver al Menú.\n");
 
 		boolean salir = true;
@@ -101,6 +103,11 @@ public class Escenarios {
 				break;
 			case 5:
 				Escenarios.esce05RecetasMultiplesCon(scanner);
+				break;
+			case 6:
+				break;
+			case 7:
+				Escenarios.esce07RecetaBUCLE(scanner);
 				break;
 			case 0:
 				salir = false;
@@ -465,6 +472,22 @@ public class Escenarios {
 		new InventarioGSON(Config.ESCE05_RUTA_FINAL_INVENTARIO).guardar(inventario.getObjetos());
 
 		System.out.println("\n\nFIN del Escenario 05.\n\n");
+	}
+	
+	/**
+	 * 
+	 * @param scanner
+	 */
+	public static void esce07RecetaBUCLE(Scanner scanner) {
+		System.out.println("ESCENARIO07:");
+		System.out.println("Se intenta importar un conjunto de rectas con una ciclo sin fin en una de ellas:");
+		Recetario recetario = new Recetario(new RecetaGSON(Config.ESCE07_RUTA_INICIO_RECETARIO).cargar());
+		
+		System.out.println(recetario);
+		System.out.println("\n\nSe intenta seleccionar de las recetas el objeto con el ciclo.:");
+		recetario.objetoCrafteable("Objeto Bucle");
+		System.out.println("\n\nFIN 07.:");
+		interrupcion(scanner);
 	}
 
 }
