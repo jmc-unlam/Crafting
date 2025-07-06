@@ -1,0 +1,65 @@
+[
+  {
+    "objeto": {
+      "tipo": "basico",
+      "nombre": "Madera"
+    },
+    "cantidad": 1000
+  },
+  {
+    "objeto": {
+      "tipo": "mesa de flechas",
+      "nombre": "Mesa de Flechas"
+    },
+    "cantidad": 1
+  },
+  {
+    "objeto": {
+      "tipo": "basico",
+      "nombre": "ladrillo"
+    },
+    "cantidad": 50
+  },
+  {
+    "objeto": {
+      "tipo": "basico",
+      "nombre": "Cuerda"
+    },
+    "cantidad": 1000
+  },
+  {
+    "objeto": {
+      "tipo": "basico",
+      "nombre": "Téndon"
+    },
+    "cantidad": 1000
+  },
+  {
+    "objeto": {
+      "tipo": "basico",
+      "nombre": "Hierro"
+    },
+    "cantidad": 1000
+  },
+  {
+    "objeto": {
+      "tipo": "basico",
+      "nombre": "mineral de hierro"
+    },
+    "cantidad": 1000
+  },
+  {
+    "objeto": {
+      "tipo": "basico",
+      "nombre": "Carbon"
+    },
+    "cantidad": 1000
+  },
+  {
+    "objeto": {
+      "tipo": "basico",
+      "nombre": "Piedra"
+    },
+    "cantidad": 1000
+  }
+]
