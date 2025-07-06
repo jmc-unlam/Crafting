@@ -55,7 +55,7 @@ public class Escenarios {
 	            Thread.currentThread().interrupt();
 	        }
         }
-        System.out.println();
+        System.out.print("\r██████████████████████████████\n");
     }
 
 	private static final String MENSAJE_ERRROR = "Error: ";
