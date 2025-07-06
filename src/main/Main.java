@@ -12,6 +12,7 @@ import modelo.Resultado;
 import modelo.SistemaDeCrafteo;
 
 public class Main {
+	private static final String ERROR_MENSAJE = "Error: ";
 	private static Inventario inventario;
 	private static Recetario recetario;
 	private static SistemaDeCrafteo sistema;
@@ -35,7 +36,11 @@ public class Main {
 				interrupcion(scanner);
 				break;
 			case 2: // 2. ¿Qué necesito para craftear un objeto desde cero?
-				sistema.ingredientesBasicosNecesariosConTiempo(seleccionarObjetoCrafteable()).informarCantidadOpcion2();
+				try {
+					sistema.ingredientesBasicosNecesariosConTiempo(seleccionarObjetoCrafteable()).informarCantidadOpcion2();
+				} catch (Exception e) {
+					System.err.println(ERROR_MENSAJE + e.getMessage());
+				}
 				interrupcion(scanner);
 				break;
 			case 3: // 3. ¿Qué me falta para craftear un objeto? - Solo primer nivel.
@@ -44,13 +49,20 @@ public class Main {
 				interrupcion(scanner);
 				break;
 			case 4: // 4. ¿Qué me falta para craftear un objeto desde cero?
-				sistema.ingredientesBasicosFaltantesParaCraftearConTiempo(seleccionarObjetoCrafteable())
-						.informarCantidadOpcion4();
+				try {
+					sistema.ingredientesBasicosFaltantesParaCraftearConTiempo(seleccionarObjetoCrafteable()).informarCantidadOpcion4();
+				} catch (Exception e) {
+					System.err.println(ERROR_MENSAJE + e.getMessage());
+				}
 				interrupcion(scanner);
 				break;
 			case 5: // 5. ¿Cuántos puedo craftear?
 				// Calcula cuantos objetos se pueden craftear con el inventario actual.
-				inventario.cantidadPosibleCraftear(seleccionarObjetoCrafteable(), recetario).informarCantidadOpcion5();
+				try {
+					inventario.cantidadPosibleCraftear(seleccionarObjetoCrafteable(), recetario).informarCantidadOpcion5();
+				} catch (Exception e) {
+					System.err.println(ERROR_MENSAJE + e.getMessage());
+				}
 				interrupcion(scanner);
 				break;
 			case 6: // 6. Realizar el crafteo indicado
@@ -60,7 +72,7 @@ public class Main {
 					new Resultado(1, sistema.craftearObjeto(objePregunta, 1), objePregunta)
 							.informarTiempoCrafteoOpcion6();
 				} catch (Exception e) {
-					System.err.println("Error: " + e.getMessage());
+					System.err.println(ERROR_MENSAJE + e.getMessage());
 				}
 				interrupcion(scanner);
 				break;
@@ -91,7 +103,11 @@ public class Main {
 				interrupcion(scanner);
 				break;
 			case 13: // 13 Extra - Arbol.
-				sistema.mostrarArbolCrafteo(seleccionarObjetoCrafteable());
+				try {
+					sistema.mostrarArbolCrafteo(seleccionarObjetoCrafteable());
+				} catch (Exception e) {
+					System.err.println(ERROR_MENSAJE + e.getMessage());
+				}
 				interrupcion(scanner);
 				break;
 			case 0:
@@ -175,7 +191,7 @@ public class Main {
 						System.out.println(
 								objePregunta + "- Cantidad:" + cantidadAComprar + ", Agregado al inventario.\n");
 					} catch (Exception e) {
-						System.err.println("Error: " + e.getMessage());
+						System.err.println(ERROR_MENSAJE + e.getMessage());
 					}
 				}
 				break;
