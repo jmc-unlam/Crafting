@@ -3,6 +3,7 @@ package main;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import datos.json.InventarioGSON;
 import datos.json.RecetaGSON;
@@ -28,6 +29,34 @@ public class Escenarios {
 		scanner.nextLine(); // Espera a que el usuario presione Enter
 		scanner.nextLine();
 	}
+	
+	public static void interrupcionAnimadaConBarras(Scanner scanner) {
+		AtomicBoolean seguir = new AtomicBoolean(true);
+		Thread hiloDeEscucha = new Thread(() -> {
+			scanner.nextLine(); //se bloquea el hilo esperando Enter
+			seguir.set(false);  //el hilo termina
+        });
+		hiloDeEscucha.setDaemon(true);//el hilo termina con main 
+        hiloDeEscucha.start();
+        //el flujo principal no se bloquea
+        System.out.println("Presione Enter para seguir...");
+        int barras = 0;
+        while (seguir.get()) {
+        	System.out.print("█");
+        	barras++;
+        	if (barras >= 30) {
+        		System.out.print("\r                              ");
+        		System.out.print("\r");
+        		barras = 0;
+        	}
+        	try {
+	            Thread.sleep(100);
+	        } catch (InterruptedException e) {
+	            Thread.currentThread().interrupt();
+	        }
+        }
+        System.out.println();
+    }
 
 	private static final String MENSAJE_ERRROR = "Error: ";
 	private static final String ESCENARIOS_SEPARADOR = "===========================";
@@ -59,10 +88,10 @@ public class Escenarios {
 			historial.limpiarRegistros(); // reinicia el historial.
 			switch (intescenario) {
 			case 1:
-				Escenarios.escenarioCraftearHachaDePiedraConUnaReceta();
+				Escenarios.escenarioCraftearHachaDePiedraConUnaReceta(scanner);
 				break;
 			case 2:
-				Escenarios.escenarioCraftearMesaDeFundicionYSusRecetas();
+				Escenarios.escenarioCraftearMesaDeFundicionYSusRecetas(scanner);
 				break;
 			case 3:
 				Escenarios.esce03EquipamientoDeArquero(scanner);
@@ -85,7 +114,8 @@ public class Escenarios {
 
 	}
 
-	public static void escenarioCraftearHachaDePiedraConUnaReceta() {
+	public static void escenarioCraftearHachaDePiedraConUnaReceta(Scanner scanner) {
+		scanner.nextLine(); 
 		// Crear objetos
 		ObjetoBasico madera = new ObjetoBasico("Madera");
 		ObjetoBasico piedra = new ObjetoBasico("Piedra");
@@ -124,16 +154,22 @@ public class Escenarios {
 		System.out.println(inventario);
 		System.out.println("=== Recetario Inicial ===");
 		System.out.println(recetario);
-
+	    
+		interrupcionAnimadaConBarras(scanner);
+	    
 		// funcionalidades del sistema
 		System.out.println("=== Ingredientes necesarios para Hacha de Piedra ===");
 		Map<Objeto, Integer> ingredientes = sistema.ingredientesNecesariosConCantidad(hachaDePiedra).getIngredientes();
 		ingredientes.forEach((obj, cant) -> System.out.println("- " + obj + ": " + cant));
 
+		interrupcionAnimadaConBarras(scanner);
+		
 		System.out.println("=== Ingredientes basicos necesarios para Hacha de Piedra ===");
 		ingredientes = sistema.ingredientesBasicosNecesariosConTiempo(hachaDePiedra).getIngredientes();
 		ingredientes.forEach((obj, cant) -> System.out.println("- " + obj + ": " + cant));
 
+		interrupcionAnimadaConBarras(scanner);
+		
 		System.out.println("\n=== Pruebas de faltantes ===");
 
 		// 1. Prueba ingredientesFaltantesParaCraftear
@@ -144,6 +180,8 @@ public class Escenarios {
 			System.out.println("No faltan ingredientes directos!");
 		else
 			faltantes.forEach((obj, cant) -> System.out.println("- Faltan " + cant + " de " + obj));
+		
+		interrupcionAnimadaConBarras(scanner);
 
 		// 2. Prueba ingredientesBasicosFaltantesParaCraftear
 		System.out.println("\nIngredientes básicos faltantes para Hacha de Piedra:");
@@ -154,23 +192,31 @@ public class Escenarios {
 		else
 			faltantesBasicos
 					.forEach((obj, cant) -> System.out.println("- Faltan " + cant + " unidades básicas de " + obj));
+		
+		interrupcionAnimadaConBarras(scanner);
 
 		// 3. Prueba cantidadCrafteable
 		System.out.println("\n=== Prueba de cantidad crafteable ===");
 		System.out.println("Hachas de piedra crafteables: "
 				+ sistema.cantidadCrafteableConTiempo(hachaDePiedra).getCantidadCrafteable());
 		System.out.println("Óxido crafteable: " + sistema.cantidadCrafteableConTiempo(oxido).getCantidadCrafteable());
+		
+		interrupcionAnimadaConBarras(scanner);
 
 		// 4. Prueba después de agregar más recursos
 		System.out.println("\n[Agregando 10 hierros más al inventario...]");
 		inventario.agregarObjeto(hierro, 10);
 		System.out.println(inventario);
 
+		interrupcionAnimadaConBarras(scanner);
+		
 		System.out.println("\nNuevos valores después de agregar recursos:");
 		System.out.println("Hachas de piedra crafteables ahora: "
 				+ sistema.cantidadCrafteableConTiempo(hachaDePiedra).getCantidadCrafteable());
 		System.out.println(
 				"Óxido crafteable ahora: " + sistema.cantidadCrafteableConTiempo(oxido).getCantidadCrafteable());
+		
+		interrupcionAnimadaConBarras(scanner);
 
 		System.out.println("\nNuevos ingredientes básicos faltantes para Hacha de Piedra:");
 		Map<Objeto, Integer> faltantesBasicos2 = sistema
@@ -180,6 +226,8 @@ public class Escenarios {
 		else
 			faltantesBasicos2.forEach((obj, cant) -> System.out.println("- " + obj + ": " + cant));
 
+		interrupcionAnimadaConBarras(scanner);
+		
 		try {
 			System.out.println("\n=== Intentando craftear 1 unidad de " + hachaDePiedra);
 			System.out.println("Tiempo Total: " + sistema.craftearObjeto(hachaDePiedra, 1));
@@ -194,6 +242,8 @@ public class Escenarios {
 		} catch (Exception e) {
 			System.err.println(MENSAJE_ERRROR + e.getMessage());
 		}
+		
+		interrupcionAnimadaConBarras(scanner);
 
 		System.out.println(ESCENARIOS_SEPARADOR);
 		System.out.println("===Mostrando arbol de hacha de piedra===");
@@ -204,19 +254,21 @@ public class Escenarios {
 		}
 	}
 
-	public static void escenarioCraftearMesaDeFundicionYSusRecetas() {
-
+	public static void escenarioCraftearMesaDeFundicionYSusRecetas(Scanner scanner) {
+		scanner.nextLine(); 
 		Inventario inventario = new Inventario(new InventarioGSON(Config.INVENTARIO_FUNDIDOR).cargar());
 		Recetario recetario = new Recetario(new RecetaGSON(Config.RECETA_FUNDIDOR).cargar());
 		SistemaDeCrafteo sistema = new SistemaDeCrafteo(inventario, recetario);
 		System.out.println(inventario);
 		System.out.println(recetario);
+		interrupcionAnimadaConBarras(scanner);
 		System.out.println("====Agrego mas materiales y recetas de fundicion====");
 		inventario.agregarObjetos(new InventarioGSON(Config.INVENTARIO_FUNDICION).cargar());
 		recetario.agregarRecetas(new RecetaGSON(Config.RECETAS_FUNDICION).cargar());
 		System.out.println(inventario);
 		System.out.println(recetario);
 		System.out.println(ESCENARIOS_SEPARADOR);
+		interrupcionAnimadaConBarras(scanner);
 		System.out.println("===Intento craftear recetas que usan el fundidor antes===");
 		try {
 			sistema.craftearObjeto(recetario.getRecetas().getFirst().getObjetoProducido(), 1);
@@ -224,11 +276,12 @@ public class Escenarios {
 			System.err.println(e.getMessage());
 		}
 		System.out.println(inventario);
-
+		interrupcionAnimadaConBarras(scanner);
 		System.out.println("=====Crafteando mesa de fundicion======");
 		int tiempoFundidor = sistema.craftearObjeto(new MesaDeFundicion(), 1);
 		System.out.println("Se crafteo la mesa de fundicion en: " + tiempoFundidor);
 		System.out.println(inventario);
+		interrupcionAnimadaConBarras(scanner);
 		System.out.println(ESCENARIOS_SEPARADOR);
 		System.out.println("======Crafteando las recetas de fundicion========");
 		System.out.println(ESCENARIOS_SEPARADOR);
@@ -243,6 +296,7 @@ public class Escenarios {
 			System.out.println(inventario);
 			System.out.println(ESCENARIOS_SEPARADOR);
 		}
+		interrupcionAnimadaConBarras(scanner);
 		System.out.println(ESCENARIOS_SEPARADOR);
 		System.out.println("======Crafteando Segunda Vuelta========");
 		System.out.println(ESCENARIOS_SEPARADOR);
