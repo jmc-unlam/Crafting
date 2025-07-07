@@ -81,24 +81,31 @@ public class Recetario {
      * @return true si se detecta un ciclo, false en caso contrario.
      */
 	private boolean detectarCiclo(Objeto objeto, Set<Objeto> visitados) {
-		if (!objeto.esBasico()) {
-			if (!visitados.add(objeto))
-				return true;
-		}
-		Receta receta;
-		try {
-			receta = this.buscarReceta(objeto);
-		} catch (NoSuchElementException e) {
-			// No hay receta todavia entonces no hay ciclo
-			return false;
-		}
-		for (Map.Entry<Objeto, Integer> entry : receta.getIngredientes().entrySet()) {
-			if (!entry.getKey().esBasico()) {
-				if (detectarCiclo(entry.getKey(), visitados))
-					return true;
-			}
-		}
-		return false;
+		if (!visitados.add(objeto)) {
+            return true;
+        }
+
+        List<Receta> recetasAsociadas;
+        try {
+            recetasAsociadas = buscarRecetas(objeto); 
+        } catch (NoSuchElementException e) {
+        	// No hay receta todavia entonces no hay ciclo
+            visitados.remove(objeto);
+            return false;
+        }
+
+        for (Receta recetaActual : recetasAsociadas) {
+            for (Map.Entry<Objeto, Integer> entry : recetaActual.getIngredientes().entrySet()) {
+                Objeto ingrediente = entry.getKey();
+                if (!ingrediente.esBasico()) {
+                    if (detectarCiclo(ingrediente, visitados)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        visitados.remove(objeto);
+        return false;
 	}
 
 	/**
@@ -112,9 +119,10 @@ public class Recetario {
 			throw new IllegalArgumentException("La receta no puede ser nula");
 		}
 		List<Receta> recetas = recetasPorObjeto.get(receta.getObjetoProducido());
-		if (recetas == null || !recetas.remove(receta)) {
+		if (recetas == null) {
 			throw new IllegalArgumentException("La receta no existe en el recetario");
 		}
+		recetas.remove(receta);
 		// Eliminar la clave si la lista queda vacía
 		if (recetas.isEmpty()) {
 			recetasPorObjeto.remove(receta.getObjetoProducido());
