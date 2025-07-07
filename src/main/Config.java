@@ -7,6 +7,7 @@ public class Config {
 
 	// Ruta donde se guarda el inventario.
 	public static final String RUTA_FIN_INVENTARIO = "res/inventario_salida.json";
+	public static final String RUTA_FIN_RECETARIO = "res/recetario_salida.json";
 
 	// Ruta de las Recetas de las mesas.
 	public static final String RECETAS_DE_MESAS_DIR = "src/mesasRecetarios/";
