@@ -276,51 +276,6 @@ public class Inventario {
 		}
 	}
 
-//	// *****Implementacion Recetas Alternativas*************
-//	public Map<Objeto, Integer> getFaltantesBasicos(Map<Objeto, Integer> requeridosBasicos, Recetario recetario,
-//			int indiceReceta) {
-//		Map<Objeto, Integer> faltantesBasicos = new HashMap<>();
-//
-//		for (Map.Entry<Objeto, Integer> entry : requeridosBasicos.entrySet()) {
-//			Objeto ingrediente = entry.getKey();
-//			int cantidadNecesaria = entry.getValue();
-//
-//			int disponible = getCantidadBasico(ingrediente, recetario, indiceReceta);
-//
-//			if (disponible < cantidadNecesaria) {
-//				faltantesBasicos.put(ingrediente, cantidadNecesaria - disponible);
-//			}
-//		}
-//		return faltantesBasicos;
-//	}
-//
-//	public int getCantidadBasico(Objeto objeto, Recetario recetario, int indiceReceta) {
-//		if (objeto.esBasico()) {
-//			return getCantidad(objeto);
-//		} else {
-//			List<Receta> recetas = recetario.buscarRecetas(objeto);
-//
-//			int cantidadTotalDisponible = getCantidad(objeto);
-//			int numLotesCrafteables = Integer.MAX_VALUE;
-//
-//			for (Map.Entry<Objeto, Integer> entry : recetas.get(indiceReceta).getIngredientes().entrySet()) {
-//				Objeto ingrediente = entry.getKey();
-//				int cantidadNecesariaDelIngrediente = entry.getValue();
-//				int cantidadDisponibleDelIngrediente = getCantidadBasico(ingrediente, recetario);
-//
-//				int lotesPosibles = cantidadDisponibleDelIngrediente / cantidadNecesariaDelIngrediente;
-//
-//				// Nos quedamos con el mínimo, ya que estamos limitados por el ingrediente más
-//				// escaso
-//				numLotesCrafteables = Math.min(numLotesCrafteables, lotesPosibles);
-//			}
-//
-//			cantidadTotalDisponible += numLotesCrafteables * recetas.get(indiceReceta).getCantidadProducida();
-//
-//			return cantidadTotalDisponible;
-//		}
-//	}
-
 	// *****Implementacion Mesas de Trabajo*************
 
 	/**
