@@ -34,12 +34,10 @@ public class Escenarios {
 	
 	public static void interrupcionAnimadaConBarras(Scanner scanner) {
 		AtomicBoolean seguir = new AtomicBoolean(true);
-		Thread hiloDeEscucha = new Thread(() -> {
+		Thread.ofVirtual().start(() -> {
 			scanner.nextLine(); //se bloquea el hilo esperando Enter
 			seguir.set(false);  //el hilo termina
         });
-		hiloDeEscucha.setDaemon(true);//el hilo termina con main 
-        hiloDeEscucha.start();
         //el flujo principal no se bloquea
         System.out.println("Presione Enter para seguir...");
         int barras = 0;
@@ -69,7 +67,7 @@ public class Escenarios {
 		System.out.println("3. Escenarios Puntos 5-6-7 Equipamiento de Arquero:");
 		System.out.println("4. Escenarios Prueba de craftear 2 mesas de trabajo diferente:");
 		System.out.println("5. Escenarios Mesa de trabajo agregando recetas múltiples:");
-		System.out.println("6. ");
+		System.out.println("6. Escenarios Mesa de Piedra tiene ciclos");
 		System.out.println("7. Escenarios Mesa de trabajo agregando recetas múltiples:");
 		System.out.println("8. Cantidades necesarias de un objeto completo con dif. cantidades:");
 		System.out.println("0. Volver al Menú.\n");
@@ -108,6 +106,7 @@ public class Escenarios {
 				Escenarios.esce05RecetasMultiplesCon(scanner);
 				break;
 			case 6:
+				Escenarios.escenarioMesaDePiedraTieneCiclos(scanner);
 				break;
 			case 7:
 				Escenarios.esce07RecetaBUCLE(scanner);
@@ -251,7 +250,8 @@ public class Escenarios {
 			System.out.println("\n=== Inventario final:");
 			inventario.getObjetos().forEach((obj, cant) -> System.out.println("- " + obj + ": " + cant));
 
-			new InventarioGSON("res/inventario_salida.json").guardar(inventario.getObjetos());
+			new InventarioGSON(Config.RUTA_FIN_INVENTARIO).guardar(inventario.getObjetos());
+			new RecetaGSON(Config.RUTA_FIN_RECETARIO).guardar(recetario.getRecetas());
 		} catch (Exception e) {
 			System.err.println(MENSAJE_ERRROR + e.getMessage());
 		}
@@ -323,6 +323,8 @@ public class Escenarios {
 			System.out.println(inventario);
 			System.out.println(ESCENARIOS_SEPARADOR);
 		}
+		new InventarioGSON(Config.RUTA_FIN_INVENTARIO).guardar(inventario.getObjetos());
+		new RecetaGSON(Config.RUTA_FIN_RECETARIO).guardar(recetario.getRecetas());
 	}
 	
 	public static void escenarioMesaDePiedraTieneCiclos(Scanner scanner) { 
@@ -336,14 +338,37 @@ public class Escenarios {
 		interrupcionAnimadaConBarras(scanner);
 		System.out.println("======Las recetas de la mesa de piedra antes de crear========");
 		List<Receta> recetasDePiedra = new RecetaGSON(Config.RECETAS_DEPIEDRA).cargar();
-		System.out.println(recetasDePiedra);
-		System.out.println("======Crafteo La Mesa De Piedra========");
-		sistema.craftearObjeto(new MesaDePiedra(), 1);
+		recetasDePiedra.forEach(((r) -> System.out.println(r)));
+		System.out.println(recetario);
+		interrupcionAnimadaConBarras(scanner);
+		System.out.println("======Crafteo 1 Mesa De Piedra========");
+		System.out.println("Tiempo Total: " + sistema.craftearObjeto(new MesaDePiedra(), 1));
+		interrupcionAnimadaConBarras(scanner);
 		System.out.println("======Las Recetas que se cargan al ser producido========");
 		System.out.println(recetario);
-		System.out.println("======Crafteo algo========");
-		
-		
+		interrupcionAnimadaConBarras(scanner);
+		System.out.println("======Crafteo 7 Piedra tallada========");
+		System.out.println("Tiempo Total: " + sistema.craftearObjeto(new ObjetoIntermedio("piedra tallada"), 7));
+		System.out.println(inventario);
+		interrupcionAnimadaConBarras(scanner);
+		System.out.println("======Crafteo 7 Losa de Piedra========");
+		System.out.println("Tiempo Total: " + sistema.craftearObjeto(new ObjetoIntermedio("Losa de piedra"), 7));
+		System.out.println(inventario);
+		interrupcionAnimadaConBarras(scanner);
+		System.out.println("======Crafteo 1 Pared de piedra========");
+		System.out.println("Tiempo Total: " + sistema.craftearObjeto(new ObjetoIntermedio("pared de piedra"), 1));
+		System.out.println(inventario);
+		interrupcionAnimadaConBarras(scanner);
+		System.out.println("======Remuevo La Mesa De Piedra========");
+		try {
+			inventario.removerObjeto(new MesaDePiedra(), 1,recetario);
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+		System.out.println(inventario);
+		System.out.println(recetario);
+		new InventarioGSON(Config.RUTA_FIN_INVENTARIO).guardar(inventario.getObjetos());
+		new RecetaGSON(Config.RUTA_FIN_RECETARIO).guardar(recetario.getRecetas());
 	}
 
 	public static void esce03EquipamientoDeArquero(Scanner scanner) {

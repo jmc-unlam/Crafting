@@ -1,0 +1,55 @@
+[
+  {
+    "objetoProducido": {"nombre": "losa de piedra", "tipo": "intermedio"},
+    "ingredientes": [
+      {"objeto": {"nombre": "piedra tallada", "tipo": "intermedio"}, "cantidad": 3},
+      {"objeto": {"nombre": "piedra", "tipo": "basico"}, "cantidad": 4}
+    ],
+    "cantidadProducida": 6,
+    "tiempoBase": 2,
+    "mesaRequerida": {
+      "tipo": "mesa de piedra",
+      "nombre": "mesa de piedra"
+    }
+  },
+  {
+    //esta receta tiene ciclo
+    "objetoProducido": {"nombre": "piedra tallada", "tipo": "intermedio"},
+    "ingredientes": [
+      {"objeto": {"nombre": "losa de piedra", "tipo": "intermedio"}, "cantidad": 3},
+      {"objeto": {"nombre": "piedra", "tipo": "basico"}, "cantidad": 4}
+    ],
+    "cantidadProducida": 4,
+    "tiempoBase": 3,
+    "mesaRequerida": {
+      "tipo": "mesa de piedra",
+      "nombre": "mesa de piedra"
+    }
+  },
+  {
+    //esta receta no tiene ciclo
+    "objetoProducido": {"nombre": "piedra tallada", "tipo": "intermedio"},
+    "ingredientes": [
+      {"objeto": {"nombre": "cincel", "tipo": "basico"}, "cantidad": 1},
+      {"objeto": {"nombre": "piedra", "tipo": "basico"}, "cantidad": 4}
+    ],
+    "cantidadProducida": 2,
+    "tiempoBase": 3,
+    "mesaRequerida": {
+      "tipo": "mesa de piedra",
+      "nombre": "mesa de piedra"
+    }
+  },
+  {
+    "objetoProducido": {"nombre": "pared de piedra", "tipo": "intermedio"},
+    "ingredientes": [
+      {"objeto": {"nombre": "losa de piedra", "tipo": "intermedio"}, "cantidad": 6}
+    ],
+    "cantidadProducida": 1,
+    "tiempoBase": 4,
+    "mesaRequerida": {
+      "tipo": "mesa de piedra",
+      "nombre": "mesa de piedra"
+    }
+  }
+]

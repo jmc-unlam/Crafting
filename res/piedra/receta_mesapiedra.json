@@ -1,0 +1,11 @@
+[
+  {
+    "objetoProducido": {"nombre": "mesa de piedra", "tipo": "mesa de piedra"},
+    "ingredientes": [
+      {"objeto": {"nombre": "madera", "tipo": "basico"}, "cantidad": 4},
+      {"objeto": {"nombre": "piedra", "tipo": "basico"}, "cantidad": 10}
+    ],
+    "cantidadProducida": 1,
+    "tiempoBase": 20
+  }
+]
