@@ -341,7 +341,7 @@ public class Inventario {
      */
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder("=== Inventario ===\n");
+		StringBuilder sb = new StringBuilder("=== INVENTARIO ===\n");
 		int nroId = 1;
 		for (Map.Entry<Objeto, Integer> entry : objetos.entrySet()) {
 			sb.append("Nro-" + nroId + "-").append(entry).append("\n");
