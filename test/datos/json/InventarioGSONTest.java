@@ -46,37 +46,92 @@ class InventarioGSONTest {
 		}
 
 		try (FileWriter writer = new FileWriter(INVENTARIO_BASICOS_JSON)) {
-			writer.write("[\n" + "  {\n" + "    \"objeto\": {\n" + "      \"nombre\": \"madera de roble\",\n"
-					+ "      \"tipo\": \"basico\"\n" + "    },\n" + "    \"cantidad\": 10\n" + "  },\n" + "  {\n"
-					+ "    \"objeto\": {\n" + "      \"nombre\": \"piedra\",\n" + "      \"tipo\": \"basico\"\n"
-					+ "    },\n" + "    \"cantidad\": 5\n" + "  }\n" + "]");
-		}
+            writer.write("[\n" +
+                    "  {\n" +
+                    "    \"objeto\": {\n" +
+                    "      \"nombre\": \"madera de roble\",\n" +
+                    "      \"tipo\": \"basico\"\n" +
+                    "    },\n" +
+                    "    \"cantidad\": 10\n" +
+                    "  },\n" +
+                    "  {\n" +
+                    "    \"objeto\": {\n" +
+                    "      \"nombre\": \"piedra\",\n" +
+                    "      \"tipo\": \"basico\"\n" +
+                    "    },\n" +
+                    "    \"cantidad\": 5\n" +
+                    "  }\n" +
+                    "]");
+        }
 
-		try (FileWriter writer = new FileWriter(INVENTARIO_INTERMEDIOS_JSON)) {
-			writer.write("[\n" + "  {\n" + "    \"objeto\": {\n" + "      \"nombre\": \"tablones de roble\",\n"
-					+ "      \"tipo\": \"intermedio\"\n" + "    },\n" + "    \"cantidad\": 4\n" + "  },\n" + "  {\n"
-					+ "    \"objeto\": {\n" + "      \"nombre\": \"palo\",\n" + "      \"tipo\": \"intermedio\"\n"
-					+ "    },\n" + "    \"cantidad\": 8\n" + "  }\n" + "]");
-		}
+        try (FileWriter writer = new FileWriter(INVENTARIO_INTERMEDIOS_JSON)) {
+            writer.write("[\n" +
+                    "  {\n" +
+                    "    \"objeto\": {\n" +
+                    "      \"nombre\": \"tablones de roble\",\n" +
+                    "      \"tipo\": \"intermedio\"\n" +
+                    "    },\n" +
+                    "    \"cantidad\": 4\n" +
+                    "  },\n" +
+                    "  {\n" +
+                    "    \"objeto\": {\n" +
+                    "      \"nombre\": \"palo\",\n" +
+                    "      \"tipo\": \"intermedio\"\n" +
+                    "    },\n" +
+                    "    \"cantidad\": 8\n" +
+                    "  }\n" +
+                    "]");
+        }
 
-		try (FileWriter writer = new FileWriter(INVENTARIO_MIXTO_JSON)) {
-			writer.write("[\n" + "  {\n" + "    \"objeto\": {\n" + "      \"nombre\": \"mineral de hierro\",\n"
-					+ "      \"tipo\": \"basico\"\n" + "    },\n" + "    \"cantidad\": 8\n" + "  },\n" + "  {\n"
-					+ "    \"objeto\": {\n" + "      \"nombre\": \"tablones de roble\",\n"
-					+ "      \"tipo\": \"intermedio\"\n" + "    },\n" + "    \"cantidad\": 3\n" + "  }\n" + "]");
-		}
+        try (FileWriter writer = new FileWriter(INVENTARIO_MIXTO_JSON)) {
+            writer.write("[\n" +
+                    "  {\n" +
+                    "    \"objeto\": {\n" +
+                    "      \"nombre\": \"mineral de hierro\",\n" +
+                    "      \"tipo\": \"basico\"\n" +
+                    "    },\n" +
+                    "    \"cantidad\": 8\n" +
+                    "  },\n" +
+                    "  {\n" +
+                    "    \"objeto\": {\n" +
+                    "      \"nombre\": \"tablones de roble\",\n" +
+                    "      \"tipo\": \"intermedio\"\n" +
+                    "    },\n" +
+                    "    \"cantidad\": 3\n" +
+                    "  }\n" +
+                    "]");
+        }
 
-		try (FileWriter writer = new FileWriter(INVENTARIO_DESCONOCIDO_JSON)) {
-			writer.write("[\n" + "  {\n" + "    \"objeto\": {\n" + "      \"nombre\": \"ruby\",\n"
-					+ "      \"tipo\": \"desconocido\"\n" + "    },\n" + "    \"cantidad\": 1\n" + "  }\n" + "]");
-		}
-
-		try (FileWriter writer = new FileWriter(INVENTARIO_CON_MESA_DE_FUNDICION)) {
-			writer.write("[\n" + "  {\n" + "    \"objeto\": {\n" + "      \"tipo\": \"basico\",\n"
-					+ "      \"nombre\": \"madera\"\n" + "    },\n" + "    \"cantidad\": 10\n" + "  },\n" + "  {\n"
-					+ "    \"objeto\": {\n" + "      \"nombre\": \"mesa de fundicion\",\n"
-					+ "      \"tipo\": \"mesa de fundicion\"\n" + "    },\n" + "    \"cantidad\": 1\n" + "  }\n" + "]");
-		}
+        try (FileWriter writer = new FileWriter(INVENTARIO_DESCONOCIDO_JSON)) {
+            writer.write("[\n" +
+                    "  {\n" +
+                    "    \"objeto\": {\n" +
+                    "      \"nombre\": \"ruby\",\n" +
+                    "      \"tipo\": \"desconocido\"\n" +
+                    "    },\n" +
+                    "    \"cantidad\": 1\n" +
+                    "  }\n" +
+                    "]");
+        }
+        
+        try (FileWriter writer = new FileWriter(INVENTARIO_CON_MESA_DE_FUNDICION)) {
+            writer.write("[\n" +
+                    "  {\n" +
+                    "    \"objeto\": {\n" +
+                    "      \"tipo\": \"basico\",\n" +
+                    "      \"nombre\": \"madera\"\n" +
+                    "    },\n" +
+                    "    \"cantidad\": 10\n" +
+                    "  },\n" +
+                    "  {\n" +
+                    "    \"objeto\": {\n" +
+                    "      \"nombre\": \"mesa de fundicion\",\n" +
+                    "      \"tipo\": \"mesa de fundicion\"\n" +
+                    "    },\n" +
+                    "    \"cantidad\": 1\n" +
+                    "  }\n" +
+                    "]");
+        }
 		
 		try (FileWriter writer = new FileWriter(INVENTARIO_SIN_NADA_JSON)) {
 			writer.write("");

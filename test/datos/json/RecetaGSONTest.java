@@ -75,37 +75,91 @@ class RecetaGSONTest {
 		}
 
 		try (FileWriter writer = new FileWriter(RECETA_PRODUCE_BASICO_JSON)) {
-			writer.write("[\n" + "  {\n" + "    \"objetoProducido\": {\n" + "      \"nombre\": \"Madera\",\n"
-					+ "      \"tipo\": \"basico\"\n" + "    },\n" + "    \"ingredientes\": [],\n"
-					+ "    \"cantidadProducida\": 1,\n" + "    \"tiempoBase\": 1\n" + "  }\n" + "]");
-		}
+            writer.write("[\n" +
+                    "  {\n" +
+                    "    \"objetoProducido\": {\n" +
+                    "      \"nombre\": \"Madera\",\n" +
+                    "      \"tipo\": \"basico\"\n" + 
+                    "    },\n" +
+                    "    \"ingredientes\": [],\n" +
+                    "    \"cantidadProducida\": 1,\n" +
+                    "    \"tiempoBase\": 1\n" +
+                    "  }\n" +
+                    "]");
+        }
 
-		try (FileWriter writer = new FileWriter(RECETA_INGREDIENTE_DESCONOCIDO_JSON)) {
-			writer.write("[\n" + "  {\n" + "    \"objetoProducido\": {\n" + "      \"nombre\": \"Antorcha\",\n"
-					+ "      \"tipo\": \"intermedio\"\n" + "    },\n" + "    \"ingredientes\": [\n" + "      {\n"
-					+ "        \"objeto\": {\n" + "          \"nombre\": \"ObjetoDesconocido\",\n"
-					+ "          \"tipo\": \"desconocido\"\n" + // Desconocido
-					"        },\n" + "        \"cantidad\": 1\n" + "      }\n" + "    ],\n"
-					+ "    \"cantidadProducida\": 4,\n" + "    \"tiempoBase\": 5\n" + "  }\n" + "]");
-		}
-
-		try (FileWriter writer = new FileWriter(RECETAS_SIMPLES_JSON)) {
-			writer.write("[\n" + "  {\n" + "    \"objetoProducido\": {\n" + "      \"nombre\": \"palo\",\n"
-					+ "      \"tipo\": \"intermedio\"\n" + "    },\n" + "    \"ingredientes\": [\n" + "      {\n"
-					+ "        \"objeto\": {\n" + "          \"nombre\": \"madera\",\n"
-					+ "          \"tipo\": \"basico\"\n" + "        },\n" + "        \"cantidad\": 2\n" + "      }\n"
-					+ "    ],\n" + "    \"cantidadProducida\": 4,\n" + "    \"tiempoBase\": 10\n" + "  }\n" + "]");
-		}
-
-		try (FileWriter writer = new FileWriter(RECETAS_COMPLEJAS_JSON)) {
-			writer.write("[\n" + "  {\n" + "    \"objetoProducido\": {\n" + "      \"nombre\": \"antorcha\",\n"
-					+ "      \"tipo\": \"intermedio\"\n" + "    },\n" + "    \"ingredientes\": [\n" + "      {\n"
-					+ "        \"objeto\": {\n" + "          \"nombre\": \"palo\",\n"
-					+ "          \"tipo\": \"intermedio\"\n" + "        },\n" + "        \"cantidad\": 1\n"
-					+ "      },\n" + "      {\n" + "        \"objeto\": {\n" + "          \"nombre\": \"carbon\",\n"
-					+ "          \"tipo\": \"basico\"\n" + "        },\n" + "        \"cantidad\": 1\n" + "      }\n"
-					+ "    ],\n" + "    \"cantidadProducida\": 4,\n" + "    \"tiempoBase\": 5\n" + "  }\n" + "]");
-		}
+        try (FileWriter writer = new FileWriter(RECETA_INGREDIENTE_DESCONOCIDO_JSON)) {
+            writer.write("[\n" +
+                    "  {\n" +
+                    "    \"objetoProducido\": {\n" +
+                    "      \"nombre\": \"Antorcha\",\n" +
+                    "      \"tipo\": \"intermedio\"\n" +
+                    "    },\n" +
+                    "    \"ingredientes\": [\n" +
+                    "      {\n" +
+                    "        \"objeto\": {\n" +
+                    "          \"nombre\": \"ObjetoDesconocido\",\n" +
+                    "          \"tipo\": \"desconocido\"\n" + // Desconocido
+                    "        },\n" +
+                    "        \"cantidad\": 1\n" +
+                    "      }\n" +
+                    "    ],\n" +
+                    "    \"cantidadProducida\": 4,\n" +
+                    "    \"tiempoBase\": 5\n" +
+                    "  }\n" +
+                    "]");
+        }
+        
+        try (FileWriter writer = new FileWriter(RECETAS_SIMPLES_JSON)) {
+        	writer.write("[\n" +
+                    "  {\n" +
+                    "    \"objetoProducido\": {\n" +
+                    "      \"nombre\": \"palo\",\n" +
+                    "      \"tipo\": \"intermedio\"\n" +
+                    "    },\n" +
+                    "    \"ingredientes\": [\n" +
+                    "      {\n" +
+                    "        \"objeto\": {\n" +
+                    "          \"nombre\": \"madera\",\n" +
+                    "          \"tipo\": \"basico\"\n" + 
+                    "        },\n" +
+                    "        \"cantidad\": 2\n" +
+                    "      }\n" +
+                    "    ],\n" +
+                    "    \"cantidadProducida\": 4,\n" +
+                    "    \"tiempoBase\": 10\n" +
+                    "  }\n" +
+                    "]");
+        }
+        
+        try (FileWriter writer = new FileWriter(RECETAS_COMPLEJAS_JSON)) {
+        	writer.write("[\n" +
+                    "  {\n" +
+                    "    \"objetoProducido\": {\n" +
+                    "      \"nombre\": \"antorcha\",\n" +
+                    "      \"tipo\": \"intermedio\"\n" +
+                    "    },\n" +
+                    "    \"ingredientes\": [\n" +
+                    "      {\n" +
+                    "        \"objeto\": {\n" +
+                    "          \"nombre\": \"palo\",\n" +
+                    "          \"tipo\": \"intermedio\"\n" + 
+                    "        },\n" +
+                    "        \"cantidad\": 1\n" +
+                    "      },\n" +
+                    "      {\n" +
+                    "        \"objeto\": {\n" +
+                    "          \"nombre\": \"carbon\",\n" +
+                    "          \"tipo\": \"basico\"\n" + 
+                    "        },\n" +
+                    "        \"cantidad\": 1\n" +
+                    "      }\n" +
+                    "    ],\n" +
+                    "    \"cantidadProducida\": 4,\n" +
+                    "    \"tiempoBase\": 5\n" +
+                    "  }\n" +
+                    "]");
+        }
 		
 		try (FileWriter writer = new FileWriter(RECETAS_SIN_NADA_JSON)) {
 			writer.write("");
