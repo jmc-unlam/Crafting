@@ -130,7 +130,7 @@ public class Recetario {
 	}
 
 	/**
-     * Devuelve una lista con todas las recetas almacenadas.
+     * Devuelve una copia con todas las recetas almacenadas.
      * 
      * @return Lista de recetas.
      */
@@ -139,7 +139,7 @@ public class Recetario {
 		for (List<Receta> lista : recetasPorObjeto.values()) {
 			todas.addAll(lista);
 		}
-		return todas; // Devuelve toda las recetas.
+		return new ArrayList<>(todas); // Devuelve toda las recetas.
 	}
 
 	@Override
