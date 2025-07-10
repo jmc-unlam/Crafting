@@ -10,6 +10,7 @@ import modelo.Objeto;
 import modelo.Recetario;
 import modelo.Resultado;
 import modelo.SistemaDeCrafteo;
+import prolog.Prolog;
 
 public class Main {
 	private static final String ERROR_MENSAJE = "Error: ";
@@ -93,9 +94,9 @@ public class Main {
 				break;
 			case 11: // 11. Consulta PROLOG.
 				System.out.println("\nProlog:");
-				recetario.prologGenerarRecetas();
-				inventario.prologGenerarInventario();
-				inventario.consultaDeProlog();
+				Prolog.generarRecetas(recetario);
+				Prolog.generarInventario(inventario);
+				Prolog.consulta(inventario);
 				interrupcion(scanner);
 				break;
 			case 12: // 12. Listar Escenarios
@@ -227,7 +228,7 @@ public class Main {
 			if (opcionIDObjeto != 0) {
 				int cantidadAVender = ingresarCantidadPara("a vender", scanner);
 
-				if (inventario.removerCantidadDeUnObjetoSegunNro(opcionIDObjeto, cantidadAVender, recetario))
+				if (Prolog.removerCantidadDeUnObjetoSegunNro(opcionIDObjeto,cantidadAVender,recetario,inventario))
 					opcionIDObjeto = 0;
 
 			}
@@ -287,7 +288,7 @@ public class Main {
 	 */
 	private static Objeto seleccionarObjetoFarmeable() {
 
-		List<Objeto> listaCrafteable = recetario.listaObjetosRecolectables();
+		List<Objeto> listaCrafteable = Prolog.listaObjetosRecolectables(recetario);
 		int idObjeto;
 		boolean salir = true;
 		Scanner scanner = new Scanner(System.in);
@@ -314,7 +315,7 @@ public class Main {
 	 */
 	private static Objeto seleccionarObjetoCrafteable() {
 
-		List<Objeto> listaCrafteable = recetario.listaCrafteable();
+		List<Objeto> listaCrafteable = Prolog.listaCrafteable(recetario);
 		int idObjeto;
 		boolean salir = true;
 		Scanner scanner = new Scanner(System.in);

@@ -9,7 +9,7 @@ package modelo;
  */
 public class MesaDeGenerica extends MesaDeTrabajo {
 
-	public MesaDeGenerica(String nombre) {
+	public MesaDeGenerica() {
 		super("Mesa Generica");
 	}
 

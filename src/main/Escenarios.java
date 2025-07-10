@@ -10,7 +10,9 @@ import datos.json.InventarioGSON;
 import datos.json.RecetaGSON;
 import modelo.HistorialDeCrafteo;
 import modelo.Inventario;
+import modelo.MesaDeFlechas;
 import modelo.MesaDeFundicion;
+import modelo.MesaDeGenerica;
 import modelo.MesaDePiedra;
 import modelo.Objeto;
 import modelo.ObjetoBasico;
@@ -19,6 +21,7 @@ import modelo.Receta;
 import modelo.Recetario;
 import modelo.Resultado;
 import modelo.SistemaDeCrafteo;
+import prolog.Prolog;
 
 public class Escenarios {
 
@@ -386,7 +389,7 @@ public class Escenarios {
 
 		System.out.println(inventario);
 
-		Objeto equipoDeArquero = recetario.objetoCrafteable("Equipamiento para Arquero");
+		Objeto equipoDeArquero = new ObjetoIntermedio("Equipamiento para Arquero");
 
 		// devolver cantidad posible a craftear.
 		inventario.cantidadPosibleCraftear(equipoDeArquero, recetario).informarCantidadOpcion5();
@@ -422,14 +425,14 @@ public class Escenarios {
 		interrupcion(scanner);
 		System.out.println(inventario);
 		System.out.println(recetario);
-		recetario.prologGenerarRecetas();
-		inventario.prologGenerarInventario();
-		inventario.consultaDeProlog();
+		Prolog.generarRecetas(recetario);
+		Prolog.generarInventario(inventario);
+		Prolog.consulta(inventario);
 		
 		System.out.println("\n\n**** A continuación se crearán las mesas.");
 		interrupcion(scanner);
 
-		Objeto mesa = recetario.objetoCrafteable("Mesa Generica");
+		Objeto mesa = new MesaDeGenerica();
 		inventario.cantidadPosibleCraftear(mesa, recetario).informarCantidadOpcion5();
 
 		try {
@@ -438,7 +441,7 @@ public class Escenarios {
 			System.err.println(MENSAJE_ERRROR + e.getMessage());
 		}
 
-		mesa = recetario.objetoCrafteable("Mesa de Flechas");
+		mesa = new MesaDeFlechas();
 		new Resultado(1, sistema.craftearObjeto(mesa, 1), mesa).informarTiempoCrafteoOpcion6();
 
 		inventario.cantidadPosibleCraftear(mesa, recetario).informarCantidadOpcion5();
@@ -446,18 +449,18 @@ public class Escenarios {
 		System.out.println("\n\n****Crear Lingotes y Puntas de Flechas, usando las recetas de las mesas.");
 		interrupcion(scanner);
 
-		Objeto objeIntermedio = recetario.objetoCrafteable("lingote de hierro");
+		Objeto objeIntermedio = new ObjetoIntermedio("lingote de hierro");
 		new Resultado(2, sistema.craftearObjeto(objeIntermedio, 2), objeIntermedio).informarTiempoCrafteoOpcion6();
 
-		objeIntermedio = recetario.objetoCrafteable("Punta de Flecha");
+		objeIntermedio = new ObjetoIntermedio("Punta de Flecha");
 		new Resultado(5, sistema.craftearObjeto(objeIntermedio, 5), objeIntermedio).informarTiempoCrafteoOpcion6();
 
 		System.out.println("\n\n****Mostrar consulta de Prolog sin las mesas.");
 		interrupcion(scanner);
 
-		recetario.prologGenerarRecetas();
-		inventario.prologGenerarInventario();
-		inventario.consultaDeProlog();
+		Prolog.generarRecetas(recetario);
+		Prolog.generarInventario(inventario);
+		Prolog.consulta(inventario);
 
 		System.out.println("\n\n****Mostrar el recetario con todas las recetas cargadas de las mesas y inventario final.");
 		interrupcion(scanner);
@@ -494,7 +497,7 @@ public class Escenarios {
 		System.out.println("\n\n A continuación se Creara una Mesa de Flechas , q agrega una receta nueva.");
 		interrupcion(scanner);
 
-		Objeto objMesa = recetario.objetoCrafteable("Mesa de Flechas");
+		Objeto objMesa = new MesaDeFlechas();
 		new Resultado(1, sistema.craftearObjeto(objMesa, 1), objMesa).informarTiempoCrafteoOpcion6();
 
 		System.out.println("\n--Cambio de inventario y Recetario al agregar la Mesa de Flechas:\n");
@@ -504,7 +507,7 @@ public class Escenarios {
 		System.out.println("SE crafteara un lote de Punta de Flecha, para probar cual receta esa usando.");
 		interrupcion(scanner);
 		System.out.println("\n Crear Punta de Flecha con la Mejor Receta:");
-		Objeto objCraftear = recetario.objetoCrafteable("Punta de Flecha");
+		Objeto objCraftear = new ObjetoIntermedio("Punta de Flecha");
 
 		sistema.ingredientesNecesariosConCantidad(objCraftear).informarCantidadOpcion1();
 		new Resultado(1, sistema.craftearObjeto(objCraftear, 1), objCraftear).informarTiempoCrafteoOpcion6();
@@ -537,7 +540,9 @@ public class Escenarios {
 		
 		System.out.println(recetario);
 		System.out.println("\n\nSe intenta seleccionar de las recetas el objeto con el ciclo.:");
-		recetario.objetoCrafteable("Objeto Bucle");
+		Objeto objBucle = new ObjetoIntermedio ("Objeto Bucle");
+		if (!recetario.getObetosProducibles().contains(objBucle))
+			System.out.println("no encontro un *" + objBucle + "* con ese nombre.");
 		System.out.println("\n\nFIN 07.:");
 		interrupcion(scanner);
 	}
@@ -558,7 +563,7 @@ public class Escenarios {
 		
 		SistemaDeCrafteo sistema = new SistemaDeCrafteo(inventario, recetario);
 		
-		Objeto objConsultar = recetario.objetoCrafteable("Equipamiento Completo");
+		Objeto objConsultar = new ObjetoIntermedio("Equipamiento Completo");
 		
 		
 		System.out.println("\n**** Cantidad y Tiempo de un crafteo.\n");
