@@ -10,7 +10,7 @@ public class Config {
 	public static final String RUTA_FIN_RECETARIO = "res/recetario_salida.json";
 
 	// Ruta de las Recetas de las mesas.
-	public static final String RECETAS_DE_MESAS_DIR = "src/mesasRecetarios/";
+	public static final String RECETAS_DE_MESAS_DIR = "ini/mesasRecetarios/";
 
 	// Rutas Prolog.
 	public static final String PROLOG_DIR = "src/prolog/";
@@ -28,7 +28,7 @@ public class Config {
 																									// inventario final
 																									// con mesa
 	// RUTA de los archivos de los Escenarios.
-	public static final String ESCENARIOSFILES_DIR = "src/EscenariosFiles/";
+	public static final String ESCENARIOSFILES_DIR = "ini/EscenariosFiles/";
 	// Escenario 03.
 	public static final String ESCE03_RUTA_INICIO_INVENTARIO = ESCENARIOSFILES_DIR + "ESCE03inventarioInicial.json";
 	public static final String ESCE03_RUTA_INICIO_RECETARIO = ESCENARIOSFILES_DIR + "ESCE03recetarioInicial.json";
