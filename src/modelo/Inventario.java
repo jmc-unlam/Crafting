@@ -1,16 +1,8 @@
 package modelo;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.jpl7.Query;
-import org.jpl7.Term;
-
-import main.Config;
 
 /**
  * Representa el inventario del jugador, gestionando los objetos disponibles y su cantidad.
@@ -350,88 +342,6 @@ public class Inventario {
 		return sb.toString();
 	}
 
-	// *****Implementacion Prolog*************
-
-	/**
-	 * Genera el archivo de formato pl en la carpeta de prolog con todos los objetos y sus cantidades en el inventario.
-	 */
-	public void prologGenerarInventario() {
-		// Ruta relativa al archivo dentro del proyecto
-		File archivo = new File(Config.RUTA_PROLOG_INVENTARIO);
-
-		// Verificar si el archivo existe
-		if (archivo.exists()) {
-			// Intentar eliminarlo
-			archivo.delete();
-		}
-
-		try {
-
-			archivo.createNewFile();
-
-			// Escribir texto en el archivo
-			FileWriter writer = new FileWriter(archivo);
-			writer.write("% Objetos en el inventario\n");
-
-			// Recorrer el inventario y generar el archivo prolog con las cantidades de los
-			// objetos.
-			for (Map.Entry<Objeto, Integer> item : objetos.entrySet()) {
-				Objeto obj = item.getKey();
-				Integer cantidad = item.getValue();
-				writer.write("inventario('" + obj.getNombre() + "'," + cantidad + ").\n");
-			}
-			
-			//Caso particular para evitar errores en el prolog al no encontrar ningun objeto en el inventario.
-			writer.write("inventario('Objeto Default', 0).\n");
-			
-			writer.close(); // Cerrar el flujo
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Método para mostrar la consulta de Prolog.
-	 *
-	 * Punto del TP2:¿Cuáles son todos los productos que podría generar con el inventario actual?
-	 * IMPORTANTE: Esta version NO crea los archivos del inventario y recetario. Esos archivos, se generan
-	 * en Metodos aparte.
-	 * 
-	 * */
-	public void consultaDeProlog() {
-
-		Query queryConfig = new Query("consult('" + Config.RUTA_PROLOG_CONFIG + "').");
-		queryConfig.hasSolution(); // Cargar el archivo Prolog de Configuracion
-
-		Query queryRecetas = new Query("consult('" + Config.RUTA_PROLOG_RECETAS + "').");
-		queryRecetas.hasSolution(); // Cargar el archivo Prolog Recetas
-
-		File archivo = new File(Config.RUTA_PROLOG_INVENTARIO);
-
-		if (!archivo.exists()) {
-			this.prologGenerarInventario();
-		}
-
-		Query queryInventario = new Query("consult('" + Config.RUTA_PROLOG_INVENTARIO + "').");
-		queryInventario.hasSolution(); // Cargar el archivo Prolog inventario.
-
-		Query queryLogica = new Query("consult('" + Config.RUTA_PROLOG_LOGICA + "').");
-		queryLogica.hasSolution(); // Cargar el archivo Prolog con la logica de programación.
-
-		// Crear una consulta
-		Query consulta = new Query("posibleCrafteo(Objeto).");
-
-		System.out.println("\n--PROLOG:");
-		System.out.println("--Objetos crafteables con el inventario actual:");
-		// Obtener resultados
-		while (consulta.hasMoreSolutions()) {
-			java.util.Map<String, Term> solucion = consulta.nextSolution();
-			System.out.println("Objeto = " + solucion.get("Objeto"));
-
-		}
-	}
-
 	/**
 	 *Calcula cuántas veces se puede realizar un crafteo completo de un objeto compuesto,
      *basándose en los ingredientes disponibles y las recetas definidas.
@@ -686,45 +596,5 @@ public class Inventario {
 
 		// devuelve cantidad y tiempo.
 		return new Resultado(cantidadCrafteadaTotal, tiempoAcumulado);
-	}
-
-	/**
-	 * Método para restar o quitar objetos del inventario según su nro en el inventario y la cantidad.
-	 * Anteriormente creado en el main, sin embargo, el main debia calculas cosas q el inventario las hace internamente.
-	 * 
-	 * @param opcionIDObjeto Nro del objeto a vender.
-	 * @param cantidadAVender  Cantidad a vender.
-	 * @param recetario  usado para quitar las recetas si el objeto a vender es una mesa.
-	 * @return si la operacion fue realizada con exito.
-	 */
-	public boolean removerCantidadDeUnObjetoSegunNro(int opcionIDObjeto, int cantidadAVender, Recetario recetario) {
-
-		if (opcionIDObjeto > objetos.size() || opcionIDObjeto < 0 || cantidadAVender==0) {
-			System.out.println("Entrada inválida. Por favor, elige un número de la list y una cantidad igual o menor que la del inventario.");
-			return false;
-		} else {
-
-			int nroOrden = 1;
-			nroOrden = 1;
-			for (Map.Entry<Objeto, Integer> entry : objetos.entrySet()) {
-				Objeto objetoEnInventario = entry.getKey();
-				Integer cantidadEnInventario = entry.getValue();
-				if (nroOrden == opcionIDObjeto) {
-					if (cantidadEnInventario >= cantidadAVender) {
-						this.removerObjeto(objetoEnInventario, cantidadAVender, recetario);
-						//recetario.removerRecetas(objetoEnInventario.listaDeRecetasPropias()); no es necesario
-						System.out.println(objetoEnInventario + " VENDIDA\n");
-						return true;
-					} else {
-						System.out.println("La cantidad " + cantidadAVender
-								+ " a vender es mayor a la del inventario q es . " + cantidadEnInventario + "\n");
-					}
-					return false;
-				}
-				nroOrden++;
-			}
-			return false;
-		}
-
 	}
 }

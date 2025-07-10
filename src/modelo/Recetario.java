@@ -1,20 +1,13 @@
 package modelo;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
-
-import main.Config;
 
 /**
  * Clase central que gestiona las recetas en el sistema, actuando como cliente del patrón Composite.
@@ -213,164 +206,8 @@ public class Recetario {
 	public Map<Objeto, List<Receta>> getRecetasPorObjeto() {
 		return new HashMap<>(this.recetasPorObjeto);
 	}
-
-	/**
-	 * Genera el archivo con todas las recetas, indicando Ingredientes , objetos crafteable y objetos
-	 * No Apilables como las mesas. Pero es posible extender esta funcionalidad a otros objetos si no son apilables.
-	 */
-	public void prologGenerarRecetas() {
-		// Borrar Archivo con la lista de Recetas para generarlo nuevamente.
-		// Ruta relativa al archivo dentro del proyecto
-		File archivo = new File(Config.RUTA_PROLOG_RECETAS);
-
-		List<String> mesas = new LinkedList<String>();
-
-		// Verificar si el archivo existe
-		if (archivo.exists()) {
-			// Intentar eliminarlo
-			archivo.delete();
-		}
-
-		try {
-
-			archivo.createNewFile();
-
-			// Escribir texto en el archivo
-			FileWriter writer = new FileWriter(archivo);
-			writer.write("% Recetas\n");
-			writer.write("% Lista de Objetos Crafteables \n");
-
-			// Recorrer las recetas y colocar los ingredientes compuestos.
-			for (Map.Entry<Objeto, List<Receta>> entry : recetasPorObjeto.entrySet()) {
-				Objeto objetosCrafteable = entry.getKey();
-				writer.write("ingredientecompuesto('" + objetosCrafteable.getNombre() + "').\n");
-			}
-
-			writer.write("\n");
-			writer.write("% Ingredientes por objeto\n");
-
-			// Recorrer las recetas y colocar la primera receta para colocar los
-			// ingredientes.
-			for (Map.Entry<Objeto, List<Receta>> entry : recetasPorObjeto.entrySet()) {
-				Objeto objetosCrafteable = entry.getKey();
-				List<Receta> listaRecetas = entry.getValue();
-
-				if (!objetosCrafteable.esApilable()) {
-					mesas.add(objetosCrafteable.getNombre());
-				}
-
-				Receta receta = listaRecetas.getFirst(); // Devolver la primera receta.
-				Map<Objeto, Integer> ingredientes = receta.getIngredientes();
-
-				for (Map.Entry<Objeto, Integer> ingrediente : ingredientes.entrySet()) {
-					Objeto objIngrediente = ingrediente.getKey();
-					Integer cantidad = ingrediente.getValue();
-					writer.write("ingrediente('" + objetosCrafteable.getNombre() + "', '" + objIngrediente.getNombre()
-							+ "', " + cantidad + ").\n");
-				}
-			}
-
-			writer.write("\n");
-            writer.write("% Mesas\n");
-        
-            mesas.add("Mesa Default");
-            for (String string : mesas) {
-				writer.write("no_apilable('" + string + "').\n"); 
-			}
-			
-			writer.close(); // Cerrar el flujo
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-	}
-
-	/**
-	 * Crea un listado con los objetos Crafteables o para comprarlos.
-	 * 
-	 * Y los muestra en el orden indicando un Nro para poder seleccionarlo en las funcionalidades q lo necesiten.
-	 * 
-	 * @return Lista Crafteable-Comprable.
-	 */
-	public List<Objeto> listaCrafteable() {
-		// Devuelve el listado de Objetos Farmeables.
-		List<Objeto> listaObjetos = new ArrayList<Objeto>();
-
-		for (Map.Entry<Objeto, List<Receta>> entry : recetasPorObjeto.entrySet()) {
-			Objeto objetosCrafteable = entry.getKey();
-			listaObjetos.add(objetosCrafteable);
-		}
-
-		Collections.sort(listaObjetos);
-		
-		this.mostrarListaObjetos(listaObjetos, "--Lista de Objetos a Craftear.");
-		
-		return listaObjetos;
-	}
-
-	/**
-	 * Centralizado la muestra de las Listas de listado de objetos y las muestra por pantalla
-	 * colocando un Nro para su seleccionar en la interfaz
-	 * 
-	 * @param listaObjetos Listado de Objetos
-	 * @param mesanje	Mensaje Inicial indicando la naturaleza de los Objetos.
-	 */
-	private void mostrarListaObjetos(List<Objeto> listaObjetos, String mesanje) {
-		
-		if (listaObjetos.size() > 0) {// crea el listado de objetos crafteables con un Nr para identificarlo
-			System.out.println(mesanje);
-			int id = 1;
-			for (Objeto objeto : listaObjetos) {
-				System.out.println("NrID°:" + id + "-" + objeto);
-				id++;
-			}
-			System.out.println("\n");
-		} else
-			System.out.println("No hay objetos en la lista.\n");
-	}
 	
-	/**
-     * Devuelve una lista de objetos básicos utilizados como ingredientes en recetas.
-     * 
-     * @return Lista de objetos básicos (ingredientes).
-     */
-	public List<Objeto> listaObjetosRecolectables() {
-		// Devuelve la lista de Objetos Basicos.
-		Set<Objeto> listaObjetosOri = new LinkedHashSet<Objeto>();
-
-		for (Map.Entry<Objeto, List<Receta>> listaRecetas : recetasPorObjeto.entrySet()) {
-			List<Receta> recetasObjeto = listaRecetas.getValue();
-
-			for (Receta receta : recetasObjeto) {
-				Map<Objeto, Integer> ingredientes = receta.getIngredientes();
-				for (Map.Entry<Objeto, Integer> objBuscandoBasicos : ingredientes.entrySet()) {
-					Objeto key = objBuscandoBasicos.getKey();
-
-					if (key.esBasico())
-						listaObjetosOri.add(key);
-				}
-			}
-
-		}
-
-		List<Objeto> listaObjetos = new ArrayList<>(listaObjetosOri);
-		
-		Collections.sort(listaObjetos);
-		
-		this.mostrarListaObjetos(listaObjetos, "--Lista de Objetos a Farmeables.");
-
-		return listaObjetos;
+	public Set<Objeto> getObetosProducibles() {
+		return new HashSet<Objeto> (recetasPorObjeto.keySet()); 
 	}
-
-	public Objeto objetoCrafteable(String nombre) {
-		for (Map.Entry<Objeto, List<Receta>> entry : recetasPorObjeto.entrySet()) {
-			Objeto objBuscado = entry.getKey();
-			if (objBuscado.getNombre().equals(nombre))
-				return objBuscado;
-		}
-		System.out.println("no encontro un *" + nombre + "* con ese nombre.");
-		return null;
-	}
-
 }
