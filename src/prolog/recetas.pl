@@ -21,7 +21,6 @@ ingrediente('Equipamiento Completo', 'Hacha de Piedra', 2).
 ingrediente('Equipamiento Completo', 'Antorcha', 3).
 ingrediente('Equipamiento Completo', 'Equipamiento para Arquero', 1).
 ingrediente('Palo', 'Madera', 2).
-ingrediente('Palo', 'BUCLE', 1).
 ingrediente('Carcaj', 'Madera', 2).
 ingrediente('Carcaj', 'Cuerda', 3).
 ingrediente('Hacha de Piedra', 'Madera', 2).
